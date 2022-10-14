@@ -1,7 +1,7 @@
 package com.cg.oam.dto;
 
 public class AdminDTO {
-	
+	//id and pass
 	//String name;
 	String id;
 	String password;
