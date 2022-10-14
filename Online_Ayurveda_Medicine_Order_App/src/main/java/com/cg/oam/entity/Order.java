@@ -2,8 +2,11 @@ package com.cg.oam.entity;
 
 import java.time.LocalDate;
 
+import javax.persistence.Id;
+
 public class Order {
 	
+	@Id
 	int orderId;
 	LocalDate orderDate;
 	LocalDate dispatchDate;
