@@ -2,6 +2,7 @@ package com.cg.oam.dto;
 
 public class AdminDTO {
 	
+	String name;
 	String id;
 	String password;
 	public AdminDTO(String id, String password) {
