@@ -1,7 +1,11 @@
 package com.cg.oam.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Category {
-	
+	@Id
 	String categoryId;
 	String categoryName;
 	public Category(String categoryId, String categoryName) {
