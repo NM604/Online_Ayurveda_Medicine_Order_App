@@ -2,26 +2,44 @@ package com.cg.oam.entity;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+// Entity annotstion checked
+@Entity
 public class Medicine {
-	
-	String medicineId;
-	String medicineName;
-	float medicineCost;
-	LocalDate mfd;
-	LocalDate expiryDate;
-	String companyName;
-	Category category;
-	public Medicine(String medicineId, String medicineName, float medicineCost, LocalDate mfd, LocalDate expiryDate,
-			String companyName, Category category) {
+	// id annotation checked
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private String medicineId;
+	private String medicineName;
+	private Float medicineCost;
+	private LocalDate mfd;
+	private LocalDate expiryDate;
+	private String companyName;
+	//need to add one to one relation here
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "categoryId", unique = true)
+	private Category category;
+
+	public Medicine(){
 		super();
-		this.medicineId = medicineId;
-		this.medicineName = medicineName;
-		this.medicineCost = medicineCost;
-		this.mfd = mfd;
-		this.expiryDate = expiryDate;
-		this.companyName = companyName;
-		this.category = category;
 	}
+	// public Medicine(String medicineId, String medicineName, Float medicineCost, LocalDate mfd, LocalDate expiryDate,
+	// 		String companyName, Category category) {
+	// 	super();
+	// 	this.medicineId = medicineId;
+	// 	this.medicineName = medicineName;
+	// 	this.medicineCost = medicineCost;
+	// 	this.mfd = mfd;
+	// 	this.expiryDate = expiryDate;
+	// 	this.companyName = companyName;
+	// 	this.category = category;
+	// }
 	public String getMedicineId() {
 		return medicineId;
 	}
@@ -34,10 +52,10 @@ public class Medicine {
 	public void setMedicineName(String medicineName) {
 		this.medicineName = medicineName;
 	}
-	public float getMedicineCost() {
+	public Float getMedicineCost() {
 		return medicineCost;
 	}
-	public void setMedicineCost(float medicineCost) {
+	public void setMedicineCost(Float medicineCost) {
 		this.medicineCost = medicineCost;
 	}
 	public LocalDate getMfd() {
