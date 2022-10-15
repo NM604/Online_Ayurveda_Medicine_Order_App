@@ -2,22 +2,32 @@ package com.cg.oam.entity;
 
 import java.util.List;
 
+import java.util.Objects;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+
+
+@Entity
 public class Customer {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer customerId;
+	private String customerName;
+	private String customerPassword;
 	
-	int customerId;
-	String customerName;
-	String customerPassword;
-	List<Medicine> medicineList;
-	Order order;
-	public Customer(int customerId, String customerName, String customerPassword, List<Medicine> medicineList,
-			Order order) {
-		super();
-		this.customerId = customerId;
-		this.customerName = customerName;
-		this.customerPassword = customerPassword;
-		this.medicineList = medicineList;
-		this.order = order;
-	}
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="cust_Id")
+	private List<Medicine> medicineList;
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="cust_Id")
+	private List<Order> order;
+	
 	public int getCustomerId() {
 		return customerId;
 	}
@@ -42,11 +52,29 @@ public class Customer {
 	public void setMedicineList(List<Medicine> medicineList) {
 		this.medicineList = medicineList;
 	}
-	public Order getOrder() {
+	public List<Order> getOrder() {
 		return order;
 	}
-	public void setOrder(Order order) {
+	public void setOrder(List<Order> order) {
 		this.order = order;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(customerId, customerName, customerPassword, medicineList, order);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Customer other = (Customer) obj;
+		return Objects.equals(customerId, other.customerId) && Objects.equals(customerName, other.customerName)
+				&& Objects.equals(customerPassword, other.customerPassword)
+				&& Objects.equals(medicineList, other.medicineList) && Objects.equals(order, other.order);
 	}
 	@Override
 	public String toString() {
@@ -57,3 +85,4 @@ public class Customer {
 	
 
 }
+

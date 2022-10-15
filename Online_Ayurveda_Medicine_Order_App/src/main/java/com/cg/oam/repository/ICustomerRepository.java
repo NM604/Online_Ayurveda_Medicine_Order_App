@@ -1,19 +1,17 @@
 package com.cg.oam.repository;
 
-import java.util.List;
+//import java.util.List;
 
-import com.cg.oam.dto.CustomerDTO;
+import org.springframework.data.repository.CrudRepository;
+//import org.springframework.stereotype.Repository;
 
-public interface ICustomerRepository {
+import com.cg.oam.entity.Customer;
+
+//import com.cg.oam.dto.CustomerDTO;
+//import com.cg.oam.entity.Customer;
+
+public interface ICustomerRepository extends CrudRepository<Customer, Integer>{
 	
-	public CustomerDTO addCustomer(CustomerDTO customer);
 	
-	public CustomerDTO updateCustomer(CustomerDTO customer);
-	
-	public CustomerDTO viewCustomer(CustomerDTO customer);
-	
-	public CustomerDTO deleteCustomer(CustomerDTO customer);
-	
-	public List<CustomerDTO> showAllCustomers();
 
 }

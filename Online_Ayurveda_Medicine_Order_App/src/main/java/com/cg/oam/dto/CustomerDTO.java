@@ -7,13 +7,16 @@ import com.cg.oam.entity.Order;
 
 public class CustomerDTO {
 	
-	int customerId;
-	String customerName;
-	String customerPassword;
-	List<Medicine> medicineList;
-	Order order;
+	private int customerId;
+	private String customerName;
+	private String customerPassword;
+	private List<Medicine> medicineList;
+	private List<Order> order;
+	public CustomerDTO() {
+		
+	}
 	public CustomerDTO(int customerId, String customerName, String customerPassword, List<Medicine> medicineList,
-			Order order) {
+			List<Order> order) {
 		super();
 		this.customerId = customerId;
 		this.customerName = customerName;
@@ -45,10 +48,10 @@ public class CustomerDTO {
 	public void setMedicineList(List<Medicine> medicineList) {
 		this.medicineList = medicineList;
 	}
-	public Order getOrder() {
+	public List<Order> getOrder() {
 		return order;
 	}
-	public void setOrder(Order order) {
+	public void setOrder(List<Order> order) {
 		this.order = order;
 	}
 	
