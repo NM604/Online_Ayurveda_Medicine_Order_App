@@ -4,21 +4,26 @@ import java.time.LocalDate;
 
 public class OrderDTO {
 	
-	int orderId;
-	LocalDate orderDate;
-	LocalDate dispatchDate;
-	float totalCost;
-	public OrderDTO(int orderId, LocalDate orderDate, LocalDate dispatchDate, float totalCost) {
+	private Integer orderId;
+	private LocalDate orderDate;
+	private LocalDate dispatchDate;
+	private Float totalCost;
+	private OrderStatus orderStatus;
+	public OrderDTO() {
+		super();
+	}
+	public OrderDTO(Integer orderId, LocalDate orderDate, LocalDate dispatchDate, Float totalCost,OrderStatus orderStatus) {
 		super();
 		this.orderId = orderId;
 		this.orderDate = orderDate;
 		this.dispatchDate = dispatchDate;
 		this.totalCost = totalCost;
+		this.orderStatus = orderStatus;
 	}
-	public int getOrderId() {
+	public Integer getOrderId() {
 		return orderId;
 	}
-	public void setOrderId(int orderId) {
+	public void setOrderId(Integer orderId) {
 		this.orderId = orderId;
 	}
 	public LocalDate getOrderDate() {
@@ -33,11 +38,22 @@ public class OrderDTO {
 	public void setDispatchDate(LocalDate dispatchDate) {
 		this.dispatchDate = dispatchDate;
 	}
-	public float getTotalCost() {
+	public Float getTotalCost() {
 		return totalCost;
 	}
-	public void setTotalCost(float totalCost) {
+	public void setTotalCost(Float totalCost) {
 		this.totalCost = totalCost;
+	}
+	public OrderStatus getOrderStatus() {
+		return orderStatus;
+	}
+	public void setOrderStatus(OrderStatus orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+	@Override
+	public String toString() {
+		return "OrderDTO [orderId=" + orderId + ", orderDate=" + orderDate + ", dispatchDate=" + dispatchDate
+				+ ", totalCost=" + totalCost + ", orderStatus=" + orderStatus + "]";
 	}
 	
 	
