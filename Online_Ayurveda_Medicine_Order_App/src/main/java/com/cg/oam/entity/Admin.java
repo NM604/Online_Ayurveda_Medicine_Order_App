@@ -2,10 +2,18 @@ package com.cg.oam.entity;
 
 import java.util.Objects;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+
+@Entity
 public class Admin {
 	
+	@Id
 	String id;
 	String password;
+	
+	public Admin() {}
 	
 	public Admin(String id, String password) {
 		super();

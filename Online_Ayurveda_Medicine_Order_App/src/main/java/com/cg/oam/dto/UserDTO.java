@@ -5,6 +5,9 @@ public class UserDTO {
 	int userId;
 	String userName;
 	String userType;
+	
+	public UserDTO() {}
+	
 	public UserDTO(int userId, String userName, String userType) {
 		super();
 		this.userId = userId;
@@ -28,6 +31,11 @@ public class UserDTO {
 	}
 	public void setUserType(String userType) {
 		this.userType = userType;
+	}
+
+	@Override
+	public String toString() {
+		return "UserDTO [userId=" + userId + ", userName=" + userName + ", userType=" + userType + "]";
 	}
 	
 	

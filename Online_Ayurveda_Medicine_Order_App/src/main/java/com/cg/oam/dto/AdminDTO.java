@@ -1,10 +1,12 @@
 package com.cg.oam.dto;
 
 public class AdminDTO {
-	//id and pass
-	//String name;
+	
 	String id;
 	String password;
+	
+	public AdminDTO() {}
+	
 	public AdminDTO(String id, String password) {
 		super();
 		this.id = id;
@@ -23,4 +25,9 @@ public class AdminDTO {
 		this.password = password;
 	}
 
+	@Override
+	public String toString() {
+		return "AdminDTO [id=" + id + ", password=" + password + "]";
+	}
+	
 }

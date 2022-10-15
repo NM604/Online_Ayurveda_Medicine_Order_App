@@ -1,10 +1,20 @@
 package com.cg.oam.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="users")
 public class User {
 	
+	@Id
 	int userId;
 	String userName;
 	String userType;
+	
+	public User() {}
+	
 	public User(int userId, String userName, String userType) {
 		super();
 		this.userId = userId;
@@ -28,6 +38,11 @@ public class User {
 	}
 	public void setUserType(String userType) {
 		this.userType = userType;
+	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", userName=" + userName + ", userType=" + userType + "]";
 	}
 	
 	
