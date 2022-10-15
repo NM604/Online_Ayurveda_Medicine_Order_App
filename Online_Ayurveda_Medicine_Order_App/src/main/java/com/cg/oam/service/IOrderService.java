@@ -11,10 +11,12 @@ import com.cg.oam.exception.InvalidDataException;
 public interface IOrderService {
 	public OrderDTO addOrder(OrderDTO order) throws InvalidDataException;
 	public OrderDTO viewOrder(OrderDTO orderDto) throws InvalidDataException;
+	public OrderDTO viewOrderByOrderId(Integer orderId) throws InvalidDataException;
 	public OrderDTO updateOrder(OrderDTO orderDto) throws InvalidDataException;
 	public OrderDTO cancelOrder(Integer orderId) throws InvalidDataException;
 	public List<OrderDTO> showAllOrders(Integer mediceId) throws InvalidDataException;
 	public List<OrderDTO> showAllOrders(CustomerDTO customerDTO) throws InvalidDataException;
-	public List<OrderDTO> showAllOrders(LocalDate date) throws InvalidDataException;
+	public List<OrderDTO> showAllOrdersByOrderDate(LocalDate date) throws InvalidDataException;
+	public List<OrderDTO> showAllOrdersByDispatchDate(LocalDate date) throws InvalidDataException;
 	public Double calculateTotalCost(Integer orderId) throws InvalidDataException;
 }
