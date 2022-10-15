@@ -1,18 +1,11 @@
 package com.cg.oam.repository;
 
-import java.util.List;
 
-import com.cg.oam.dto.MedicineDTO;
+import org.springframework.data.repository.CrudRepository;
 
-public interface IMedicineRepository {
+import com.cg.oam.entity.Medicine;
+
+
+public interface IMedicineRepository extends CrudRepository<Medicine,String>{
 	
-	public MedicineDTO addMedicine(MedicineDTO medicine);
-	
-	public MedicineDTO viewMedicine(MedicineDTO medicine);
-
-	public MedicineDTO updateMedicine(MedicineDTO medicine);
-
-	public MedicineDTO deleteMedicine(MedicineDTO medicine);
-
-	public List<MedicineDTO> showAllMedicines(MedicineDTO medicine);
 }

@@ -6,14 +6,17 @@ import com.cg.oam.entity.Category;
 
 public class MedicineDTO {
 	
-	String medicineId;
-	String medicineName;
-	float medicineCost;
-	LocalDate mfd;
-	LocalDate expiryDate;
-	String companyName;
-	Category category;
-	public MedicineDTO(String medicineId, String medicineName, float medicineCost, LocalDate mfd, LocalDate expiryDate,
+	private String medicineId;
+	private String medicineName;
+	private Float medicineCost;
+	private LocalDate mfd;
+	private LocalDate expiryDate;
+	private String companyName;
+	private Category category;
+	public MedicineDTO(){
+		super();
+	}
+	public MedicineDTO(String medicineId, String medicineName, Float medicineCost, LocalDate mfd, LocalDate expiryDate,
 			String companyName, Category category) {
 		super();
 		this.medicineId = medicineId;
@@ -36,10 +39,10 @@ public class MedicineDTO {
 	public void setMedicineName(String medicineName) {
 		this.medicineName = medicineName;
 	}
-	public float getMedicineCost() {
+	public Float getMedicineCost() {
 		return medicineCost;
 	}
-	public void setMedicineCost(float medicineCost) {
+	public void setMedicineCost(Float medicineCost) {
 		this.medicineCost = medicineCost;
 	}
 	public LocalDate getMfd() {
