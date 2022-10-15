@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 
 @Entity
@@ -24,9 +25,9 @@ public class Customer {
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="cust_Id")
 	private List<Medicine> medicineList;
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="cust_Id")
-	private List<Order> order;
+	private Order order;
 	
 	public int getCustomerId() {
 		return customerId;
@@ -52,10 +53,10 @@ public class Customer {
 	public void setMedicineList(List<Medicine> medicineList) {
 		this.medicineList = medicineList;
 	}
-	public List<Order> getOrder() {
+	public Order getOrder() {
 		return order;
 	}
-	public void setOrder(List<Order> order) {
+	public void setOrder(Order order) {
 		this.order = order;
 	}
 	

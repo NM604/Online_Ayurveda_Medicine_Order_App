@@ -11,12 +11,12 @@ public class CustomerDTO {
 	private String customerName;
 	private String customerPassword;
 	private List<Medicine> medicineList;
-	private List<Order> order;
+	private Order order;
 	public CustomerDTO() {
 		
 	}
 	public CustomerDTO(int customerId, String customerName, String customerPassword, List<Medicine> medicineList,
-			List<Order> order) {
+			Order order) {
 		super();
 		this.customerId = customerId;
 		this.customerName = customerName;
@@ -48,10 +48,10 @@ public class CustomerDTO {
 	public void setMedicineList(List<Medicine> medicineList) {
 		this.medicineList = medicineList;
 	}
-	public List<Order> getOrder() {
+	public Order getOrder() {
 		return order;
 	}
-	public void setOrder(List<Order> order) {
+	public void setOrder(Order order) {
 		this.order = order;
 	}
 	
