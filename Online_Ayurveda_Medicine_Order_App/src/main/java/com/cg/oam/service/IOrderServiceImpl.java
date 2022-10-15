@@ -54,17 +54,7 @@ public class IOrderServiceImpl implements IOrderService{
 	}
 
 	@Override
-	public OrderDTO viewOrder(OrderDTO orderDto) throws InvalidDataException {
-		// TODO Auto-generated method stub
-		Optional<Order> optional = orderRepository.findById(orderDto.getOrderId());
-		Order orderEntity = optional.orElseThrow(() -> new InvalidDataException("Order not found"));
-
-		OrderDTO resultOrderDto = convertEntityToDto(orderEntity);
-		return resultOrderDto;
-	}
-
-	@Override
-	public OrderDTO viewOrderByOrderId(Integer orderId) throws InvalidDataException {
+	public OrderDTO viewOrder(Integer orderId) throws InvalidDataException {
 		// TODO Auto-generated method stub
 		Optional<Order> optional = orderRepository.findById(orderId);
 		Order orderEntity = optional.orElseThrow(() -> new InvalidDataException("Order not found"));
@@ -75,17 +65,27 @@ public class IOrderServiceImpl implements IOrderService{
 
 	@Override
 	public OrderDTO updateOrder(OrderDTO orderDto) throws InvalidDataException {
-		// TODO Auto-generated method stub
 		Optional<Order> optional = orderRepository.findById(orderDto.getOrderId());
 		Order orderEntity = optional.orElseThrow(() -> new InvalidDataException("Order not found"));
 
-		// OrderDTO resultOrderDto = new OrderDTO();
 		if (orderEntity.getOrderDate() != null)
-			orderEntity.setOrderDate(orderEntity.getOrderDate());
+			orderEntity.setOrderDate(orderDto.getOrderDate());
 		if (orderEntity.getDispatchDate() != null)
-			orderEntity.setDispatchDate(orderEntity.getDispatchDate());
+			orderEntity.setDispatchDate(orderDto.getDispatchDate());
 		if (orderEntity.getTotalCost() != null)
-			orderEntity.setTotalCost(orderEntity.getTotalCost());
+			orderEntity.setTotalCost(orderDto.getTotalCost());
+		if (orderEntity.getOrderStatus() != null)
+			orderEntity.setOrderStatus(orderDto.getOrderStatus());
+
+		OrderDTO resultOrderDto = convertEntityToDto(orderEntity);
+		return resultOrderDto;
+	}
+
+	@Override
+	public OrderDTO updateOrderStatus(Integer orderId, OrderStatus orderStatus) throws InvalidDataException {
+		Optional<Order> optional = orderRepository.findById(orderId);
+		Order orderEntity = optional.orElseThrow(() -> new InvalidDataException("Order not found"));
+		orderEntity.setOrderStatus(orderStatus);
 
 		OrderDTO resultOrderDto = convertEntityToDto(orderEntity);
 		return resultOrderDto;
@@ -93,7 +93,6 @@ public class IOrderServiceImpl implements IOrderService{
 
 	@Override
 	public OrderDTO cancelOrder(Integer orderId) throws InvalidDataException {
-		// TODO Auto-generated method stub
 		Optional<Order> optional = orderRepository.findById(orderId);
 		Order orderEntity = optional.orElseThrow(() -> new InvalidDataException("Order not found"));
 		orderEntity.setOrderStatus(OrderStatus.CANCELLED);
@@ -102,10 +101,10 @@ public class IOrderServiceImpl implements IOrderService{
 		return resultOrderDto;
 	}
 
+	//Need to Test in main
 	@Override
-	public List<OrderDTO> showAllOrders(Integer medicineId) throws InvalidDataException {
+	public List<OrderDTO> showAllOrdersByMedicine(Integer medicineId) throws InvalidDataException {
 		Iterable<Customer> customers = customerRepository.findAll();
-
 		List<CustomerDTO> customerDtos = new ArrayList<>();
 		List<Order> orders = new ArrayList<>();
 
@@ -132,50 +131,61 @@ public class IOrderServiceImpl implements IOrderService{
 	}
 
 	@Override
-	public List<OrderDTO> showAllOrders(CustomerDTO customerDTO) throws InvalidDataException {
+	public List<OrderDTO> showAllOrdersByCustomer(Integer customerId) throws InvalidDataException {
 		// TODO Auto-generated method stub
-		List<Integer> orderIds = orderRepository.findAllOrdersByCustomerId(customerDTO.getCustomerId());
 
+		Iterable<Customer> customers = customerRepository.findAll();
 		List<OrderDTO> orderDtos = new ArrayList<>();
-		for (Integer id : orderIds) {
-			OrderDTO orderDto = viewOrderByOrderId(id);
-			orderDtos.add(orderDto);
+
+		customers.forEach((customer) -> {
+			if (customer.getCustomerId() == customerId) {
+				Order order = customer.getOrder();
+				OrderDTO orderDto = convertEntityToDto(order);
+				orderDtos.add(orderDto);
+			}
+		});
+		if (orderDtos.isEmpty()) {
+			throw new InvalidDataException("Orders not found");
 		}
+
 		return orderDtos;
 	}
 
 	@Override
 	public List<OrderDTO> showAllOrdersByDispatchDate(LocalDate date) throws InvalidDataException {
-		List<Order> orders = orderRepository.findAllOrdersByDispatchDate(date);
+		Iterable<Order> orders = orderRepository.findAll();
+
 		List<OrderDTO> orderDtos = new ArrayList<>();
-		if (orders.isEmpty() || orders == null) {
-			throw new InvalidDataException("Orders Not found");
-		}
-
-		orders.forEach((orderEntity) -> {
-			OrderDTO orderDto = convertEntityToDto(orderEntity);
-			orderDtos.add(orderDto);
+		orders.forEach((order) -> {
+			if (order.getDispatchDate().equals(date)) {
+				OrderDTO orderDto = convertEntityToDto(order);
+				orderDtos.add(orderDto);
+			}
 		});
-
+		if (orderDtos.isEmpty()) {
+			throw new InvalidDataException("Orders not found");
+		}
 		return orderDtos;
 	}
 
 	@Override
 	public List<OrderDTO> showAllOrdersByOrderDate(LocalDate date) throws InvalidDataException {
-		List<Order> orders = orderRepository.findAllOrdersByOrderDate(date);
+		Iterable<Order> orders = orderRepository.findAll();
+
 		List<OrderDTO> orderDtos = new ArrayList<>();
-		if (orders.isEmpty() || orders == null) {
-			throw new InvalidDataException("Orders Not found");
-		}
-
-		orders.forEach((orderEntity) -> {
-			OrderDTO orderDto = convertEntityToDto(orderEntity);
-			orderDtos.add(orderDto);
+		orders.forEach((order) -> {
+			if (order.getOrderDate().equals(date)) {
+				OrderDTO orderDto = convertEntityToDto(order);
+				orderDtos.add(orderDto);
+			}
 		});
-
+		if (orderDtos.isEmpty()) {
+			throw new InvalidDataException("Orders not found");
+		}
 		return orderDtos;
 	}
 
+	//Need to Test in main
 	@Override
 	public Double calculateTotalCost(Integer orderId) throws InvalidDataException {
 		// TODO Auto-generated method stub
@@ -184,10 +194,10 @@ public class IOrderServiceImpl implements IOrderService{
 		List<CustomerDTO> customerDtos = new ArrayList<>();
 		List<Order> orders = new ArrayList<>();
 		Float totalCost = 0F;
-		for(Customer customer:customers) {
+		for (Customer customer : customers) {
 			if (customer.getOrder().getOrderId().equals(orderId)) {
 				List<Medicine> medicines = customer.getMedicineList();
-				
+
 				for (Medicine med : medicines) {
 					totalCost += med.getMedicineCost();
 				}
