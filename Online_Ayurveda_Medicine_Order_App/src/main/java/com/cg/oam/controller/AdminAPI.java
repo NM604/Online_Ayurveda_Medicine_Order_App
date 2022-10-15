@@ -53,7 +53,7 @@ public class AdminAPI {
 	
 	@DeleteMapping(value = "/admin/{adminId}")
 	public ResponseEntity<String> removeAdmin(@PathVariable Integer adminId) throws InvalidDataException{
-		AdminDTO admin = new AdminDTO(Integer.toString(adminId),"TEST_VALUE");
+		AdminDTO admin = new AdminDTO(adminId,"TEST_VALUE");
 		adminService.removeAdmin(admin);
 		String successMessage = environment.getProperty("API.DELETE_SUCCESS");
 		return new ResponseEntity<>(successMessage, HttpStatus.OK);

@@ -22,12 +22,11 @@ public class IUserServiceImpl implements IUserService{
 
 	@Override
 	public UserDTO addUser(UserDTO user) throws InvalidDataException {
-		Optional<User> optionalUser = userRepository.findById(user.getUserId());
-		if(optionalUser.isPresent()) {
+		List<User> optionalUser = userRepository.findByuserName(user.getUserName());
+		if(!optionalUser.isEmpty()) {
 			throw new InvalidDataException("Service.USER FOUND");
 		}
 		User newUser = new User();
-		newUser.setUserId(user.getUserId());
 		newUser.setUserName(user.getUserName());
 		newUser.setUserType(user.getUserType());
 		userRepository.save(newUser);

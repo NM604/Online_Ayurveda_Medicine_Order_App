@@ -19,6 +19,6 @@ public interface IAdminService {
 	//public AdminDTO updateAdmin(UserDTO admin) throws InvalidDataException;
 	
 	public List<AdminDTO> showAllAdmins() throws InvalidDataException;
-	public boolean validateAdmin(String id, String password) throws InvalidDataException;
+	public boolean validateAdmin(int id, String password) throws InvalidDataException;
 
 }

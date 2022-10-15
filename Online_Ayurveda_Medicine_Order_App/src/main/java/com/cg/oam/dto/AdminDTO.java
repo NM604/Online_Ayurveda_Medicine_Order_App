@@ -2,20 +2,20 @@ package com.cg.oam.dto;
 
 public class AdminDTO {
 	
-	String id;
+	int id;
 	String password;
 	
 	public AdminDTO() {}
 	
-	public AdminDTO(String id, String password) {
+	public AdminDTO(int id, String password) {
 		super();
 		this.id = id;
 		this.password = password;
 	}
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getPassword() {

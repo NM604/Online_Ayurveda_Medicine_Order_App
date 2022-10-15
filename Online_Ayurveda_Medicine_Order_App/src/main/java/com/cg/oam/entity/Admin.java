@@ -3,6 +3,8 @@ package com.cg.oam.entity;
 import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 
@@ -10,12 +12,13 @@ import javax.persistence.Id;
 public class Admin {
 	
 	@Id
-	String id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	int id;
 	String password;
 	
 	public Admin() {}
 	
-	public Admin(String id, String password) {
+	public Admin(int id, String password) {
 		super();
 		this.id = id;
 		this.password = password;
@@ -26,11 +29,11 @@ public class Admin {
 		return "Admin [id=" + id + ", password=" + password + "]";
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

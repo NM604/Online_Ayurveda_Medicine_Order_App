@@ -32,7 +32,7 @@ public class IAdminServiceImpl implements IAdminService{
 	}
 
 	@Override
-	public boolean validateAdmin(String id, String password) throws InvalidDataException {
+	public boolean validateAdmin(int id, String password) throws InvalidDataException {
 		Optional<Admin> optionalAdmin = adminRepository.findById(id);
 		Admin admin = optionalAdmin.orElseThrow(() -> new InvalidDataException("Service.ADMIN_NOT_FOUND"));
 		if(!password.equals(admin.getPassword())) {
@@ -43,12 +43,11 @@ public class IAdminServiceImpl implements IAdminService{
 
 	@Override
 	public AdminDTO addAdmin(AdminDTO admin) throws InvalidDataException {
-		Optional<Admin> optionalAdmin = adminRepository.findById(admin.getId());
-		if(optionalAdmin.isPresent()) {
+		List<Admin> optionalAdmin = adminRepository.findByPassword(admin.getPassword());
+		if(!optionalAdmin.isEmpty()) {
 			throw new InvalidDataException("Service.ADMIN FOUND");
 		}
 		Admin newAdmin = new Admin();
-		newAdmin.setId(admin.getId());
 		newAdmin.setPassword(admin.getPassword());
 		adminRepository.save(newAdmin);
 		return admin;
@@ -71,16 +70,18 @@ public class IAdminServiceImpl implements IAdminService{
 	public AdminDTO removeAdmin(AdminDTO admin) throws InvalidDataException{
 		Optional<Admin> optionalAdmin = adminRepository.findById(admin.getId());
 		Admin newAdmin = optionalAdmin.orElseThrow(() -> new InvalidDataException("Service.ADMIN_NOT_FOUND"));
+		AdminDTO newAdminDTO = new AdminDTO(newAdmin.getId(), newAdmin.getPassword());
 		adminRepository.deleteById(admin.getId());
-		return admin;
+		return newAdminDTO;
 	}
 	
 	@Override
 	public AdminDTO removeAdmin(int id) throws InvalidDataException {
-		Optional<Admin> optionalAdmin = adminRepository.findById(String.valueOf(id));
+		
+		Optional<Admin> optionalAdmin = adminRepository.findById(id);
 		Admin newAdmin = optionalAdmin.orElseThrow(() -> new InvalidDataException("Service.ADMIN_NOT_FOUND"));
 		AdminDTO newAdminDTO = new AdminDTO(newAdmin.getId(), newAdmin.getPassword());
-		adminRepository.deleteById(String.valueOf(id));
+		adminRepository.deleteById(id);
 		return newAdminDTO;
 	}
 
