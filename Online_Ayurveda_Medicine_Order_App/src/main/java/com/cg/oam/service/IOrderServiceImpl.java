@@ -20,9 +20,9 @@ import com.cg.oam.exception.InvalidDataException;
 import com.cg.oam.repository.ICustomerRepository;
 import com.cg.oam.repository.IOrderRepository;
 
-@Service(value ="orderService")
+@Service(value = "orderService")
 @Transactional
-public class IOrderServiceImpl implements IOrderService{
+public class IOrderServiceImpl implements IOrderService {
 
 	@Autowired
 	private IOrderRepository orderRepository;
@@ -54,13 +54,47 @@ public class IOrderServiceImpl implements IOrderService{
 	}
 
 	@Override
-	public OrderDTO viewOrder(Integer orderId) throws InvalidDataException {
+	public List<OrderDTO> viewAllOrder() throws InvalidDataException {
+		// TODO Auto-generated method stub
+		Iterable<Order> orders = orderRepository.findAll();
+		List<OrderDTO> orderDtos = new ArrayList<>();
+		orders.forEach((order) -> {
+			OrderDTO orderDto = convertEntityToDto(order);
+			orderDtos.add(orderDto);
+		});
+		if (orderDtos.isEmpty()) {
+			throw new InvalidDataException("Orders not found");
+		}
+		return orderDtos;
+	}
+
+	@Override
+	public OrderDTO viewOrderById(Integer orderId) throws InvalidDataException {
 		// TODO Auto-generated method stub
 		Optional<Order> optional = orderRepository.findById(orderId);
 		Order orderEntity = optional.orElseThrow(() -> new InvalidDataException("Order not found"));
 
 		OrderDTO resultOrderDto = convertEntityToDto(orderEntity);
 		return resultOrderDto;
+	}
+
+	@Override
+	public List<OrderDTO> viewOrderByStatus(OrderStatus orderStatus) throws InvalidDataException {
+		// TODO Auto-generated method stub
+		Iterable<Order> orders = orderRepository.findAll();
+		List<OrderDTO> orderDtos = new ArrayList<>();
+		orders.forEach((order) -> {
+			if (order.getOrderStatus().equals(orderDtos)) {
+				OrderDTO orderDto = convertEntityToDto(order);
+				orderDtos.add(orderDto);
+			}
+
+		});
+
+		if (orderDtos.isEmpty()) {
+			throw new InvalidDataException("Orders not found");
+		}
+		return orderDtos;
 	}
 
 	@Override
@@ -101,7 +135,7 @@ public class IOrderServiceImpl implements IOrderService{
 		return resultOrderDto;
 	}
 
-	//Need to Test in main
+	// Need to Test in main
 	@Override
 	public List<OrderDTO> showAllOrdersByMedicine(Integer medicineId) throws InvalidDataException {
 		Iterable<Customer> customers = customerRepository.findAll();
@@ -185,7 +219,7 @@ public class IOrderServiceImpl implements IOrderService{
 		return orderDtos;
 	}
 
-	//Need to Test in main
+	// Need to Test in main
 	@Override
 	public Double calculateTotalCost(Integer orderId) throws InvalidDataException {
 		// TODO Auto-generated method stub
@@ -207,5 +241,5 @@ public class IOrderServiceImpl implements IOrderService{
 		}
 		return totalCost.doubleValue();
 	}
-	
+
 }
