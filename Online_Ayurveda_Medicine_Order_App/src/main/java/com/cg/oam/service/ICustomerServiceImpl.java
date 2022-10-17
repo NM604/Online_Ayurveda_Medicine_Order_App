@@ -32,13 +32,11 @@ public class ICustomerServiceImpl implements ICustomerService{
 	}
 
 	@Override
-	public void updateCustomer(CustomerDTO customer ) throws InvalidDataException {
-		Optional<Customer> customer1 = iCustomerRepository.findById(customer.getCustomerId());
+	public void updateCustomer(Integer customerID,String customerName,String customerPassword) throws InvalidDataException {
+		Optional<Customer> customer1 = iCustomerRepository.findById(customerID);
 		Customer c = customer1.orElseThrow(() -> new InvalidDataException("Service.CUSTOMER_NOT_FOUND"));
-		if(c.getCustomerName()!=null) 
-			c.setCustomerName(c.getCustomerName());
-		if(c.getCustomerPassword()!=null) 
-			c.setCustomerPassword(c.getCustomerPassword());
+		c.setCustomerName(customerName);
+		c.setCustomerPassword(customerPassword);
 		
 	}
 

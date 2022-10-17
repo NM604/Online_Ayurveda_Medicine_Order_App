@@ -8,7 +8,7 @@ import com.cg.oam.exception.InvalidDataException;
 public interface ICustomerService{
 	
 	public Integer addCustomer(CustomerDTO customer)throws InvalidDataException ;
-	public void updateCustomer(CustomerDTO customer) throws InvalidDataException ;
+	public void updateCustomer(Integer customerID,String customerName,String customerPassword) throws InvalidDataException ;
 	public List<CustomerDTO>  showAllCustomers() throws InvalidDataException ;
 	public void deleteCustomer(Integer customerId) throws InvalidDataException;
 	public CustomerDTO viewCustomer(Integer customerId) throws InvalidDataException;

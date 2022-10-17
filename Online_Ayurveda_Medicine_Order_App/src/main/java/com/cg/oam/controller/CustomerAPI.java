@@ -50,9 +50,9 @@ public class CustomerAPI {
 	}
 
 	@PutMapping(value = "/customers/{customerId}")
-	public ResponseEntity<String> updateCustomer( @RequestBody CustomerDTO customer)
+	public ResponseEntity<String> updateCustomer(@PathVariable Integer customerId, @RequestBody CustomerDTO customer)
 			throws InvalidDataException {
-		customerService.updateCustomer(customer);
+		customerService.updateCustomer(customerId,customer.getCustomerName(),customer.getCustomerPassword());
 		String successMessage = environment.getProperty("API.UPDATE_SUCCESS");
 		return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
 	}
