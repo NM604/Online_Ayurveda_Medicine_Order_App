@@ -1,9 +1,15 @@
 package com.cg.oam.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class UserDTO {
 	
 	int userId;
+	
+	@NotNull(message = "Please provide Username")
 	String userName;
+	
+	@NotNull(message = "Please provide type of User")
 	String userType;
 	
 	public UserDTO() {}

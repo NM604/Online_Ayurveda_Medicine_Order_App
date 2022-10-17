@@ -24,7 +24,7 @@ public class IUserServiceImpl implements IUserService{
 	public UserDTO addUser(UserDTO user) throws InvalidDataException {
 		List<User> optionalUser = userRepository.findByuserName(user.getUserName());
 		if(!optionalUser.isEmpty()) {
-			throw new InvalidDataException("Service.USER FOUND");
+			throw new InvalidDataException("Service.USER_FOUND");
 		}
 		User newUser = new User();
 		newUser.setUserName(user.getUserName());

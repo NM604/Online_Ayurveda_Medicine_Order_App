@@ -45,11 +45,11 @@ public class IAdminServiceImpl implements IAdminService{
 	public AdminDTO addAdmin(AdminDTO admin) throws InvalidDataException {
 		List<Admin> optionalAdmin = adminRepository.findByPassword(admin.getPassword());
 		if(!optionalAdmin.isEmpty()) {
-			throw new InvalidDataException("Service.ADMIN FOUND");
+			throw new InvalidDataException("Service.ADMIN_FOUND");
 		}
 		Admin newAdmin = new Admin();
 		newAdmin.setPassword(admin.getPassword());
-		adminRepository.save(newAdmin);
+		Admin a = adminRepository.save(newAdmin);
 		return admin;
 	}
 

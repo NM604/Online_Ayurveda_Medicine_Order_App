@@ -1,8 +1,12 @@
 package com.cg.oam.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class AdminDTO {
 	
 	int id;
+	
+	@NotNull(message = "Please provide password")
 	String password;
 	
 	public AdminDTO() {}

@@ -2,6 +2,8 @@ package com.cg.oam.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -37,14 +39,14 @@ public class AdminAPI {
 	}
 	
 	@PostMapping(value = "/admin")
-	public ResponseEntity<String> addAdmin(@RequestBody AdminDTO admin) throws InvalidDataException{
+	public ResponseEntity<String> addAdmin(@Valid @RequestBody AdminDTO admin) throws InvalidDataException{
 		adminService.addAdmin(admin);
 		String successMessage = environment.getProperty("API.INSERT_SUCCESS") + admin.getId();
 		return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
 	}
 	
 	@PutMapping(value = "/admin/{adminId}")
-	public ResponseEntity<String> updateAdmin(@PathVariable Integer adminId, @RequestBody AdminDTO admin)
+	public ResponseEntity<String> updateAdmin(@PathVariable Integer adminId, @Valid @RequestBody AdminDTO admin)
 			throws InvalidDataException{
 		adminService.updateAdmin(admin);
 		String successMessage = environment.getProperty("API.UPDATE_SUCCESS");
@@ -60,7 +62,7 @@ public class AdminAPI {
 	}
 	
 	@PostMapping(value = "/adminvalidate")
-	public ResponseEntity<String> validateAdmin(@RequestBody AdminDTO admin) throws InvalidDataException{
+	public ResponseEntity<String> validateAdmin(@Valid @RequestBody AdminDTO admin) throws InvalidDataException{
 		String successMessage = "";
 		if (adminService.validateAdmin(admin.getId(),admin.getPassword())) {
 			successMessage += "Valid Credentials";
