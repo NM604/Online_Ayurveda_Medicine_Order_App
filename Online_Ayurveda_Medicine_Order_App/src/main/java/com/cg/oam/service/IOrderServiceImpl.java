@@ -134,7 +134,7 @@ public class IOrderServiceImpl implements IOrderService {
 
 	// Need to Test in main
 	@Override
-	public List<OrderDTO> showAllOrdersByMedicine(Integer medicineId) throws InvalidDataException {
+	public List<OrderDTO> showAllOrdersByMedicineId(Integer medicineId) throws InvalidDataException {
 
 		Iterable<Customer> customers = customerRepository.findAll();
 		List<CustomerDTO> customerDtos = new ArrayList<>();
@@ -163,7 +163,7 @@ public class IOrderServiceImpl implements IOrderService {
 	}
 
 	@Override
-	public List<OrderDTO> showAllOrdersByCustomer(Integer customerId) throws InvalidDataException {
+	public List<OrderDTO> showAllOrdersByCustomerId(Integer customerId) throws InvalidDataException {
 
 		Optional<Customer> optional = customerRepository.findById(customerId);
 		Customer customer = optional.orElseThrow(() -> new InvalidDataException("Customer not found"));
@@ -229,6 +229,7 @@ public class IOrderServiceImpl implements IOrderService {
 		return totalCost.doubleValue();
 	}
 
+	
 	@Override
 	public OrderDTO deleteOrder(Integer orderId) throws InvalidDataException {
 		Optional<Order> optional = orderRepository.findById(orderId);

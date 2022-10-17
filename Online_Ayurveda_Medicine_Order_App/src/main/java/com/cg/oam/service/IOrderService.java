@@ -24,9 +24,9 @@ public interface IOrderService {
 
 	public OrderDTO cancelOrder(Integer orderId) throws InvalidDataException;
 
-	public List<OrderDTO> showAllOrdersByMedicine(Integer medicineId) throws InvalidDataException;
+	public List<OrderDTO> showAllOrdersByMedicineId(Integer medicineId) throws InvalidDataException;
 
-	public List<OrderDTO> showAllOrdersByCustomer(Integer customerId) throws InvalidDataException;
+	public List<OrderDTO> showAllOrdersByCustomerId(Integer customerId) throws InvalidDataException;
 
 	public List<OrderDTO> showAllOrdersByOrderDate(LocalDate date) throws InvalidDataException;
 
