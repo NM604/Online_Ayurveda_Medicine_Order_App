@@ -58,5 +58,14 @@ public class UserAPI {
 		String successMessage = environment.getProperty("API.DELETE_SUCCESS");
 		return new ResponseEntity<>(successMessage, HttpStatus.OK);
 	}
+	
+	@PostMapping(value = "/uservalidate")
+	public ResponseEntity<String> validateAdmin(@RequestBody UserDTO user) throws InvalidDataException{
+		String successMessage = "";
+		if (userService.validateUser(user.getUserId(),user.getUserName())) {
+			successMessage += "Valid Credentials";
+		}
+		return new ResponseEntity<>(successMessage, HttpStatus.OK);
+	}
 
 }

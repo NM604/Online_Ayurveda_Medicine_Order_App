@@ -58,4 +58,13 @@ public class AdminAPI {
 		String successMessage = environment.getProperty("API.DELETE_SUCCESS");
 		return new ResponseEntity<>(successMessage, HttpStatus.OK);
 	}
+	
+	@PostMapping(value = "/adminvalidate")
+	public ResponseEntity<String> validateAdmin(@RequestBody AdminDTO admin) throws InvalidDataException{
+		String successMessage = "";
+		if (adminService.validateAdmin(admin.getId(),admin.getPassword())) {
+			successMessage += "Valid Credentials";
+		}
+		return new ResponseEntity<>(successMessage, HttpStatus.OK);
+	}
 }
