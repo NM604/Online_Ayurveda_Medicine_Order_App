@@ -1,5 +1,6 @@
 package com.cg.oam.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +8,16 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.oam.dto.AdminDTO;
 import com.cg.oam.dto.OrderDTO;
+import com.cg.oam.dto.OrderStatus;
 import com.cg.oam.exception.InvalidDataException;
 import com.cg.oam.service.IAdminService;
 import com.cg.oam.service.IOrderService;
@@ -21,13 +27,88 @@ import com.cg.oam.service.IOrderService;
 public class OrderAPI {
 	@Autowired
 	IOrderService orderService;
-	
+
 	@Autowired
 	Environment environment;
-	
+
+
+	@PostMapping(value = "/orders")
+	public ResponseEntity<String> addOrder(@RequestBody OrderDTO order) throws InvalidDataException {
+		OrderDTO orderId = orderService.addOrder(order);
+		String successMessage = environment.getProperty("API.INSERT_SUCCESS") + orderId;
+		return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
+	}
+
 	@GetMapping(value = "/orders")
 	public ResponseEntity<List<OrderDTO>> getAllOrders() throws InvalidDataException {
 		List<OrderDTO> orders = orderService.viewAllOrder();
+		return new ResponseEntity<>(orders, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/orders/medicine/{medicineId}")
+	public ResponseEntity<List<OrderDTO>> showAllOrders(@PathVariable Integer medicineId) throws InvalidDataException {
+		List<OrderDTO> orderList = orderService.showAllOrdersByMedicine(medicineId);
+		return new ResponseEntity<>(orderList, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/orders/customer/{customerId}")
+	public ResponseEntity<List<OrderDTO>> showAllOrdersByCustomer(@PathVariable Integer customerId)
+			throws InvalidDataException {
+		List<OrderDTO> orderList = orderService.showAllOrdersByCustomer(customerId);
+		return new ResponseEntity<>(orderList, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/orders/orderDate/{date}")
+	public ResponseEntity<List<OrderDTO>> showAllOrdersByOrderDate(@PathVariable LocalDate date)
+			throws InvalidDataException {
+		List<OrderDTO> orderList = orderService.showAllOrdersByOrderDate(date);
+		return new ResponseEntity<>(orderList, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/orders/dispatchDate/{date}")
+	public ResponseEntity<List<OrderDTO>> showAllOrdersByDispatchDate(@PathVariable LocalDate date)
+			throws InvalidDataException {
+		List<OrderDTO> orderList = orderService.showAllOrdersByDispatchDate(date);
+		return new ResponseEntity<>(orderList, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/orders/{orderId}")
+	public ResponseEntity<OrderDTO> getAllOrdersById(@PathVariable Integer orderId) throws InvalidDataException {
+		OrderDTO orders = orderService.viewOrderById(orderId);
+		return new ResponseEntity<>(orders, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/orders/orderStatus/{orderStatus}")
+	public ResponseEntity<List<OrderDTO>> getAllOrdersByStatus(@PathVariable OrderStatus orderStatus)
+			throws InvalidDataException {
+		List<OrderDTO> orderList = orderService.viewOrderByStatus(orderStatus);
+		return new ResponseEntity<>(orderList, HttpStatus.OK);
+	}
+
+	@PutMapping(value = "/orders/{orderDto}")
+	public ResponseEntity<String> updateOrder(@RequestBody OrderDTO orderDto) throws InvalidDataException {
+		orderService.updateOrder(orderDto);
+		String successMessage = environment.getProperty("API.UPDATE_SUCCESS");
+		return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
+	}
+
+	@PutMapping(value = "/orders/orderStatus/{orderDto}")
+	public ResponseEntity<String> updateOrderStatus(@PathVariable Integer OrderId,
+			@PathVariable OrderStatus orderStatus) throws InvalidDataException {
+		orderService.updateOrderStatus(OrderId, orderStatus);
+		String successMessage = environment.getProperty("API.UPDATE_SUCCESS");
+		return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
+	}
+
+	@GetMapping(value = "/orders/calculateCost/{orderId}")
+	public ResponseEntity<Double> calculateTotalCost(@PathVariable Integer orderId) throws InvalidDataException {
+		Double orders = orderService.calculateTotalCost(orderId);
+		return new ResponseEntity<>(orders, HttpStatus.OK);
+	}
+
+	@PutMapping(value = "/orders/cancel/{orderId}")
+	public ResponseEntity<OrderDTO> cancelOrder(@PathVariable Integer orderId) throws InvalidDataException {
+		OrderDTO orders = orderService.cancelOrder(orderId);
 		return new ResponseEntity<>(orders, HttpStatus.OK);
 	}
 }

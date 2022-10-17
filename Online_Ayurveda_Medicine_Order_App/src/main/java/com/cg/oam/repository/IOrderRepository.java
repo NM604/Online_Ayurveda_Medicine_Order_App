@@ -9,7 +9,11 @@ import org.springframework.data.repository.query.Param;
 
 import com.cg.oam.dto.CustomerDTO;
 import com.cg.oam.dto.OrderDTO;
+import com.cg.oam.dto.OrderStatus;
 import com.cg.oam.entity.Order;
 
 public interface IOrderRepository extends CrudRepository<Order, Integer> {
+	List<Order> findByOrderStatus(OrderStatus orderStatus);
+	List<Order> findByOrderDate(LocalDate orderDate);
+	List<Order> findByDispatchDate(LocalDate dispatchDate);
 }
