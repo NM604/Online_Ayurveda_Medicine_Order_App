@@ -26,7 +26,7 @@ public class Customer {
 	@JoinColumn(name="cust_Id")
 	private List<Medicine> medicineList;
 	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="cust_Id")
+	@JoinColumn(name="order_Id")
 	private Order order;
 	
 	public int getCustomerId() {
