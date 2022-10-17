@@ -135,6 +135,7 @@ public class IOrderServiceImpl implements IOrderService {
 	// Need to Test in main
 	@Override
 	public List<OrderDTO> showAllOrdersByMedicine(Integer medicineId) throws InvalidDataException {
+
 		Iterable<Customer> customers = customerRepository.findAll();
 		List<CustomerDTO> customerDtos = new ArrayList<>();
 		List<Order> orders = new ArrayList<>();
@@ -142,7 +143,7 @@ public class IOrderServiceImpl implements IOrderService {
 		customers.forEach((customer) -> {
 			List<Medicine> medicines = customer.getMedicineList();
 			for (Medicine med : medicines) {
-				if (med.getMedicineId().equals(medicineId)) {
+				if (Integer.valueOf(med.getMedicineId()).equals(medicineId)) {
 					orders.add(customer.getOrder());
 				}
 			}
@@ -168,7 +169,7 @@ public class IOrderServiceImpl implements IOrderService {
 		Customer customer = optional.orElseThrow(() -> new InvalidDataException("Customer not found"));
 		Order order = customer.getOrder();
 		OrderDTO resultOrderDto = convertEntityToDto(order);
-		List<OrderDTO> orders=new ArrayList<>();
+		List<OrderDTO> orders = new ArrayList<>();
 		orders.add(resultOrderDto);
 		return orders;
 	}
@@ -207,6 +208,11 @@ public class IOrderServiceImpl implements IOrderService {
 	@Override
 	public Double calculateTotalCost(Integer orderId) throws InvalidDataException {
 		// TODO Auto-generated method stub
+		Optional<Order> optional = orderRepository.findById(orderId);
+		if (optional.isEmpty()) {
+			throw new InvalidDataException("Service.ORDER_NOT_FOUND");
+		}
+
 		Iterable<Customer> customers = customerRepository.findAll();
 		Float totalCost = 0F;
 		for (Customer customer : customers) {
@@ -221,6 +227,24 @@ public class IOrderServiceImpl implements IOrderService {
 			}
 		}
 		return totalCost.doubleValue();
+	}
+
+	@Override
+	public OrderDTO deleteOrder(Integer orderId) throws InvalidDataException {
+		Optional<Order> optional = orderRepository.findById(orderId);
+		Order orderEntity = optional.orElseThrow(() -> new InvalidDataException("Service.ORDER_NOT_FOUND"));
+		OrderDTO orderDto = convertEntityToDto(orderEntity);
+
+		Iterable<Customer> customers = customerRepository.findAll();
+		for (Customer customer : customers) {
+			if (customer.getOrder().getOrderId().equals(orderId)) {
+				customer.setOrder(null);
+				break;
+			}
+		}
+		orderRepository.delete(orderEntity);
+
+		return orderDto;
 	}
 
 }

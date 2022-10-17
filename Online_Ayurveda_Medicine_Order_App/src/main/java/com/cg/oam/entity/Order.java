@@ -17,7 +17,7 @@ import com.cg.oam.dto.OrderStatus;
 public class Order {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer orderId;
 	private LocalDate orderDate;
 	private LocalDate dispatchDate;

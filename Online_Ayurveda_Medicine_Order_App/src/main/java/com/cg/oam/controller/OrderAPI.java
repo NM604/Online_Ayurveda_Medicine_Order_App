@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,8 +36,8 @@ public class OrderAPI {
 
 	@PostMapping(value = "/orders")
 	public ResponseEntity<String> addOrder(@RequestBody OrderDTO order) throws InvalidDataException {
-		OrderDTO orderId = orderService.addOrder(order);
-		String successMessage = environment.getProperty("API.INSERT_SUCCESS") + orderId;
+		OrderDTO orderDto = orderService.addOrder(order);
+		String successMessage = environment.getProperty("API.ORDER_INSERT_SUCCESS") + orderDto.getOrderId();
 		return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
 	}
 
@@ -46,7 +48,7 @@ public class OrderAPI {
 	}
 
 	@GetMapping(value = "/orders/medicine/{medicineId}")
-	public ResponseEntity<List<OrderDTO>> showAllOrders(@PathVariable Integer medicineId) throws InvalidDataException {
+	public ResponseEntity<List<OrderDTO>> showAllOrdersByMedicineId(@PathVariable Integer medicineId) throws InvalidDataException {
 		List<OrderDTO> orderList = orderService.showAllOrdersByMedicine(medicineId);
 		return new ResponseEntity<>(orderList, HttpStatus.OK);
 	}
@@ -59,14 +61,14 @@ public class OrderAPI {
 	}
 
 	@GetMapping(value = "/orders/orderDate/{date}")
-	public ResponseEntity<List<OrderDTO>> showAllOrdersByOrderDate(@PathVariable LocalDate date)
+	public ResponseEntity<List<OrderDTO>> showAllOrdersByOrderDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date)
 			throws InvalidDataException {
 		List<OrderDTO> orderList = orderService.showAllOrdersByOrderDate(date);
 		return new ResponseEntity<>(orderList, HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/orders/dispatchDate/{date}")
-	public ResponseEntity<List<OrderDTO>> showAllOrdersByDispatchDate(@PathVariable LocalDate date)
+	public ResponseEntity<List<OrderDTO>> showAllOrdersByDispatchDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date)
 			throws InvalidDataException {
 		List<OrderDTO> orderList = orderService.showAllOrdersByDispatchDate(date);
 		return new ResponseEntity<>(orderList, HttpStatus.OK);
@@ -88,16 +90,16 @@ public class OrderAPI {
 	@PutMapping(value = "/orders/{orderDto}")
 	public ResponseEntity<String> updateOrder(@RequestBody OrderDTO orderDto) throws InvalidDataException {
 		orderService.updateOrder(orderDto);
-		String successMessage = environment.getProperty("API.UPDATE_SUCCESS");
-		return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
+		String successMessage = environment.getProperty("API.ORDER_UPDATE_SUCCESS")+orderDto.getOrderId();
+		return new ResponseEntity<>(successMessage, HttpStatus.OK);
 	}
 
-	@PutMapping(value = "/orders/orderStatus/{orderDto}")
-	public ResponseEntity<String> updateOrderStatus(@PathVariable Integer OrderId,
-			@PathVariable OrderStatus orderStatus) throws InvalidDataException {
-		orderService.updateOrderStatus(OrderId, orderStatus);
-		String successMessage = environment.getProperty("API.UPDATE_SUCCESS");
-		return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
+	@PutMapping(value = "/orders/{orderId}/{orderStatus}")
+	public ResponseEntity<String> updateOrderStatus(@PathVariable("orderId") Integer orderId,
+			@PathVariable("orderStatus") OrderStatus orderStatus) throws InvalidDataException {
+		orderService.updateOrderStatus(orderId, orderStatus);
+		String successMessage = environment.getProperty("API.UPDATE_SUCCESS")+orderId;
+		return new ResponseEntity<>(successMessage, HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/orders/calculateCost/{orderId}")
@@ -110,5 +112,11 @@ public class OrderAPI {
 	public ResponseEntity<OrderDTO> cancelOrder(@PathVariable Integer orderId) throws InvalidDataException {
 		OrderDTO orders = orderService.cancelOrder(orderId);
 		return new ResponseEntity<>(orders, HttpStatus.OK);
+	}
+	@DeleteMapping(value = "/orders/{orderId}")
+	public ResponseEntity<String> deleteOrder(@PathVariable Integer orderId) throws InvalidDataException {
+		OrderDTO orders = orderService.deleteOrder(orderId);
+		String successMessage = environment.getProperty("API.DELETE_SUCCESS")+orderId;
+		return new ResponseEntity<>(successMessage, HttpStatus.OK);
 	}
 }

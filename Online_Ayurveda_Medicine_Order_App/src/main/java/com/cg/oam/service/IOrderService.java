@@ -34,4 +34,6 @@ public interface IOrderService {
 
 	public Double calculateTotalCost(Integer orderId) throws InvalidDataException;
 
+	public OrderDTO deleteOrder(Integer orderId) throws InvalidDataException;
+
 }
