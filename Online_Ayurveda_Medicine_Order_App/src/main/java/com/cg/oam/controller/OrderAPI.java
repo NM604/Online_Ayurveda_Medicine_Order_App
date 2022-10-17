@@ -49,14 +49,14 @@ public class OrderAPI {
 
 	@GetMapping(value = "/orders/medicine/{medicineId}")
 	public ResponseEntity<List<OrderDTO>> showAllOrdersByMedicineId(@PathVariable Integer medicineId) throws InvalidDataException {
-		List<OrderDTO> orderList = orderService.showAllOrdersByMedicine(medicineId);
+		List<OrderDTO> orderList = orderService.showAllOrdersByMedicineId(medicineId);
 		return new ResponseEntity<>(orderList, HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/orders/customer/{customerId}")
 	public ResponseEntity<List<OrderDTO>> showAllOrdersByCustomer(@PathVariable Integer customerId)
 			throws InvalidDataException {
-		List<OrderDTO> orderList = orderService.showAllOrdersByCustomer(customerId);
+		List<OrderDTO> orderList = orderService.showAllOrdersByCustomerId(customerId);
 		return new ResponseEntity<>(orderList, HttpStatus.OK);
 	}
 
