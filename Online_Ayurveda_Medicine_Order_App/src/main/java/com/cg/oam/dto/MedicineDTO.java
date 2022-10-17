@@ -5,7 +5,9 @@ import java.time.LocalDate;
 import com.cg.oam.entity.Category;
 
 public class MedicineDTO {
-	
+
+	private Integer srno;
+
 	private String medicineId;
 	private String medicineName;
 	private Float medicineCost;
@@ -16,9 +18,10 @@ public class MedicineDTO {
 	public MedicineDTO(){
 		super();
 	}
-	public MedicineDTO(String medicineId, String medicineName, Float medicineCost, LocalDate mfd, LocalDate expiryDate,
+	public MedicineDTO(Integer srno,String medicineId, String medicineName, Float medicineCost, LocalDate mfd, LocalDate expiryDate,
 			String companyName, Category category) {
 		super();
+		this.srno = srno;
 		this.medicineId = medicineId;
 		this.medicineName = medicineName;
 		this.medicineCost = medicineCost;
@@ -26,6 +29,12 @@ public class MedicineDTO {
 		this.expiryDate = expiryDate;
 		this.companyName = companyName;
 		this.category = category;
+	}
+	public Integer getSrno() {
+		return srno;
+	}
+	public void setSrno(Integer srno) {
+		this.srno = srno;
 	}
 	public String getMedicineId() {
 		return medicineId;

@@ -28,6 +28,7 @@ public class IMedicineServiceImpl implements IMedicineService {
 
     public MedicineDTO convertEntityToDto(Medicine medicine) {
 		MedicineDTO resultOMedicineDto = new MedicineDTO();
+        resultOMedicineDto.setSrno(medicine.getSrno());
 		resultOMedicineDto.setMedicineId(medicine.getMedicineId()); 
 		resultOMedicineDto.setMedicineName(medicine.getMedicineName());
 		resultOMedicineDto.setMedicineCost(medicine.getMedicineCost());
@@ -43,7 +44,7 @@ public class IMedicineServiceImpl implements IMedicineService {
     public MedicineDTO addMedicine(MedicineDTO medicineDTO) throws InvalidDataException {
         // TODO Auto-generated method stub
         Medicine medicineEntity = new Medicine();
-        // medicineEntity.setMedicineId(medicineDTO.getMedicineId());
+        medicineEntity.setMedicineId(medicineDTO.getMedicineId());
         medicineEntity.setMedicineName(medicineDTO.getMedicineName());
         medicineEntity.setMedicineCost(medicineDTO.getMedicineCost());
         medicineEntity.setMfd(medicineDTO.getMfd());
@@ -61,8 +62,11 @@ public class IMedicineServiceImpl implements IMedicineService {
     public MedicineDTO viewMedicine(MedicineDTO medicineDTO) throws InvalidDataException {
         // TODO Auto-generated method stub
         
-        Optional<Medicine> optional = iMedicineRepository.findById(medicineDTO.getMedicineId());
-		Medicine medicineEntity = optional.orElseThrow(()->new InvalidDataException("Medicine not found"));
+        List<Medicine> optional = iMedicineRepository.findByMedicineId(medicineDTO.getMedicineId());
+        if(optional.isEmpty()){
+            throw new InvalidDataException("Medicine not found");
+        }
+		Medicine medicineEntity = optional.get(0);
 
 		MedicineDTO createdMedicineDTO = convertEntityToDto(medicineEntity);
 
@@ -72,9 +76,14 @@ public class IMedicineServiceImpl implements IMedicineService {
     @Override
     public MedicineDTO updateMedicine(MedicineDTO medicineDTO) throws InvalidDataException {
         // TODO Auto-generated method stub
-        Optional<Medicine> optional = iMedicineRepository.findById(medicineDTO.getMedicineId());
-		Medicine medicineEntity = optional.orElseThrow(()->new InvalidDataException("Medicine not found"));
+        List<Medicine> optional = iMedicineRepository.findByMedicineId(medicineDTO.getMedicineId());
+        if(optional.isEmpty()){
+            throw new InvalidDataException("Medicine not found");
+        }
+		Medicine medicineEntity = optional.get(0);
 
+        if (medicineEntity.getMedicineId()!=null)
+            medicineEntity.setMedicineId(medicineEntity.getMedicineId());
         if(medicineEntity.getMedicineName()!=null)
 			medicineEntity.setMedicineName(medicineEntity.getMedicineName());
         if(medicineEntity.getMedicineCost()!=null)
@@ -97,8 +106,11 @@ public class IMedicineServiceImpl implements IMedicineService {
     @Override
     public MedicineDTO deleteMedicine(MedicineDTO medicineDTO) throws InvalidDataException  {
         // TODO Auto-generated method stub
-        Optional<Medicine> optional = iMedicineRepository.findById(medicineDTO.getMedicineId());
-		Medicine medicineEntity = optional.orElseThrow(()->new InvalidDataException("Medicine not found"));
+        List<Medicine> optional = iMedicineRepository.findByMedicineId(medicineDTO.getMedicineId());
+        if(optional.isEmpty()){
+            throw new InvalidDataException("Medicine not found");
+        }
+		Medicine medicineEntity = optional.get(0);
 
         MedicineDTO createdMedicineDTO = convertEntityToDto(medicineEntity);
 
@@ -114,7 +126,7 @@ public class IMedicineServiceImpl implements IMedicineService {
         List<MedicineDTO> medicineDTOs = new ArrayList<>();
 
         medicines.forEach(medicine->{
-            MedicineDTO newmeMedicineDTO = new MedicineDTO(medicine.getMedicineId(), medicine.getMedicineName(), medicine.getMedicineCost(), medicine.getMfd(), medicine.getExpiryDate(), medicine.getCompanyName(),  medicine.getCategory());
+            MedicineDTO newmeMedicineDTO = new MedicineDTO(medicine.getSrno(),medicine.getMedicineId(), medicine.getMedicineName(), medicine.getMedicineCost(), medicine.getMfd(), medicine.getExpiryDate(), medicine.getCompanyName(),  medicine.getCategory());
             medicineDTOs.add(newmeMedicineDTO);
         });
 

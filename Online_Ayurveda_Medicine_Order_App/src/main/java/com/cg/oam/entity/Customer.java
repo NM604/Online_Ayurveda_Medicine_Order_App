@@ -29,6 +29,8 @@ public class Customer {
 	@JoinColumn(name="order_Id")
 	private Order order;
 	
+	public Customer() {
+	}
 	public int getCustomerId() {
 		return customerId;
 	}

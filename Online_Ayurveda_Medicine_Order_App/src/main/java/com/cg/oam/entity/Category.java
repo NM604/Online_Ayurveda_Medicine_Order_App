@@ -8,6 +8,7 @@ public class Category {
 	@Id
 	String categoryId;
 	String categoryName;
+	public Category(){}
 	public Category(String categoryId, String categoryName) {
 		super();
 		this.categoryId = categoryId;
