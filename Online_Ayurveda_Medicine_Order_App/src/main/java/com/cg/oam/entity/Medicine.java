@@ -90,6 +90,35 @@ public class Medicine {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+	@Override
+	public String toString() {
+		return "Medicine [srno=" + srno + ", medicineId=" + medicineId + ", medicineName=" + medicineName
+				+ ", medicineCost=" + medicineCost + ", mfd=" + mfd + ", expiryDate=" + expiryDate + ", companyName="
+				+ companyName + ", category=" + category + "]";
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((srno == null) ? 0 : srno.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Medicine other = (Medicine) obj;
+		if (srno == null) {
+			if (other.srno != null)
+				return false;
+		} else if (!srno.equals(other.srno))
+			return false;
+		return true;
+	}
 
 	
 

@@ -51,7 +51,7 @@ public class MedicineAPI {
     public ResponseEntity<String> updateMedicine(@RequestBody MedicineDTO newmeMedicineDTO) throws InvalidDataException{
         iMedicineService.updateMedicine(newmeMedicineDTO);
         String successMessage = environment.getProperty("API.UPDATE_SUCCESS");
-        return new ResponseEntity<String>(successMessage,HttpStatus.CREATED);
+        return new ResponseEntity<String>(successMessage,HttpStatus.OK);
     }
     @DeleteMapping(value = "/medicine/{medicineId}")
     public ResponseEntity<String> deleleMedicine(@RequestBody MedicineDTO medicineDTO) throws InvalidDataException{

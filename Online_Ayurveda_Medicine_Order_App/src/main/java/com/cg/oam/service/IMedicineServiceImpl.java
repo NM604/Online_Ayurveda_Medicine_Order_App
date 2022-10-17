@@ -43,6 +43,12 @@ public class IMedicineServiceImpl implements IMedicineService {
     @Override
     public MedicineDTO addMedicine(MedicineDTO medicineDTO) throws InvalidDataException {
         // TODO Auto-generated method stub
+
+        List<Medicine> optionalMedicines = iMedicineRepository.findByMedicineId(medicineDTO.getMedicineId());
+        if(!optionalMedicines.isEmpty()){
+            throw new InvalidDataException("Service.MEDICINE_FOUND");
+        }
+
         Medicine medicineEntity = new Medicine();
         medicineEntity.setMedicineId(medicineDTO.getMedicineId());
         medicineEntity.setMedicineName(medicineDTO.getMedicineName());
@@ -51,6 +57,7 @@ public class IMedicineServiceImpl implements IMedicineService {
         medicineEntity.setExpiryDate(medicineDTO.getExpiryDate());
         medicineEntity.setCompanyName(medicineDTO.getCompanyName());
         medicineEntity.setCategory(medicineDTO.getCategory());
+        
         Medicine createdMedicine  = iMedicineRepository.save(medicineEntity);
 
         MedicineDTO createdMedicineDTO = convertEntityToDto(createdMedicine);
@@ -64,7 +71,7 @@ public class IMedicineServiceImpl implements IMedicineService {
         
         List<Medicine> optional = iMedicineRepository.findByMedicineId(medicineDTO.getMedicineId());
         if(optional.isEmpty()){
-            throw new InvalidDataException("Medicine not found");
+            throw new InvalidDataException("Service.MEDICINE_NOT_FOUND");
         }
 		Medicine medicineEntity = optional.get(0);
 
@@ -78,7 +85,7 @@ public class IMedicineServiceImpl implements IMedicineService {
         // TODO Auto-generated method stub
         List<Medicine> optional = iMedicineRepository.findByMedicineId(medicineDTO.getMedicineId());
         if(optional.isEmpty()){
-            throw new InvalidDataException("Medicine not found");
+            throw new InvalidDataException("Service.MEDICINE_NOT_FOUND");
         }
 		Medicine medicineEntity = optional.get(0);
 
@@ -108,7 +115,7 @@ public class IMedicineServiceImpl implements IMedicineService {
         // TODO Auto-generated method stub
         List<Medicine> optional = iMedicineRepository.findByMedicineId(medicineDTO.getMedicineId());
         if(optional.isEmpty()){
-            throw new InvalidDataException("Medicine not found");
+            throw new InvalidDataException("Service.MEDICINE_NOT_FOUND");
         }
 		Medicine medicineEntity = optional.get(0);
 
