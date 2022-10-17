@@ -31,6 +31,17 @@ public class Customer {
 	
 	public Customer() {
 	}
+	
+	public Customer(Integer customerId, String customerName, String customerPassword, List<Medicine> medicineList,
+			Order order) {
+		super();
+		this.customerId = customerId;
+		this.customerName = customerName;
+		this.customerPassword = customerPassword;
+		this.medicineList = medicineList;
+		this.order = order;
+	}
+
 	public int getCustomerId() {
 		return customerId;
 	}

@@ -1,5 +1,7 @@
 package com.cg.oam.repository;
 
+import java.util.List;
+
 //import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
@@ -11,7 +13,6 @@ import com.cg.oam.entity.Customer;
 //import com.cg.oam.entity.Customer;
 
 public interface ICustomerRepository extends CrudRepository<Customer, Integer>{
-	
-	
 
+	List<Customer> findByCustomerPassword(String password);
 }

@@ -45,7 +45,7 @@ public class CustomerAPI {
 	@PostMapping(value = "/customers")
 	public ResponseEntity<String> addCustomer(@RequestBody CustomerDTO customer) throws InvalidDataException {
 		Integer customerId = customerService.addCustomer(customer);
-		String successMessage = environment.getProperty("API.INSERT_SUCCESS") + customerId;
+		String successMessage = environment.getProperty("API.CUSTOMER_INSERT_SUCCESS") + customerId;
 		return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
 	}
 
@@ -53,14 +53,14 @@ public class CustomerAPI {
 	public ResponseEntity<String> updateCustomer(@PathVariable Integer customerId, @RequestBody CustomerDTO customer)
 			throws InvalidDataException {
 		customerService.updateCustomer(customerId,customer.getCustomerName(),customer.getCustomerPassword());
-		String successMessage = environment.getProperty("API.UPDATE_SUCCESS");
+		String successMessage = environment.getProperty("API.CUSTOMER_UPDATE_SUCCESS");
 		return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
 	}
 
 	@DeleteMapping(value = "/customers/{customerId}")
 	public ResponseEntity<String> deleteCustomer(@PathVariable Integer customerId) throws InvalidDataException {
 		customerService.deleteCustomer(customerId);
-		String successMessage = environment.getProperty("API.DELETE_SUCCESS");
+		String successMessage = environment.getProperty("API.CUSTOMER_DELETE_SUCCESS");
 		return new ResponseEntity<>(successMessage, HttpStatus.OK);
 	}
 
