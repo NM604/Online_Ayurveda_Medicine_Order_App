@@ -30,18 +30,31 @@ import com.cg.oam.repository.ICustomerRepository;
 import com.cg.oam.repository.IOrderRepository;
 import com.cg.oam.service.IOrderServiceImpl;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class IOrderServiceTest.
+ */
 @SpringBootTest
 @DisplayName("OrderService Test")
 public class IOrderServiceTest {
+	
+	/** The order repository. */
 	@Mock
 	IOrderRepository orderRepository;
 
+	/** The customer repository. */
 	@Mock
 	ICustomerRepository customerRepository;
 
+	/** The order service. */
 	@InjectMocks
 	IOrderServiceImpl orderService;
 
+	/**
+	 * View order by id test.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	public void viewOrderByIdTest() throws InvalidDataException {
 
@@ -56,8 +69,12 @@ public class IOrderServiceTest {
 
 	}
 
-	// CancelOrder-----------------------------------
 
+	/**
+	 * Cancel order test with valid order id.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Testing CancelOrder with valid Order Id")
 	public void cancelOrderTestWithValidOrderId() throws InvalidDataException {
@@ -68,6 +85,11 @@ public class IOrderServiceTest {
 		assertEquals(expectedOrder, actualOrder);
 	}
 
+	/**
+	 * Cancel order test with invalid values.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Testing CancelOrder with invalid Order Id")
 	public void cancelOrderTestWithInvalidValues() throws InvalidDataException {
@@ -77,9 +99,11 @@ public class IOrderServiceTest {
 		assertEquals("Service.ORDER_NOT_FOUND", exception.getMessage());
 	}
 
-	// ---------------------
-
-	// ShowAllOrderByMedicineId--------------------
+	/**
+	 * Show all orders by medicine id test with empty orders.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Testing Show all order by medicineId with empty order List")
 	public void showAllOrdersByMedicineIdTestWithEmptyOrders() throws InvalidDataException {
@@ -91,6 +115,11 @@ public class IOrderServiceTest {
 		assertEquals("Service.ORDERS_NOT_FOUND", exception.getMessage());
 	}
 
+	/**
+	 * Show all orders by medicine id test with invalid medicine id.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Testing Show all order by medicineId with invalid medicine Id")
 	public void showAllOrdersByMedicineIdTestWithInvalidMedicineId() throws InvalidDataException {
@@ -109,12 +138,11 @@ public class IOrderServiceTest {
 		assertEquals("Service.ORDERS_NOT_FOUND", exception.getMessage());
 	}
 
-	
-	
-	
-	// -----------------------------
-
-	// ShowAllOrderByCustomerId
+	/**
+	 * Show all orders by customer id test with invalid id.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Show all order by customerId from invalid id")
 	public void showAllOrdersByCustomerIdTestWithInvalidId() throws InvalidDataException {
@@ -125,6 +153,11 @@ public class IOrderServiceTest {
 		assertEquals("Customer not found", exception.getMessage());
 	}
 
+	/**
+	 * Show all orders by customer id test withvalid id.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Show all order by customerId with valid id")
 	public void showAllOrdersByCustomerIdTestWithvalidId() throws InvalidDataException {
@@ -146,9 +179,11 @@ public class IOrderServiceTest {
 		assertEquals(expectedOrders, actualOrders);
 	}
 
-	// ------------------------
-
-	// ShowAllOrderByOrderDate
+	/**
+	 * Show all orders by order date test.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Testing Show all order by Order Date ")
 	public void showAllOrdersByOrderDateTest() throws InvalidDataException {
@@ -170,6 +205,11 @@ public class IOrderServiceTest {
 		assertEquals(expectedOrders, actualOrders);
 	}
 
+	/**
+	 * Show all orders by order date test exception.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Testing Show all order by Order Date with no orders found")
 	public void showAllOrdersByOrderDateTestException() throws InvalidDataException {
@@ -181,7 +221,11 @@ public class IOrderServiceTest {
 		assertEquals("Service.ORDERS_NOT_FOUND", exception.getMessage());
 	}
 
-	// ShowAllOrderByDispatchDate
+	/**
+	 * Show all orders by dispatch date test.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Testing Show all order by Dispatch Date ")
 	public void showAllOrdersByDispatchDateTest() throws InvalidDataException {
@@ -203,6 +247,11 @@ public class IOrderServiceTest {
 		assertEquals(expectedOrders, actualOrders);
 	}
 
+	/**
+	 * Show all orders by dispatch date test exception.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Testing Show all order by Dispatch Date with no orders found")
 	public void showAllOrdersByDispatchDateTestException() throws InvalidDataException {
@@ -214,8 +263,12 @@ public class IOrderServiceTest {
 		assertEquals("Service.ORDERS_NOT_FOUND", exception.getMessage());
 	}
 
-	// ----------------------------
-	// Calculate total cost with valid id
+
+	/**
+	 * Calculate total cost test with valid id.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Testing calculate total cost with valid orderId")
 	public void calculateTotalCostTestWithValidId() throws InvalidDataException {
@@ -242,13 +295,16 @@ public class IOrderServiceTest {
 
 		Mockito.when(orderRepository.findById(anyInt())).thenReturn(optional);
 		Mockito.when(customerRepository.findAll()).thenReturn(customers);
-		// InvalidDataException exception = assertThrows(InvalidDataException.class,
-		// ()->orderService.showAllOrdersByDispatchDate(dispatchDate));
 		Double actualResult = orderService.calculateTotalCost(1);
 		Double expectedResult = (double) (medicine1.getMedicineCost() + medicine2.getMedicineCost());
 		assertEquals(expectedResult, actualResult);
 	}
 
+	/**
+	 * Calculate total cost test with invalid id.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Testing calculate total cost with invalid orderId")
 	public void calculateTotalCostTestWithInvalidId() throws InvalidDataException {
@@ -260,9 +316,12 @@ public class IOrderServiceTest {
 
 	}
 
-	// --------------------
-	// delete order
 
+	/**
+	 * Delete order test with invalid id.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Testing delete order with invalid orderId")
 	public void deleteOrderTestWithInvalidId() throws InvalidDataException {
@@ -273,6 +332,11 @@ public class IOrderServiceTest {
 
 	}
 
+	/**
+	 * Delete order test with valid id.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Testing delete order with valid orderId")
 	public void deleteOrderTestWithValidId() throws InvalidDataException {
@@ -297,79 +361,108 @@ public class IOrderServiceTest {
 		OrderDTO expectedResult = orderDto;
 		assertEquals(expectedResult, actualResult);
 	}
-	
-	
+
+	/**
+	 * Adds the order.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check Adding New Order")
-	public void addOrder() throws InvalidDataException{		
-		OrderDTO order = new OrderDTO(1,LocalDate.of(2020,9,8),LocalDate.of(2020,9,8),67f,OrderStatus.CREATED);
-		//List<Order> orders = new ArrayList<>();
-		Order newOrder = new Order(1,LocalDate.of(2020,9,8),LocalDate.of(2020,9,8),67f,OrderStatus.CREATED);
-		
-		//Mockito.when(adminRepository.findByPassword(order.getPassword())).thenReturn(orders);
+	public void addOrder() throws InvalidDataException {
+		OrderDTO order = new OrderDTO(1, LocalDate.of(2020, 9, 8), LocalDate.of(2020, 9, 8), 67f, OrderStatus.CREATED);
+		// List<Order> orders = new ArrayList<>();
+		Order newOrder = new Order(1, LocalDate.of(2020, 9, 8), LocalDate.of(2020, 9, 8), 67f, OrderStatus.CREATED);
+
+		// Mockito.when(adminRepository.findByPassword(order.getPassword())).thenReturn(orders);
 		Mockito.when(orderRepository.save(Mockito.any())).thenReturn(newOrder);
 		Assertions.assertEquals(order, orderService.addOrder(order));
 	}
-	
+
+	/**
+	 * Update admin.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check Updating Existing Order")
-	public void updateAdmin() throws InvalidDataException{
-		OrderDTO order = new OrderDTO(1,LocalDate.of(2020,9,8),LocalDate.of(2020,9,8),67f,OrderStatus.CREATED);
-		OrderDTO order1 = new OrderDTO(1,LocalDate.of(2020,9,8),LocalDate.of(2020,9,8),67f,OrderStatus.CREATED);
-		Optional<Order> dupOrder = Optional.of(new Order(1,LocalDate.of(2020,9,8),LocalDate.of(2020,9,8),67f,OrderStatus.CREATED));
-		
+	public void updateAdmin() throws InvalidDataException {
+		OrderDTO order = new OrderDTO(1, LocalDate.of(2020, 9, 8), LocalDate.of(2020, 9, 8), 67f, OrderStatus.CREATED);
+		OrderDTO order1 = new OrderDTO(1, LocalDate.of(2020, 9, 8), LocalDate.of(2020, 9, 8), 67f, OrderStatus.CREATED);
+		Optional<Order> dupOrder = Optional
+				.of(new Order(1, LocalDate.of(2020, 9, 8), LocalDate.of(2020, 9, 8), 67f, OrderStatus.CREATED));
+
 		List<Order> orders = new ArrayList<>();
-		
+
 		Order newOrder = new Order();
-		
-		//Mockito.when(orderRepository.findByPassword(order.getPassword())).thenReturn(orders);
+
+		// Mockito.when(orderRepository.findByPassword(order.getPassword())).thenReturn(orders);
 		Mockito.when(orderRepository.save(Mockito.any())).thenReturn(newOrder);
 		orderService.addOrder(order);
-		
+
 		Mockito.when(orderRepository.findById(order.getOrderId())).thenReturn(dupOrder);
 		Assertions.assertEquals(order1, orderService.updateOrder(order1));
-		}
-	
+	}
+
+	/**
+	 * Update order not present.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check Updating Non-Existing Order")
-	public void updateOrderNotPresent() throws InvalidDataException{
-		OrderDTO order = new OrderDTO(4,LocalDate.of(2020,9,8),LocalDate.of(2020,9,8),67f,OrderStatus.CREATED);
-		InvalidDataException e = Assertions.assertThrows(InvalidDataException.class, () -> orderService.updateOrder(order));
-		Assertions.assertEquals("Service.ORDER_NOT_FOUND", e.getMessage());	}
+	public void updateOrderNotPresent() throws InvalidDataException {
+		OrderDTO order = new OrderDTO(4, LocalDate.of(2020, 9, 8), LocalDate.of(2020, 9, 8), 67f, OrderStatus.CREATED);
+		InvalidDataException e = Assertions.assertThrows(InvalidDataException.class,
+				() -> orderService.updateOrder(order));
+		Assertions.assertEquals("Service.ORDER_NOT_FOUND", e.getMessage());
+	}
+
 	
-//	
+	/**
+	 * Update order status.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check Updating Order  Status Existing Order")
-	public void updateOrderStatus() throws InvalidDataException{
-		OrderDTO order = new OrderDTO(1,null,null,null,OrderStatus.CREATED);
-		OrderDTO order1 = new OrderDTO(1,null,null,null,OrderStatus.CREATED);
-		Optional<Order> dupOrder = Optional.of(new Order(1,LocalDate.of(2020,9,8),LocalDate.of(2020,9,8),67f,OrderStatus.CREATED));
-		
+	public void updateOrderStatus() throws InvalidDataException {
+		OrderDTO order = new OrderDTO(1, null, null, null, OrderStatus.CREATED);
+		OrderDTO order1 = new OrderDTO(1, null, null, null, OrderStatus.CREATED);
+		Optional<Order> dupOrder = Optional
+				.of(new Order(1, LocalDate.of(2020, 9, 8), LocalDate.of(2020, 9, 8), 67f, OrderStatus.CREATED));
+
 		List<Order> orders = new ArrayList<>();
-		
+
 		Order newOrder = new Order();
-		
-		//Mockito.when(orderRepository.findByPassword(order.getPassword())).thenReturn(orders);
+
+		// Mockito.when(orderRepository.findByPassword(order.getPassword())).thenReturn(orders);
 		Mockito.when(orderRepository.save(Mockito.any())).thenReturn(newOrder);
 		orderService.addOrder(order);
-		
+
 		Mockito.when(orderRepository.findById(order.getOrderId())).thenReturn(dupOrder);
 		Assertions.assertEquals(order1, orderService.updateOrder(order1));
-		}
-	
-	
-	
-	
+	}
+
+	/**
+	 * Update order status not present.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
-     @DisplayName("Check Updating Order Status with Non-Existing Order")
-	public void updateOrderStatusNotPresent() throws InvalidDataException{
-		OrderDTO order = new OrderDTO(4,null,null,null,OrderStatus.CREATED);
-		InvalidDataException e = Assertions.assertThrows(InvalidDataException.class, () -> orderService.updateOrder(order));
-		Assertions.assertEquals("Service.ORDER_NOT_FOUND", e.getMessage());	}
-	
-	
-	
-	
+	@DisplayName("Check Updating Order Status with Non-Existing Order")
+	public void updateOrderStatusNotPresent() throws InvalidDataException {
+		OrderDTO order = new OrderDTO(4, null, null, null, OrderStatus.CREATED);
+		InvalidDataException e = Assertions.assertThrows(InvalidDataException.class,
+				() -> orderService.updateOrder(order));
+		Assertions.assertEquals("Service.ORDER_NOT_FOUND", e.getMessage());
+	}
+
+	/**
+	 * Show all orders by status.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Checking Show all order by Order Status")
 	public void showAllOrdersByStatus() throws InvalidDataException {
@@ -390,10 +483,12 @@ public class IOrderServiceTest {
 		List<OrderDTO> actualOrders = orderService.viewOrderByStatus(orderStatus);
 		assertEquals(expectedOrders, actualOrders);
 	}
-	
-	
-	
 
+	/**
+	 * Show all orders by order statuswithno order.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Testing Show all order by Order Date with no orders found")
 	public void showAllOrdersByOrderStatuswithnoOrder() throws InvalidDataException {
@@ -404,16 +499,5 @@ public class IOrderServiceTest {
 				() -> orderService.viewOrderByStatus(orderStatus));
 		assertEquals("Service.ORDERS_NOT_FOUND", exception.getMessage());
 	}
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }

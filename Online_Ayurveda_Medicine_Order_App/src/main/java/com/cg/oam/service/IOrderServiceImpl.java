@@ -20,16 +20,27 @@ import com.cg.oam.exception.InvalidDataException;
 import com.cg.oam.repository.ICustomerRepository;
 import com.cg.oam.repository.IOrderRepository;
 
+/**
+ * The Class IOrderServiceImpl.
+ */
 @Service(value = "orderService")
 @Transactional
 public class IOrderServiceImpl implements IOrderService {
 
+	/** The order repository. */
 	@Autowired
 	private IOrderRepository orderRepository;
 
+	/** The customer repository. */
 	@Autowired
 	private ICustomerRepository customerRepository;
 
+	/**
+	 * Convert entity to dto.
+	 *
+	 * @param order the order
+	 * @return the order DTO
+	 */
 	public OrderDTO convertEntityToDto(Order order) {
 		OrderDTO resultOrderDto = new OrderDTO();
 		resultOrderDto.setOrderId(order.getOrderId());
@@ -40,6 +51,13 @@ public class IOrderServiceImpl implements IOrderService {
 		return resultOrderDto;
 	}
 
+	/**
+	 * Adds the order.
+	 *
+	 * @param order the order
+	 * @return the order DTO
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public OrderDTO addOrder(OrderDTO order) throws InvalidDataException {
 		Order orderEntity = new Order();
@@ -53,6 +71,12 @@ public class IOrderServiceImpl implements IOrderService {
 		return createdOrderDto;
 	}
 
+	/**
+	 * View all order.
+	 *
+	 * @return the list
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public List<OrderDTO> viewAllOrder() throws InvalidDataException {
 		Iterable<Order> orders = orderRepository.findAll();
@@ -67,6 +91,13 @@ public class IOrderServiceImpl implements IOrderService {
 		return orderDtos;
 	}
 
+	/**
+	 * View order by id.
+	 *
+	 * @param orderId the order id
+	 * @return the order DTO
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public OrderDTO viewOrderById(Integer orderId) throws InvalidDataException {
 		// TODO Auto-generated method stub
@@ -77,6 +108,13 @@ public class IOrderServiceImpl implements IOrderService {
 		return resultOrderDto;
 	}
 
+	/**
+	 * View order by status.
+	 *
+	 * @param orderStatus the order status
+	 * @return the list
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public List<OrderDTO> viewOrderByStatus(OrderStatus orderStatus) throws InvalidDataException {
 		// TODO Auto-generated method stub
@@ -94,6 +132,13 @@ public class IOrderServiceImpl implements IOrderService {
 		return orderDtos;
 	}
 
+	/**
+	 * Update order.
+	 *
+	 * @param orderDto the order dto
+	 * @return the order DTO
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public OrderDTO updateOrder(OrderDTO orderDto) throws InvalidDataException {
 		Optional<Order> optional = orderRepository.findById(orderDto.getOrderId());
@@ -112,6 +157,14 @@ public class IOrderServiceImpl implements IOrderService {
 		return resultOrderDto;
 	}
 
+	/**
+	 * Update order status.
+	 *
+	 * @param orderId     the order id
+	 * @param orderStatus the order status
+	 * @return the order DTO
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public OrderDTO updateOrderStatus(Integer orderId, OrderStatus orderStatus) throws InvalidDataException {
 		Optional<Order> optional = orderRepository.findById(orderId);
@@ -122,6 +175,13 @@ public class IOrderServiceImpl implements IOrderService {
 		return resultOrderDto;
 	}
 
+	/**
+	 * Cancel order.
+	 *
+	 * @param orderId the order id
+	 * @return the order DTO
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public OrderDTO cancelOrder(Integer orderId) throws InvalidDataException {
 		Optional<Order> optional = orderRepository.findById(orderId);
@@ -132,6 +192,13 @@ public class IOrderServiceImpl implements IOrderService {
 		return resultOrderDto;
 	}
 
+	/**
+	 * Show all orders by medicine id.
+	 *
+	 * @param medicineId the medicine id
+	 * @return the list
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	// Need to Test in main
 	@Override
 	public List<OrderDTO> showAllOrdersByMedicineId(Integer medicineId) throws InvalidDataException {
@@ -162,6 +229,13 @@ public class IOrderServiceImpl implements IOrderService {
 		return orderDtos;
 	}
 
+	/**
+	 * Show all orders by customer id.
+	 *
+	 * @param customerId the customer id
+	 * @return the list
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public List<OrderDTO> showAllOrdersByCustomerId(Integer customerId) throws InvalidDataException {
 
@@ -174,6 +248,13 @@ public class IOrderServiceImpl implements IOrderService {
 		return orders;
 	}
 
+	/**
+	 * Show all orders by dispatch date.
+	 *
+	 * @param date the date
+	 * @return the list
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public List<OrderDTO> showAllOrdersByDispatchDate(LocalDate date) throws InvalidDataException {
 		List<Order> orders = orderRepository.findByDispatchDate(date);
@@ -189,6 +270,13 @@ public class IOrderServiceImpl implements IOrderService {
 		return orderDtos;
 	}
 
+	/**
+	 * Show all orders by order date.
+	 *
+	 * @param date the date
+	 * @return the list
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public List<OrderDTO> showAllOrdersByOrderDate(LocalDate date) throws InvalidDataException {
 		List<Order> orders = orderRepository.findByOrderDate(date);
@@ -204,6 +292,13 @@ public class IOrderServiceImpl implements IOrderService {
 		return orderDtos;
 	}
 
+	/**
+	 * Calculate total cost.
+	 *
+	 * @param orderId the order id
+	 * @return the double
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	// Need to Test in main
 	@Override
 	public Double calculateTotalCost(Integer orderId) throws InvalidDataException {
@@ -229,7 +324,13 @@ public class IOrderServiceImpl implements IOrderService {
 		return totalCost.doubleValue();
 	}
 
-	
+	/**
+	 * Delete order.
+	 *
+	 * @param orderId the order id
+	 * @return the order DTO
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public OrderDTO deleteOrder(Integer orderId) throws InvalidDataException {
 		Optional<Order> optional = orderRepository.findById(orderId);
