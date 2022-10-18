@@ -161,7 +161,7 @@ public class OrderAPI {
 	 * @return the response entity
 	 * @throws InvalidDataException the invalid data exception
 	 */
-	@PutMapping(value = "/orders/{orderDto}")
+	@PutMapping(value = "/orders")
 	public ResponseEntity<String> updateOrder(@RequestBody OrderDTO orderDto) throws InvalidDataException {
 		orderService.updateOrder(orderDto);
 		String successMessage = environment.getProperty("API.ORDER_UPDATE_SUCCESS")+orderDto.getOrderId();

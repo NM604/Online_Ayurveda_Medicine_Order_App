@@ -60,6 +60,12 @@ public class IOrderServiceImpl implements IOrderService {
 	 */
 	@Override
 	public OrderDTO addOrder(OrderDTO order) throws InvalidDataException {
+		if(order.getOrderId()!=null) {
+			Optional<Order> optional = orderRepository.findById(order.getOrderId());
+			if(optional.isPresent()) {
+				throw new InvalidDataException("Service.ORDER_FOUND");
+			}
+		}
 		Order orderEntity = new Order();
 		orderEntity.setOrderDate(order.getOrderDate());
 		orderEntity.setDispatchDate(order.getDispatchDate());
