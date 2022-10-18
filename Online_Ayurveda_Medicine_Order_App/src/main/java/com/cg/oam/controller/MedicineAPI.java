@@ -2,12 +2,15 @@ package com.cg.oam.controller;
 
 import java.util.*;
 
+import javax.validation.constraints.Min;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,8 +49,8 @@ public class MedicineAPI {
      * @throws InvalidDataException
      */
     @GetMapping(value = "/medicine/{medicineId}")
-    public ResponseEntity<MedicineDTO> getMedicine(@RequestBody MedicineDTO inputMedicineDTO) throws InvalidDataException{
-        MedicineDTO medicineDTO = iMedicineService.viewMedicine(inputMedicineDTO);
+    public ResponseEntity<MedicineDTO> getMedicine(@PathVariable @Min(value = 1, message = "please give valid id") String medicineId) throws InvalidDataException{
+        MedicineDTO medicineDTO = iMedicineService.viewMedicine(medicineId);
         return new ResponseEntity<MedicineDTO>(medicineDTO,HttpStatus.OK);
     }
 
@@ -71,8 +74,8 @@ public class MedicineAPI {
      * @throws InvalidDataException
      */
     @PutMapping(value = "/medicine/{medicineId}")
-    public ResponseEntity<String> updateMedicine(@RequestBody MedicineDTO newmeMedicineDTO) throws InvalidDataException{
-        iMedicineService.updateMedicine(newmeMedicineDTO);
+    public ResponseEntity<String> updateMedicine(@PathVariable @Min(value = 1, message = "please give valid id") String medicineId,@RequestBody MedicineDTO medicineDTO) throws InvalidDataException{
+        iMedicineService.updateMedicine(medicineDTO);
         String successMessage = environment.getProperty("API.UPDATE_SUCCESS");
         return new ResponseEntity<String>(successMessage,HttpStatus.OK);
     }
@@ -83,8 +86,8 @@ public class MedicineAPI {
      * @throws InvalidDataException
      */
     @DeleteMapping(value = "/medicine/{medicineId}")
-    public ResponseEntity<String> deleleMedicine(@RequestBody MedicineDTO medicineDTO) throws InvalidDataException{
-        iMedicineService.deleteMedicine(medicineDTO);
+    public ResponseEntity<String> deleleMedicine(@PathVariable @Min(value = 1, message = "please give valid id") String medicineId ) throws InvalidDataException{
+        iMedicineService.deleteMedicine(medicineId);
         String successMessage = environment.getProperty("API.DELETE_SUCCESS");
         return new ResponseEntity<String>(successMessage,HttpStatus.OK);
     }

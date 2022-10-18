@@ -98,6 +98,20 @@ public class IMedicineServiceImpl implements IMedicineService {
 
         return createdMedicineDTO;
     }
+    @Override
+    public MedicineDTO viewMedicine(String medicineDTO) throws InvalidDataException {
+        // TODO Auto-generated method stub
+        
+        List<Medicine> optional = iMedicineRepository.findByMedicineId(medicineDTO);
+        if(optional.isEmpty()){
+            throw new InvalidDataException("Service.MEDICINE_NOT_FOUND");
+        }
+		Medicine medicineEntity = optional.get(0);
+
+		MedicineDTO createdMedicineDTO = convertEntityToDto(medicineEntity);
+
+        return createdMedicineDTO;
+    }
 
     
     /** 
@@ -134,6 +148,35 @@ public class IMedicineServiceImpl implements IMedicineService {
             return createdMedicineDTO;
 
     }
+    // @Override
+    // public MedicineDTO updateMedicine(String medicineId) throws InvalidDataException {
+    //     // TODO Auto-generated method stub
+    //     List<Medicine> optional = iMedicineRepository.findByMedicineId(medicineId);
+    //     if(optional.isEmpty()){
+    //         throw new InvalidDataException("Service.MEDICINE_NOT_FOUND");
+    //     }
+	// 	Medicine medicineEntity = optional.get(0);
+
+    //     if (medicineEntity.getMedicineId()!=null)
+    //         medicineEntity.setMedicineId(medicineEntity.getMedicineId());
+    //     if(medicineEntity.getMedicineName()!=null)
+	// 		medicineEntity.setMedicineName(medicineEntity.getMedicineName());
+    //     if(medicineEntity.getMedicineCost()!=null)
+	// 		medicineEntity.setMedicineCost(medicineEntity.getMedicineCost());
+    //     if(medicineEntity.getMfd()!=null)
+	// 		medicineEntity.setMfd(medicineEntity.getMfd());
+    //     if(medicineEntity.getExpiryDate()!=null)
+	// 		medicineEntity.setExpiryDate(medicineEntity.getExpiryDate());
+    //     if(medicineEntity.getCompanyName()!=null)
+	// 		medicineEntity.setCompanyName(medicineEntity.getCompanyName());
+    //     if(medicineEntity.getCategory()!=null)
+	// 		medicineEntity.setCategory(medicineEntity.getCategory());
+
+    //         MedicineDTO createdMedicineDTO = convertEntityToDto(medicineEntity);
+
+    //         return createdMedicineDTO;
+
+    // }
 
     
     /** 
@@ -145,6 +188,21 @@ public class IMedicineServiceImpl implements IMedicineService {
     public MedicineDTO deleteMedicine(MedicineDTO medicineDTO) throws InvalidDataException  {
         // TODO Auto-generated method stub
         List<Medicine> optional = iMedicineRepository.findByMedicineId(medicineDTO.getMedicineId());
+        if(optional.isEmpty()){
+            throw new InvalidDataException("Service.MEDICINE_NOT_FOUND");
+        }
+		Medicine medicineEntity = optional.get(0);
+
+        MedicineDTO createdMedicineDTO = convertEntityToDto(medicineEntity);
+
+        
+        iMedicineRepository.delete(medicineEntity);
+        return createdMedicineDTO;
+    }
+    @Override
+    public MedicineDTO deleteMedicine(String medicineId) throws InvalidDataException  {
+        // TODO Auto-generated method stub
+        List<Medicine> optional = iMedicineRepository.findByMedicineId(medicineId);
         if(optional.isEmpty()){
             throw new InvalidDataException("Service.MEDICINE_NOT_FOUND");
         }

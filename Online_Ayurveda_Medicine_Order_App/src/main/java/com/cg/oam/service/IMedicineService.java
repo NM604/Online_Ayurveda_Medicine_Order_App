@@ -36,4 +36,8 @@ public interface IMedicineService {
      */
     public List<MedicineDTO> showAllMedicine() throws InvalidDataException ;
 
+    public MedicineDTO viewMedicine(String medicineDTO) throws InvalidDataException;
+    public MedicineDTO deleteMedicine(String medicineId) throws InvalidDataException;
+    // public MedicineDTO updateMedicine(String medicineId) throws InvalidDataException;
+
 }
