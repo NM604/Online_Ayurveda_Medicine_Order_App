@@ -1,5 +1,7 @@
 package com.cg.oam.customer;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,8 +15,11 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.cg.oam.dto.CustomerDTO;
+import com.cg.oam.dto.OrderDTO;
+import com.cg.oam.dto.OrderStatus;
 import com.cg.oam.dto.UserDTO;
 import com.cg.oam.entity.Customer;
+import com.cg.oam.entity.Order;
 import com.cg.oam.entity.User;
 import com.cg.oam.exception.InvalidDataException;
 import com.cg.oam.repository.ICustomerRepository;
@@ -165,27 +170,28 @@ public class CustomerTestUtil {
 		InvalidDataException e = Assertions.assertThrows(InvalidDataException.class, () ->  iCustomerService.deleteCustomer(2));
 		Assertions.assertEquals("Service.CUSTOMER_NOT_FOUND", e.getMessage());
 	}
-	/*
 	
-	@Test
-	@DisplayName("Check View Customers By Invalid Id")
-	public void viewCustomersWithInvalidId() throws InvalidDataException{
-		CustomerDTO customer = new CustomerDTO(3,"sharath","shask",null,null);
-		Optional<Customer> newCustomer = Optional.of(new Customer(3,"sharath","shask",null,null));
-		Mockito.when(iCustomerRepository.findById(customer.getCustomerId())).thenReturn(newCustomer);
-		Mockito.when(iCustomerRepository.findById(1)).thenReturn(newCustomer);
-		InvalidDataException e = Assertions.assertThrows(InvalidDataException.class, () -> iCustomerService.addCustomer(customer));
-		Assertions.assertEquals("Service.CUSTOMER_FOUND", e.getMessage());
-		
-		
-	}
-	/*
+	/**
+	 * Show all customers.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check View Customers By Invalid Id")
 	public void showAllCustomers() throws InvalidDataException{
+		CustomerDTO customer = new CustomerDTO(3,"sharath","shask",null,null);
+		List<CustomerDTO> expCusts =new ArrayList<>();
+		expCusts.add(customer);
+		List<Customer> customers =new ArrayList<>();
+		Customer cus=new Customer();
+		cus.setCustomerId(3);;
+		customers.add(cus);
+		Mockito.when(iCustomerRepository.findAll()).thenReturn(customers);
+		List<CustomerDTO> actualCusts = iCustomerService.showAllCustomers();
+		assertEquals(expCusts.get(0).getCustomerId(), actualCusts.get(0).getCustomerId());
 		
 	}
-	*/
+	
 	
 
 
