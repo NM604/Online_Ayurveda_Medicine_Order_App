@@ -28,6 +28,11 @@ public class IMedicineServiceImpl implements IMedicineService {
 
     
 
+    
+    /** 
+     * @param medicine
+     * @return MedicineDTO
+     */
     public MedicineDTO convertEntityToDto(Medicine medicine) {
 		MedicineDTO resultOMedicineDto = new MedicineDTO();
         resultOMedicineDto.setSrno(medicine.getSrno());
@@ -42,6 +47,12 @@ public class IMedicineServiceImpl implements IMedicineService {
 		return resultOMedicineDto;
 	}
 
+    
+    /** 
+     * @param medicineDTO
+     * @return MedicineDTO
+     * @throws InvalidDataException
+     */
     @Override
     public MedicineDTO addMedicine(MedicineDTO medicineDTO) throws InvalidDataException {
         // TODO Auto-generated method stub
@@ -67,6 +78,12 @@ public class IMedicineServiceImpl implements IMedicineService {
         return createdMedicineDTO;
     }
 
+    
+    /** 
+     * @param medicineDTO
+     * @return MedicineDTO
+     * @throws InvalidDataException
+     */
     @Override
     public MedicineDTO viewMedicine(MedicineDTO medicineDTO) throws InvalidDataException {
         // TODO Auto-generated method stub
@@ -82,6 +99,12 @@ public class IMedicineServiceImpl implements IMedicineService {
         return createdMedicineDTO;
     }
 
+    
+    /** 
+     * @param medicineDTO
+     * @return MedicineDTO
+     * @throws InvalidDataException
+     */
     @Override
     public MedicineDTO updateMedicine(MedicineDTO medicineDTO) throws InvalidDataException {
         // TODO Auto-generated method stub
@@ -112,6 +135,12 @@ public class IMedicineServiceImpl implements IMedicineService {
 
     }
 
+    
+    /** 
+     * @param medicineDTO
+     * @return MedicineDTO
+     * @throws InvalidDataException
+     */
     @Override
     public MedicineDTO deleteMedicine(MedicineDTO medicineDTO) throws InvalidDataException  {
         // TODO Auto-generated method stub
@@ -128,6 +157,11 @@ public class IMedicineServiceImpl implements IMedicineService {
         return createdMedicineDTO;
     }
 
+    
+    /** 
+     * @return List<MedicineDTO>
+     * @throws InvalidDataException
+     */
     @Override
     public List<MedicineDTO> showAllMedicine()throws InvalidDataException  {
         // TODO Auto-generated method stub

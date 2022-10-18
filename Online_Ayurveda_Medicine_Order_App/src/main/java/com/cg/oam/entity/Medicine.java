@@ -9,10 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-// Entity annotstion checked
+
 @Entity
 public class Medicine {
-	// id annotation checked
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer srno;
@@ -30,6 +30,16 @@ public class Medicine {
 	public Medicine(){
 		super();
 	}
+	/**
+	 * @param srno
+	 * @param medicineId
+	 * @param medicineName
+	 * @param medicineCost
+	 * @param mfd
+	 * @param expiryDate
+	 * @param companyName
+	 * @param category
+	 */
 	public Medicine(Integer srno,String medicineId, String medicineName, Float medicineCost, LocalDate mfd, LocalDate expiryDate,
 			String companyName, Category category) {
 		super();
@@ -42,60 +52,132 @@ public class Medicine {
 		this.companyName = companyName;
 		this.category = category;
 	}
+	
+	/** 
+	 * @return Integer
+	 */
 	public Integer getSrno() {
 		return srno;
 	}
+	
+	/** 
+	 * @param srno
+	 */
 	public void setSrno(Integer srno) {
 		this.srno = srno;
 	}
+	
+	/** 
+	 * @return String
+	 */
 	public String getMedicineId() {
 		return medicineId;
 	}
+	
+	/** 
+	 * @param medicineId
+	 */
 	public void setMedicineId(String medicineId) {
 		this.medicineId = medicineId;
 	}
+	
+	/** 
+	 * @return String
+	 */
 	public String getMedicineName() {
 		return medicineName;
 	}
+	
+	/** 
+	 * @param medicineName
+	 */
 	public void setMedicineName(String medicineName) {
 		this.medicineName = medicineName;
 	}
+	
+	/** 
+	 * @return Float
+	 */
 	public Float getMedicineCost() {
 		return medicineCost;
 	}
+	
+	/** 
+	 * @param medicineCost
+	 */
 	public void setMedicineCost(Float medicineCost) {
 		this.medicineCost = medicineCost;
 	}
+	
+	/** 
+	 * @return LocalDate
+	 */
 	public LocalDate getMfd() {
 		return mfd;
 	}
+	
+	/** 
+	 * @param mfd
+	 */
 	public void setMfd(LocalDate mfd) {
 		this.mfd = mfd;
 	}
+	
+	/** 
+	 * @return LocalDate
+	 */
 	public LocalDate getExpiryDate() {
 		return expiryDate;
 	}
+	
+	/** 
+	 * @param expiryDate
+	 */
 	public void setExpiryDate(LocalDate expiryDate) {
 		this.expiryDate = expiryDate;
 	}
+	
+	/** 
+	 * @return String
+	 */
 	public String getCompanyName() {
 		return companyName;
 	}
+	
+	/** 
+	 * @param companyName
+	 */
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
+	
+	/** 
+	 * @return Category
+	 */
 	public Category getCategory() {
 		return category;
 	}
+	
+	/** 
+	 * @param category
+	 */
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+	
+	/** 
+	 * @return String
+	 */
 	@Override
 	public String toString() {
 		return "Medicine [srno=" + srno + ", medicineId=" + medicineId + ", medicineName=" + medicineName
 				+ ", medicineCost=" + medicineCost + ", mfd=" + mfd + ", expiryDate=" + expiryDate + ", companyName="
 				+ companyName + ", category=" + category + "]";
 	}
+	
+	/** 
+	 * @return int
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -103,6 +185,11 @@ public class Medicine {
 		result = prime * result + ((srno == null) ? 0 : srno.hashCode());
 		return result;
 	}
+	
+	/** 
+	 * @param obj
+	 * @return boolean
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

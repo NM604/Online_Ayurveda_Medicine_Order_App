@@ -28,18 +28,35 @@ public class MedicineAPI {
     @Autowired
     private Environment environment;
 
+    
+    /** 
+     * @return ResponseEntity<List<MedicineDTO>>
+     * @throws InvalidDataException
+     */
     @GetMapping(value = "/medicine")
     public ResponseEntity<List<MedicineDTO>> getAllMedicines() throws InvalidDataException{
         List<MedicineDTO> medicineDTOs = iMedicineService.showAllMedicine();
         return new ResponseEntity<List<MedicineDTO>>(medicineDTOs, HttpStatus.OK);
     }
 
+    
+    /** 
+     * @param inputMedicineDTO
+     * @return ResponseEntity<MedicineDTO>
+     * @throws InvalidDataException
+     */
     @GetMapping(value = "/medicine/{medicineId}")
     public ResponseEntity<MedicineDTO> getMedicine(@RequestBody MedicineDTO inputMedicineDTO) throws InvalidDataException{
         MedicineDTO medicineDTO = iMedicineService.viewMedicine(inputMedicineDTO);
         return new ResponseEntity<MedicineDTO>(medicineDTO,HttpStatus.OK);
     }
 
+    
+    /** 
+     * @param newMedicineDTO
+     * @return ResponseEntity<String>
+     * @throws InvalidDataException
+     */
     @PostMapping(value = "/medicine")
     public ResponseEntity<String> addMedicine(@RequestBody MedicineDTO newMedicineDTO) throws InvalidDataException{
         iMedicineService.addMedicine(newMedicineDTO);
@@ -47,12 +64,24 @@ public class MedicineAPI {
         return new ResponseEntity<String>(successMessage,HttpStatus.CREATED);
     }
 
+    
+    /** 
+     * @param newmeMedicineDTO
+     * @return ResponseEntity<String>
+     * @throws InvalidDataException
+     */
     @PutMapping(value = "/medicine/{medicineId}")
     public ResponseEntity<String> updateMedicine(@RequestBody MedicineDTO newmeMedicineDTO) throws InvalidDataException{
         iMedicineService.updateMedicine(newmeMedicineDTO);
         String successMessage = environment.getProperty("API.UPDATE_SUCCESS");
         return new ResponseEntity<String>(successMessage,HttpStatus.OK);
     }
+    
+    /** 
+     * @param medicineDTO
+     * @return ResponseEntity<String>
+     * @throws InvalidDataException
+     */
     @DeleteMapping(value = "/medicine/{medicineId}")
     public ResponseEntity<String> deleleMedicine(@RequestBody MedicineDTO medicineDTO) throws InvalidDataException{
         iMedicineService.deleteMedicine(medicineDTO);

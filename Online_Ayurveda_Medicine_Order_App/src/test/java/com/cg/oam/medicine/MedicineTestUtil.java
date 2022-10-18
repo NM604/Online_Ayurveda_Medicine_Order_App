@@ -32,6 +32,10 @@ public class MedicineTestUtil {
     @InjectMocks
     IMedicineServiceImpl medicineService;
 
+    
+    /** 
+     * @throws InvalidDataException
+     */
     @Test
     @DisplayName(value = "Check adding new medicine")
     public void addMedicine() throws InvalidDataException{
@@ -49,6 +53,10 @@ public class MedicineTestUtil {
     }
 
 
+    
+    /** 
+     * @throws InvalidDataException
+     */
     @Test
     @DisplayName(value = "check addding for adding a duplicate medicine")
     public void addDuplicateMedicine() throws InvalidDataException{
@@ -74,6 +82,10 @@ public class MedicineTestUtil {
 
     }
 
+    
+    /** 
+     * @throws InvalidDataException
+     */
     @Test
     @DisplayName(value = "Check Updating Exisisting medicine")
     public void updateExistingMedicine() throws InvalidDataException{
@@ -99,6 +111,10 @@ public class MedicineTestUtil {
         Assertions.assertEquals(dupMedicineDTO, medicineService.updateMedicine(dupMedicineDTO));
 
     }
+    
+    /** 
+     * @throws InvalidDataException
+     */
     @Test
     @DisplayName(value = "Check Updating non-Exisisting medicine")
         public void updatingNonExistingMedicine() throws InvalidDataException{
@@ -110,6 +126,10 @@ public class MedicineTestUtil {
         Assertions.assertEquals("Service.MEDICINE_NOT_FOUND", e.getMessage());
     }
 
+    
+    /** 
+     * @throws InvalidDataException
+     */
     @Test
     @DisplayName(value = "Check viewing medicine for existing medicine")
     public void viewForExistingMedicine() throws InvalidDataException{
@@ -129,6 +149,10 @@ public class MedicineTestUtil {
         Assertions.assertEquals(medicineDTO, medicineService.viewMedicine(medicineDTO));
     }
 
+    
+    /** 
+     * @throws InvalidDataException
+     */
     @Test
     @DisplayName(value = "Check viewing medicine for non-existing medicine")
     public void viewForNonExistingMedicine() throws InvalidDataException{
@@ -138,6 +162,10 @@ public class MedicineTestUtil {
         Assertions.assertEquals("Service.MEDICINE_NOT_FOUND", e.getMessage());
     }
 
+    
+    /** 
+     * @throws InvalidDataException
+     */
     @Test
     @DisplayName(value = "check deleting non-existing Medicine")
     public void deleteNonExistingMedicine() throws InvalidDataException{
@@ -146,32 +174,35 @@ public class MedicineTestUtil {
         InvalidDataException e = Assertions.assertThrows(InvalidDataException.class, ()->medicineService.deleteMedicine(medicineDTO));
         Assertions.assertEquals("Service.MEDICINE_NOT_FOUND", e.getMessage());
     }
+
+    
+    /** 
+     * @throws InvalidDataException
+     */
+    @Test
+    @DisplayName(value = "Delete existing medicine")
+    public void deleteExistingMedicine() throws InvalidDataException{
+        CategoryDTO categoryDTO = new CategoryDTO("a", "heart");
+        MedicineDTO medicineDTO = new MedicineDTO(1, "101", "paracitamol", 500f, LocalDate.now(), LocalDate.now(), "AB", categoryDTO);
+
+        List<Medicine> medicine = new ArrayList<>();
+
+        Category category1 = new Category("a", "heart");
+        Medicine medicineEntity = new Medicine(1, "101", "paracitamol", 500f, LocalDate.now(), LocalDate.now(), "AB", category1);
+
+        List<Medicine> medicineList  = new ArrayList<>();
+        medicineList.add(medicineEntity);
+
+        Mockito.when(medicineRepository.findByMedicineId(medicineDTO.getMedicineId())).thenReturn(medicine);
+        Mockito.when(medicineRepository.save(Mockito.any())).thenReturn(medicineEntity);
+        medicineService.addMedicine(medicineDTO);
+
+        Mockito.when(medicineRepository.findByMedicineId(medicineDTO.getMedicineId())).thenReturn(medicineList);
+        Assertions.assertEquals(medicineDTO, medicineService.deleteMedicine(medicineDTO));
+        Mockito.verify(medicineRepository).delete(medicineEntity);
+
+    }
 }
-
-
-    // @Test
-    // @DisplayName(value = "Delete existing medicine")
-    // public void deleteExistingMedicine() throws InvalidDataException{
-    //     Category category = new Category("a", "heart");
-    //     MedicineDTO medicineDTO = new MedicineDTO(1, "101", "paracitamol", 500f, LocalDate.now(), LocalDate.now(), "AB", category);
-
-    //     List<Medicine> medicine = new ArrayList<>();
-
-    //     Category category1 = new Category("a", "heart");
-    //     Medicine medicineEntity = new Medicine(1, "101", "paracitamol", 500f, LocalDate.now(), LocalDate.now(), "AB", category1);
-
-    //     List<Medicine> medicineList  = new ArrayList<>();
-    //     medicineList.add(medicineEntity);
-
-    //     Mockito.when(medicineRepository.findByMedicineId(medicineDTO.getMedicineId())).thenReturn(medicine);
-    //     Mockito.when(medicineRepository.save(Mockito.any())).thenReturn(medicineEntity);
-    //     medicineService.addMedicine(medicineDTO);
-
-    //     Mockito.when(medicineRepository.findByMedicineId(medicineDTO.getMedicineId())).thenReturn(medicineList);
-
-
-
-    // }
 
     
 
