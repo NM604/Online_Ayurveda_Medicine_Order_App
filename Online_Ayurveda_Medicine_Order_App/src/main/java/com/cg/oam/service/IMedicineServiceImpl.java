@@ -7,7 +7,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cg.oam.dto.CategoryDTO;
 import com.cg.oam.dto.MedicineDTO;
+import com.cg.oam.entity.Category;
 import com.cg.oam.entity.Medicine;
 import com.cg.oam.exception.InvalidDataException;
 import com.cg.oam.repository.IMedicineRepository;
@@ -35,7 +37,7 @@ public class IMedicineServiceImpl implements IMedicineService {
 		resultOMedicineDto.setMfd(medicine.getMfd());
 		resultOMedicineDto.setExpiryDate(medicine.getExpiryDate());
         resultOMedicineDto.setCompanyName(medicine.getCompanyName());
-        resultOMedicineDto.setCategory(medicine.getCategory());
+        resultOMedicineDto.setCategoryDTO(new CategoryDTO(medicine.getCategory().getCategoryId(),medicine.getCategory().getCategoryName()));
 
 		return resultOMedicineDto;
 	}
@@ -56,7 +58,7 @@ public class IMedicineServiceImpl implements IMedicineService {
         medicineEntity.setMfd(medicineDTO.getMfd());
         medicineEntity.setExpiryDate(medicineDTO.getExpiryDate());
         medicineEntity.setCompanyName(medicineDTO.getCompanyName());
-        medicineEntity.setCategory(medicineDTO.getCategory());
+        medicineEntity.setCategory(new Category(medicineDTO.getCategoryDTO().getCategoryId(),medicineDTO.getCategoryDTO().getCategoryName()));
         
         Medicine createdMedicine  = iMedicineRepository.save(medicineEntity);
 
@@ -133,7 +135,7 @@ public class IMedicineServiceImpl implements IMedicineService {
         List<MedicineDTO> medicineDTOs = new ArrayList<>();
 
         medicines.forEach(medicine->{
-            MedicineDTO newmeMedicineDTO = new MedicineDTO(medicine.getSrno(),medicine.getMedicineId(), medicine.getMedicineName(), medicine.getMedicineCost(), medicine.getMfd(), medicine.getExpiryDate(), medicine.getCompanyName(),  medicine.getCategory());
+            MedicineDTO newmeMedicineDTO = new MedicineDTO(medicine.getSrno(),medicine.getMedicineId(), medicine.getMedicineName(), medicine.getMedicineCost(), medicine.getMfd(), medicine.getExpiryDate(), medicine.getCompanyName(),  new CategoryDTO(medicine.getCategory().getCategoryId(),medicine.getCategory().getCategoryName()));
             medicineDTOs.add(newmeMedicineDTO);
         });
 

@@ -1,26 +1,25 @@
 package com.cg.oam.dto;
 
 import java.time.LocalDate;
-
-import com.cg.oam.entity.Category;
+import javax.validation.constraints.NotNull;
 
 public class MedicineDTO {
 
 	private Integer srno;
 
+	@NotNull(message = "Please provide medicineId")
 	private String medicineId;
+
 	private String medicineName;
 	private Float medicineCost;
 	private LocalDate mfd;
 	private LocalDate expiryDate;
 	private String companyName;
-	private Category category;
-	public MedicineDTO(){
-		super();
-	}
-	public MedicineDTO(Integer srno,String medicineId, String medicineName, Float medicineCost, LocalDate mfd, LocalDate expiryDate,
-			String companyName, Category category) {
-		super();
+	// private Category category;
+	private CategoryDTO categoryDTO;
+	public MedicineDTO(Integer srno, @NotNull(message = "Please provide medicineId") String medicineId,
+			String medicineName, Float medicineCost, LocalDate mfd, LocalDate expiryDate, String companyName,
+			CategoryDTO categoryDTO) {
 		this.srno = srno;
 		this.medicineId = medicineId;
 		this.medicineName = medicineName;
@@ -28,7 +27,7 @@ public class MedicineDTO {
 		this.mfd = mfd;
 		this.expiryDate = expiryDate;
 		this.companyName = companyName;
-		this.category = category;
+		this.categoryDTO = categoryDTO;
 	}
 	public Integer getSrno() {
 		return srno;
@@ -72,17 +71,20 @@ public class MedicineDTO {
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
-	public Category getCategory() {
-		return category;
+	public CategoryDTO getCategoryDTO() {
+		return categoryDTO;
 	}
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategoryDTO(CategoryDTO categoryDTO) {
+		this.categoryDTO = categoryDTO;
+	}
+	public MedicineDTO(){
+		super();
 	}
     @Override
     public String toString() {
         return "MedicineDTO [srno=" + srno + ", medicineId=" + medicineId + ", medicineName=" + medicineName
                 + ", medicineCost=" + medicineCost + ", mfd=" + mfd + ", expiryDate=" + expiryDate + ", companyName="
-                + companyName + ", category=" + category + "]";
+                + companyName + ", category=" + categoryDTO + "]";
     }
 	@Override
 	public int hashCode() {
