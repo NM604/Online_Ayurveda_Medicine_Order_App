@@ -65,7 +65,7 @@ public class AdminTestUtil {
 		
 		Mockito.when(adminRepository.findByPassword(admin.getPassword())).thenReturn(dupAdmins);
 		InvalidDataException e = Assertions.assertThrows(InvalidDataException.class, () -> adminService.addAdmin(admin));
-		Assertions.assertEquals("Service.ADMIN FOUND", e.getMessage());
+		Assertions.assertEquals("Service.ADMIN_FOUND", e.getMessage());
 	}
 	
 	@Test
@@ -101,12 +101,16 @@ public class AdminTestUtil {
 		AdminDTO admin = new AdminDTO(1,"harry123");
 		List<Admin> admins = new ArrayList<>();
 		Admin newAdmin = new Admin();
+		newAdmin.setId(1);
+		newAdmin.setPassword("xyz");
 		
-		Mockito.when(adminRepository.findByPassword(admin.getPassword())).thenReturn(admins);
-		Mockito.when(adminRepository.save(Mockito.any())).thenReturn(newAdmin);
-		adminService.addAdmin(admin);
+		//Mockito.when(adminRepository.findByPassword(admin.getPassword())).thenReturn(admins);
+		//Mockito.when(adminRepository.save(Mockito.any())).thenReturn(newAdmin);
+		//adminService.addAdmin(admin);
 		
-		Mockito.verify(adminRepository, times(3)).deleteById(1);
+		Mockito.when(adminRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(newAdmin));
+		//Mockito.verify(adminRepository, times(3)).deleteById(1);
+		Mockito.when(adminRepository.deleteById(Mockito.anyInt()));
 	}
 	*/
 	
