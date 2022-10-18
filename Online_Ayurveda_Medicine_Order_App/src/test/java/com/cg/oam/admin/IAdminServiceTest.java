@@ -27,7 +27,7 @@ import com.cg.oam.service.IAdminServiceImpl;
  */
 @SpringBootTest
 @DisplayName("Validations for Admin Entity")
-public class AdminTestUtil {
+public class IAdminServiceTest {
 	
 	/** The admin repository. */
 	@Mock

@@ -23,7 +23,7 @@ import com.cg.oam.service.IUserServiceImpl;
  */
 @SpringBootTest
 @DisplayName("Validations for User Entity")
-public class UserTestUtil {
+public class IUserServiceTest {
 	
 	/** The user repository. */
 	@Mock

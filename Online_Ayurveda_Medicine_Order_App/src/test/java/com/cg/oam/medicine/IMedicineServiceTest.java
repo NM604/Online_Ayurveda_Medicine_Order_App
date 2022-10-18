@@ -23,7 +23,7 @@ import com.cg.oam.service.IMedicineServiceImpl;
 
 @SpringBootTest
 @DisplayName(value = "Validations of Medicine entity ")
-public class MedicineTestUtil {
+public class IMedicineServiceTest {
     
 
     @Mock

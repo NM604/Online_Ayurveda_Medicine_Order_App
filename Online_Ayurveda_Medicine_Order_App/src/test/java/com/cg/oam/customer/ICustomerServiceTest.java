@@ -31,7 +31,7 @@ import com.cg.oam.service.ICustomerServiceImpl;
  */
 @SpringBootTest
 @DisplayName("Validations for Customer Entity")
-public class CustomerTestUtil {
+public class ICustomerServiceTest {
 	
 	/** The i customer repository. */
 	@Mock
