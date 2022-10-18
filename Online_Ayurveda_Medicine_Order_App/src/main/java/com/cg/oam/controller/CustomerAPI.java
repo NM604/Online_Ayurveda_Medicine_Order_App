@@ -99,7 +99,7 @@ public class CustomerAPI {
 	@PutMapping(value = "/customers/{customerId}")
 	public ResponseEntity<String> updateCustomer(@Min(value=1,message="Id should be greater than or equal to 1")@PathVariable Integer customerId, @RequestBody CustomerDTO customer)
 			throws InvalidDataException {
-		customerService.updateCustomer(customerId,customer.getCustomerName(),customer.getCustomerPassword());
+		customerService.updateCustomer(customer);
 		String successMessage = environment.getProperty("API.CUSTOMER_UPDATE_SUCCESS");
 		return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
 	}

@@ -23,12 +23,11 @@ public interface ICustomerService{
 	/**
 	 * Update customer.
 	 *
-	 * @param customerID the customer ID
-	 * @param customerName the customer name
-	 * @param customerPassword the customer password
+	 * @param customer the customer
+	 * @return the customer DTO
 	 * @throws InvalidDataException the invalid data exception
 	 */
-	public void updateCustomer(Integer customerID,String customerName,String customerPassword) throws InvalidDataException ;
+	public CustomerDTO updateCustomer(CustomerDTO customer) throws InvalidDataException ;
 	
 	/**
 	 * Show all customers.
@@ -44,7 +43,7 @@ public interface ICustomerService{
 	 * @param customerId the customer id
 	 * @throws InvalidDataException the invalid data exception
 	 */
-	public void deleteCustomer(Integer customerId) throws InvalidDataException;
+	public CustomerDTO deleteCustomer(Integer customerId) throws InvalidDataException;
 	
 	/**
 	 * View customer.

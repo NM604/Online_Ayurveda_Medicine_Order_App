@@ -52,17 +52,17 @@ public class ICustomerServiceImpl implements ICustomerService{
 	/**
 	 * Update customer.
 	 *
-	 * @param customerID the customer ID
-	 * @param customerName the customer name
-	 * @param customerPassword the customer password
+	 * @param customer the customer
+	 * @return the customer DTO
 	 * @throws InvalidDataException the invalid data exception
 	 */
 	@Override
-	public void updateCustomer(Integer customerID,String customerName,String customerPassword) throws InvalidDataException {
-		Optional<Customer> customer1 = iCustomerRepository.findById(customerID);
+	public CustomerDTO updateCustomer(CustomerDTO customer) throws InvalidDataException {
+		Optional<Customer> customer1 = iCustomerRepository.findById(customer.getCustomerId());
 		Customer c = customer1.orElseThrow(() -> new InvalidDataException("Service.CUSTOMER_NOT_FOUND"));
-		c.setCustomerName(customerName);
-		c.setCustomerPassword(customerPassword);
+		c.setCustomerName(customer.getCustomerName());
+		c.setCustomerPassword(customer.getCustomerPassword());
+		return customer;
 		
 	}
 
@@ -97,10 +97,12 @@ public class ICustomerServiceImpl implements ICustomerService{
 	 * @throws InvalidDataException the invalid data exception
 	 */
 	@Override
-	public void deleteCustomer(Integer customerId) throws InvalidDataException {
+	public CustomerDTO deleteCustomer(Integer customerId) throws InvalidDataException {
 		Optional<Customer> customer1 = iCustomerRepository.findById(customerId);
-		customer1.orElseThrow(() -> new InvalidDataException("Service.CUSTOMER_NOT_FOUND"));
+		Customer cus=customer1.orElseThrow(() -> new InvalidDataException("Service.CUSTOMER_NOT_FOUND"));
+		CustomerDTO customer=new CustomerDTO(cus.getCustomerId(),cus.getCustomerName(),cus.getCustomerPassword(),cus.getMedicineList(),cus.getOrder());
 		iCustomerRepository.deleteById(customerId);
+		return customer;
 	}
 
 	/**

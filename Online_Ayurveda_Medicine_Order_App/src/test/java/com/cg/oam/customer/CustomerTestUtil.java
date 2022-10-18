@@ -20,16 +20,27 @@ import com.cg.oam.exception.InvalidDataException;
 import com.cg.oam.repository.ICustomerRepository;
 import com.cg.oam.service.ICustomerServiceImpl;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CustomerTestUtil.
+ */
 @SpringBootTest
 @DisplayName("Validations for Customer Entity")
 public class CustomerTestUtil {
 	
+	/** The i customer repository. */
 	@Mock
 	ICustomerRepository iCustomerRepository;
 	
+	/** The i customer service. */
 	@InjectMocks
 	ICustomerServiceImpl iCustomerService;
 	
+	/**
+	 * Adds the customer.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check Adding New Customer")
 	public void addCustomer() throws InvalidDataException{		
@@ -41,6 +52,12 @@ public class CustomerTestUtil {
 		Mockito.when(iCustomerRepository.save(Mockito.any())).thenReturn(newCustomer);
 		Assertions.assertEquals(customer.getCustomerId(), iCustomerService.addCustomer(customer));
 	}
+	
+	/**
+	 * Adds the duplicate customer.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check Adding Duplicate Customer")
 	public void addDuplicateCustomer() throws InvalidDataException{
@@ -63,6 +80,11 @@ public class CustomerTestUtil {
 		Assertions.assertEquals("Service.CUSTOMER_FOUND", e.getMessage());
 	}
 
+	/**
+	 * View customer with id.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check View Customers By ID")
 	public void viewCustomerWithId() throws InvalidDataException{
@@ -74,6 +96,74 @@ public class CustomerTestUtil {
 		Assertions.assertEquals(customer.getCustomerId(), iCustomerService.viewCustomer(customer.getCustomerId()).getCustomerId());
 		
 		
+	}
+	
+	/**
+	 * Update customer.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
+	@Test
+	@DisplayName("Check Updating Existing Customer")
+	public void updateCustomer() throws InvalidDataException{
+		CustomerDTO customer = new CustomerDTO(3,"sharath","shask",null,null);
+		CustomerDTO customer1 = new CustomerDTO(3,"sharath","shask",null,null);
+		Optional<Customer> dupCustomer = Optional.of(new Customer(3,"sharath","shask",null,null));
+		
+		List<Customer> customers = new ArrayList<>();
+		
+		Customer newCustomer = new Customer(3,"sharath","shask",null,null);
+		
+		Mockito.when(iCustomerRepository.findByCustomerPassword(customer.getCustomerPassword())).thenReturn(customers);
+		Mockito.when(iCustomerRepository.save(Mockito.any())).thenReturn(newCustomer);
+		iCustomerService.addCustomer(customer);
+		
+		Mockito.when(iCustomerRepository.findById(customer.getCustomerId())).thenReturn(dupCustomer);
+		Assertions.assertEquals(customer1, iCustomerService.updateCustomer(customer1));
+		}
+	
+	/**
+	 * Update customer not present.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
+	@Test
+	@DisplayName("Check Updating Non-Existant Customer")
+	public void updateCustomerNotPresent() throws InvalidDataException{
+		CustomerDTO customer = new CustomerDTO(3,"sharath","shask",null,null);
+		InvalidDataException e = Assertions.assertThrows(InvalidDataException.class, () -> iCustomerService.updateCustomer(customer));
+		Assertions.assertEquals("Service.CUSTOMER_NOT_FOUND", e.getMessage());	
+	}
+	
+	/**
+	 * Delete customer.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
+	@Test
+	@DisplayName("Check Removing Existing Customer")
+	public void deleteCustomer() throws InvalidDataException{
+		CustomerDTO customer = new CustomerDTO(3,"sharath","shask",null,null);
+		List<Customer> customerList = new ArrayList<>();
+		Customer newCustomer = new Customer(3,"sharath","shask",null,null);
+		
+		Mockito.when(iCustomerRepository.findByCustomerPassword(customer.getCustomerPassword())).thenReturn(customerList);
+		Mockito.when(iCustomerRepository.save(Mockito.any())).thenReturn(newCustomer);
+		iCustomerService.addCustomer(customer);
+		
+		Mockito.when(iCustomerRepository.findById(customer.getCustomerId())).thenReturn(Optional.of(newCustomer));
+		Assertions.assertEquals(customer.getCustomerId(), iCustomerService.deleteCustomer(3).getCustomerId());
+		Mockito.verify(iCustomerRepository).deleteById(3);
+	}
+	
+	/**
+	 * Delete customer not present.
+	 */
+	@Test
+	@DisplayName("Check Removing Non-Existant Customer")
+	public void deleteCustomerNotPresent(){
+		InvalidDataException e = Assertions.assertThrows(InvalidDataException.class, () ->  iCustomerService.deleteCustomer(2));
+		Assertions.assertEquals("Service.CUSTOMER_NOT_FOUND", e.getMessage());
 	}
 	/*
 	
@@ -96,26 +186,7 @@ public class CustomerTestUtil {
 		
 	}
 	*/
-	/*
-	@Test
-	@DisplayName("Testing delete order with valid orderId")
-	public void deleteOrderTestWithValidId() throws InvalidDataException {
-		CustomerDTO customer = new CustomerDTO(3,"sharath","shask",null,null);
-		Customer dupCustomer = new Customer(3,"sharath","shask",null,null);
-		List<Customer> customers = new ArrayList<>();
-		List<Customer> dupCustomers = new ArrayList<>();
-		dupCustomers.add(dupCustomer);
-		Mockito.when(iCustomerRepository.findByCustomerPassword(customer.getCustomerPassword())).thenReturn(customers);
-		Mockito.when(iCustomerRepository.save(Mockito.any())).thenReturn(dupCustomer);
-		//Mockito.when(iCustomerRepository.findByCustomerPassword(customer.getCustomerPassword()).thenReturn(customers);
-		iCustomerService.addCustomer(customer);
-		iCustomerService.deleteCustomer(customer.getCustomerId());
-		Mockito.when(iCustomerRepository.findByCustomerPassword(customer.getCustomerPassword())).thenReturn(dupCustomers);
-		InvalidDataException e = Assertions.assertThrows(InvalidDataException.class, () -> iCustomerService.deleteCustomer(customer.getCustomerId()));
-		Assertions.assertEquals("Service.CUSTOMER_NOT_FOUND", e.getMessage());
-
-	}
-	*/
+	
 
 
 }
