@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,8 +18,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.cg.oam.dto.AdminDTO;
 import com.cg.oam.dto.OrderDTO;
 import com.cg.oam.dto.OrderStatus;
+import com.cg.oam.entity.Admin;
 import com.cg.oam.entity.Customer;
 import com.cg.oam.entity.Medicine;
 import com.cg.oam.entity.Order;
@@ -106,36 +109,9 @@ public class IOrderServiceTest {
 		assertEquals("Service.ORDERS_NOT_FOUND", exception.getMessage());
 	}
 
-	@Test
-	@DisplayName("Testing Show all order by medicineId with valid medicine Id")
-	public void showAllOrdersByMedicineIdTestWithValidMedicineId() throws InvalidDataException {
-		Order expectedOrder = new Order();
-		expectedOrder.setOrderId(1);
-
-		OrderDTO orderDto = new OrderDTO();
-		orderDto.setOrderId(expectedOrder.getOrderId());
-
-		List<OrderDTO> expectedOrders = new ArrayList<>();
-		expectedOrders.add(orderDto);
-
-		Medicine medicine = new Medicine();
-		medicine.setMedicineId("501");
-		List<Medicine> medicines = new ArrayList<>();
-		medicines.add(medicine);
-
-		Customer customer = new Customer();
-		customer.setCustomerId(1);
-		customer.setMedicineList(medicines);
-		customer.setOrder(expectedOrder);
-		List<Customer> cs = new ArrayList<>();
-		cs.add(customer);
-		Iterable<Customer> customers = cs;
-		Mockito.when(customerRepository.findAll()).thenReturn(customers);
-		List<OrderDTO> actualOrders = orderService.showAllOrdersByMedicineId(501);
-
-		assertEquals(expectedOrders, actualOrders);
-
-	}
+	
+	
+	
 	// -----------------------------
 
 	// ShowAllOrderByCustomerId
@@ -321,5 +297,123 @@ public class IOrderServiceTest {
 		OrderDTO expectedResult = orderDto;
 		assertEquals(expectedResult, actualResult);
 	}
+	
+	
+	@Test
+	@DisplayName("Check Adding New Order")
+	public void addOrder() throws InvalidDataException{		
+		OrderDTO order = new OrderDTO(1,LocalDate.of(2020,9,8),LocalDate.of(2020,9,8),67f,OrderStatus.CREATED);
+		//List<Order> orders = new ArrayList<>();
+		Order newOrder = new Order(1,LocalDate.of(2020,9,8),LocalDate.of(2020,9,8),67f,OrderStatus.CREATED);
+		
+		//Mockito.when(adminRepository.findByPassword(order.getPassword())).thenReturn(orders);
+		Mockito.when(orderRepository.save(Mockito.any())).thenReturn(newOrder);
+		Assertions.assertEquals(order, orderService.addOrder(order));
+	}
+	
+	@Test
+	@DisplayName("Check Updating Existing Order")
+	public void updateAdmin() throws InvalidDataException{
+		OrderDTO order = new OrderDTO(1,LocalDate.of(2020,9,8),LocalDate.of(2020,9,8),67f,OrderStatus.CREATED);
+		OrderDTO order1 = new OrderDTO(1,LocalDate.of(2020,9,8),LocalDate.of(2020,9,8),67f,OrderStatus.CREATED);
+		Optional<Order> dupOrder = Optional.of(new Order(1,LocalDate.of(2020,9,8),LocalDate.of(2020,9,8),67f,OrderStatus.CREATED));
+		
+		List<Order> orders = new ArrayList<>();
+		
+		Order newOrder = new Order();
+		
+		//Mockito.when(orderRepository.findByPassword(order.getPassword())).thenReturn(orders);
+		Mockito.when(orderRepository.save(Mockito.any())).thenReturn(newOrder);
+		orderService.addOrder(order);
+		
+		Mockito.when(orderRepository.findById(order.getOrderId())).thenReturn(dupOrder);
+		Assertions.assertEquals(order1, orderService.updateOrder(order1));
+		}
+	
+	@Test
+	@DisplayName("Check Updating Non-Existing Order")
+	public void updateOrderNotPresent() throws InvalidDataException{
+		OrderDTO order = new OrderDTO(4,LocalDate.of(2020,9,8),LocalDate.of(2020,9,8),67f,OrderStatus.CREATED);
+		InvalidDataException e = Assertions.assertThrows(InvalidDataException.class, () -> orderService.updateOrder(order));
+		Assertions.assertEquals("Service.ORDER_NOT_FOUND", e.getMessage());	}
+	
+//	
+	@Test
+	@DisplayName("Check Updating Order  Status Existing Order")
+	public void updateOrderStatus() throws InvalidDataException{
+		OrderDTO order = new OrderDTO(1,null,null,null,OrderStatus.CREATED);
+		OrderDTO order1 = new OrderDTO(1,null,null,null,OrderStatus.CREATED);
+		Optional<Order> dupOrder = Optional.of(new Order(1,LocalDate.of(2020,9,8),LocalDate.of(2020,9,8),67f,OrderStatus.CREATED));
+		
+		List<Order> orders = new ArrayList<>();
+		
+		Order newOrder = new Order();
+		
+		//Mockito.when(orderRepository.findByPassword(order.getPassword())).thenReturn(orders);
+		Mockito.when(orderRepository.save(Mockito.any())).thenReturn(newOrder);
+		orderService.addOrder(order);
+		
+		Mockito.when(orderRepository.findById(order.getOrderId())).thenReturn(dupOrder);
+		Assertions.assertEquals(order1, orderService.updateOrder(order1));
+		}
+	
+	
+	
+	
+	@Test
+     @DisplayName("Check Updating Order Status with Non-Existing Order")
+	public void updateOrderStatusNotPresent() throws InvalidDataException{
+		OrderDTO order = new OrderDTO(4,null,null,null,OrderStatus.CREATED);
+		InvalidDataException e = Assertions.assertThrows(InvalidDataException.class, () -> orderService.updateOrder(order));
+		Assertions.assertEquals("Service.ORDER_NOT_FOUND", e.getMessage());	}
+	
+	
+	
+	
+	@Test
+	@DisplayName("Checking Show all order by Order Status")
+	public void showAllOrdersByStatus() throws InvalidDataException {
+		OrderStatus orderStatus = OrderStatus.CREATED;
+		Order order = new Order();
+		order.setOrderId(101);
+		order.setOrderStatus(orderStatus);
+
+		OrderDTO orderDto = new OrderDTO();
+		orderDto.setOrderId(order.getOrderId());
+		orderDto.setOrderStatus(order.getOrderStatus());
+
+		List<Order> orders = new ArrayList<>();
+		orders.add(order);
+		List<OrderDTO> expectedOrders = new ArrayList<>();
+		expectedOrders.add(orderDto);
+		Mockito.when(orderRepository.findByOrderStatus(any())).thenReturn(orders);
+		List<OrderDTO> actualOrders = orderService.viewOrderByStatus(orderStatus);
+		assertEquals(expectedOrders, actualOrders);
+	}
+	
+	
+	
+
+	@Test
+	@DisplayName("Testing Show all order by Order Date with no orders found")
+	public void showAllOrdersByOrderStatuswithnoOrder() throws InvalidDataException {
+		OrderStatus orderStatus = OrderStatus.CREATED;
+		List<Order> orders = new ArrayList<>();
+		Mockito.when(orderRepository.findByOrderStatus(any())).thenReturn(orders);
+		InvalidDataException exception = assertThrows(InvalidDataException.class,
+				() -> orderService.viewOrderByStatus(orderStatus));
+		assertEquals("Service.ORDERS_NOT_FOUND", exception.getMessage());
+	}
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
