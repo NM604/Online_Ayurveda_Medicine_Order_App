@@ -3,11 +3,17 @@ package com.cg.oam.dto;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.PastOrPresent;
+
 public class OrderDTO {
 	
+	@Min(value =1,message = "Order Id should not be less than one")
 	private Integer orderId;
+	@PastOrPresent(message = "Order date should be past or present to current date")
 	private LocalDate orderDate;
 	private LocalDate dispatchDate;
+	@Min(value = 0,message = "Total cost should not be less than zero")
 	private Float totalCost;
 	private OrderStatus orderStatus;
 	public OrderDTO() {

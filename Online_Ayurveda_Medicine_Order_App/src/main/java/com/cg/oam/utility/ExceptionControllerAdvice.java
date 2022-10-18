@@ -3,6 +3,8 @@ package com.cg.oam.utility;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -47,6 +49,17 @@ public class ExceptionControllerAdvice {
 		String errorMsg = exception.getBindingResult().getAllErrors().stream().map(x -> x.getDefaultMessage())
 				.collect(Collectors.joining(", "));
 
+		errorInfo.setErrorMessage(errorMsg);
+		errorInfo.setTimestamp(LocalDateTime.now());
+		return new ResponseEntity<>(errorInfo, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(ConstraintViolationException.class)
+	public ResponseEntity<ErrorInfo> pathExceptionHandler(ConstraintViolationException exception) {
+		ErrorInfo errorInfo = new ErrorInfo();
+		errorInfo.setErrorCode(HttpStatus.BAD_REQUEST.value());
+		String errorMsg = exception.getConstraintViolations().stream().map(x -> x.getMessage())
+				.collect(Collectors.joining(", "));
 		errorInfo.setErrorMessage(errorMsg);
 		errorInfo.setTimestamp(LocalDateTime.now());
 		return new ResponseEntity<>(errorInfo, HttpStatus.BAD_REQUEST);
