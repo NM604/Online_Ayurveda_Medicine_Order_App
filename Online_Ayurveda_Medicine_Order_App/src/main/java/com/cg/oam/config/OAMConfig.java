@@ -10,10 +10,18 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import static springfox.documentation.builders.PathSelectors.regex;
 
+/**
+ * The Class OAMConfig.
+ */
 @Configuration
 @EnableSwagger2
 public class OAMConfig {
 	
+	/**
+	 * Posts api.
+	 *
+	 * @return the docket
+	 */
 	@Bean
     public Docket postsApi() {
         return new Docket(DocumentationType.SWAGGER_2).groupName("com.cg.oam.controller").apiInfo(apiInfo()).select()
@@ -22,6 +30,11 @@ public class OAMConfig {
 
  
 
+    /**
+     * Api info.
+     *
+     * @return the api info
+     */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("Online Ayurveda Medicine Order App")
                 .description("Sample Documentation Generateed Using SWAGGER2 for our Book Rest API")

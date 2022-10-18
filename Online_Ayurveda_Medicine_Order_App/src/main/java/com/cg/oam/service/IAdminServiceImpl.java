@@ -13,13 +13,23 @@ import com.cg.oam.entity.Admin;
 import com.cg.oam.exception.InvalidDataException;
 import com.cg.oam.repository.IAdminRepository;
 
+/**
+ * The Class IAdminServiceImpl.
+ */
 @Service(value="adminService")
 @Transactional
 public class IAdminServiceImpl implements IAdminService{
 	
+	/** The admin repository. */
 	@Autowired
 	private IAdminRepository adminRepository;
 
+	/**
+	 * Show all admins.
+	 *
+	 * @return the list
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public List<AdminDTO> showAllAdmins() throws InvalidDataException {
 		Iterable<Admin> admins = adminRepository.findAll();
@@ -31,6 +41,14 @@ public class IAdminServiceImpl implements IAdminService{
 		return adminDTOs;
 	}
 
+	/**
+	 * Validate admin.
+	 *
+	 * @param id the id
+	 * @param password the password
+	 * @return true, if successful
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public boolean validateAdmin(int id, String password) throws InvalidDataException {
 		Optional<Admin> optionalAdmin = adminRepository.findById(id);
@@ -41,6 +59,13 @@ public class IAdminServiceImpl implements IAdminService{
 		return true;
 	}
 
+	/**
+	 * Adds the admin.
+	 *
+	 * @param admin the admin
+	 * @return the admin DTO
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public AdminDTO addAdmin(AdminDTO admin) throws InvalidDataException {
 		List<Admin> optionalAdmin = adminRepository.findByPassword(admin.getPassword());
@@ -66,6 +91,13 @@ public class IAdminServiceImpl implements IAdminService{
 	}
 	*/
 
+	/**
+	 * Removes the admin.
+	 *
+	 * @param admin the admin
+	 * @return the admin DTO
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public AdminDTO removeAdmin(AdminDTO admin) throws InvalidDataException{
 		Optional<Admin> optionalAdmin = adminRepository.findById(admin.getId());
@@ -75,6 +107,13 @@ public class IAdminServiceImpl implements IAdminService{
 		return newAdminDTO;
 	}
 	
+	/**
+	 * Removes the admin.
+	 *
+	 * @param id the id
+	 * @return the admin DTO
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public AdminDTO removeAdmin(int id) throws InvalidDataException {
 		
@@ -93,6 +132,13 @@ public class IAdminServiceImpl implements IAdminService{
 	}
 	*/
 
+	/**
+	 * Update admin.
+	 *
+	 * @param admin the admin
+	 * @return the admin DTO
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public AdminDTO updateAdmin(AdminDTO admin) throws InvalidDataException{
 		Optional<Admin> optionalAdmin = adminRepository.findById(admin.getId());

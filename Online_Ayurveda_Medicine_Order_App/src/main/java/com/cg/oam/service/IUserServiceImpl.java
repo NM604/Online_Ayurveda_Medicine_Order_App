@@ -13,13 +13,24 @@ import com.cg.oam.entity.User;
 import com.cg.oam.exception.InvalidDataException;
 import com.cg.oam.repository.IUserRepository;
 
+/**
+ * The Class IUserServiceImpl.
+ */
 @Service(value="userService")
 @Transactional
 public class IUserServiceImpl implements IUserService{
 	
+	/** The user repository. */
 	@Autowired
 	private IUserRepository userRepository;
 
+	/**
+	 * Adds the user.
+	 *
+	 * @param user the user
+	 * @return the user DTO
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public UserDTO addUser(UserDTO user) throws InvalidDataException {
 		List<User> optionalUser = userRepository.findByuserName(user.getUserName());
@@ -33,6 +44,13 @@ public class IUserServiceImpl implements IUserService{
 		return user;
 	}
 
+	/**
+	 * Update user.
+	 *
+	 * @param user the user
+	 * @return the user DTO
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public UserDTO updateUser(UserDTO user) throws InvalidDataException {
 		Optional<User> optionalUser = userRepository.findById(user.getUserId());
@@ -41,6 +59,13 @@ public class IUserServiceImpl implements IUserService{
 		return user;
 	}
 
+	/**
+	 * Removes the user.
+	 *
+	 * @param userId the user id
+	 * @return the user DTO
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public UserDTO removeUser(int userId) throws InvalidDataException {
 		Optional<User> optionalUser = userRepository.findById(userId);
@@ -50,6 +75,12 @@ public class IUserServiceImpl implements IUserService{
 		return user;
 	}
 
+	/**
+	 * Show all users.
+	 *
+	 * @return the list
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public List<UserDTO> showAllUsers() throws InvalidDataException {
 		Iterable<User> users = userRepository.findAll();
@@ -61,6 +92,14 @@ public class IUserServiceImpl implements IUserService{
 		return userDTOs;
 	}
 
+	/**
+	 * Validate user.
+	 *
+	 * @param userId the user id
+	 * @param userName the user name
+	 * @return true, if successful
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public boolean validateUser(int userId, String userName) throws InvalidDataException{
 		Optional<User> optionalUser = userRepository.findById(userId);

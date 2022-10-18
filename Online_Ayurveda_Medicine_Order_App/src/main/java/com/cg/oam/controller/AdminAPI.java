@@ -3,11 +3,13 @@ package com.cg.oam.controller;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,22 +24,41 @@ import com.cg.oam.exception.InvalidDataException;
 import com.cg.oam.service.IAdminService;
 
 
+/**
+ * The Class AdminAPI.
+ */
 @RestController
 @RequestMapping(value="/oam/administrator")
+@Validated
 public class AdminAPI {
 	
+	/** The admin service. */
 	@Autowired
 	IAdminService adminService;
 	
+	/** The environment. */
 	@Autowired
 	Environment environment;
 	
+	/**
+	 * Gets the all admins.
+	 *
+	 * @return the all admins
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@GetMapping(value = "/admins")
 	public ResponseEntity<List<AdminDTO>> getAllAdmins() throws InvalidDataException {
 		List<AdminDTO> admins = adminService.showAllAdmins();
 		return new ResponseEntity<>(admins, HttpStatus.OK);
 	}
 	
+	/**
+	 * Adds the admin.
+	 *
+	 * @param admin the admin
+	 * @return the response entity
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@PostMapping(value = "/admin")
 	public ResponseEntity<String> addAdmin(@Valid @RequestBody AdminDTO admin) throws InvalidDataException{
 		adminService.addAdmin(admin);
@@ -45,22 +66,48 @@ public class AdminAPI {
 		return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
 	}
 	
+	/**
+	 * Update admin.
+	 *
+	 * @param adminId the admin id
+	 * @param admin the admin
+	 * @return the response entity
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@PutMapping(value = "/admin/{adminId}")
-	public ResponseEntity<String> updateAdmin(@PathVariable Integer adminId, @Valid @RequestBody AdminDTO admin)
-			throws InvalidDataException{
+	public ResponseEntity<String> updateAdmin(@PathVariable 
+												@Min(value = 1, message = "Admin ID should be greater than 0") Integer adminId, 
+												@Valid @RequestBody AdminDTO admin)
+														throws InvalidDataException{
 		adminService.updateAdmin(admin);
 		String successMessage = environment.getProperty("API.UPDATE_SUCCESS");
 		return new ResponseEntity<>(successMessage, HttpStatus.OK);
 	}
 	
+	/**
+	 * Removes the admin.
+	 *
+	 * @param adminId - the admin id
+	 * @return the response entity
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@DeleteMapping(value = "/admin/{adminId}")
-	public ResponseEntity<String> removeAdmin(@PathVariable Integer adminId) throws InvalidDataException{
+	public ResponseEntity<String> removeAdmin(@PathVariable 
+												@Min(value = 1, message = "Admin ID should be greater than 0") Integer adminId) 
+														throws InvalidDataException{
 		AdminDTO admin = new AdminDTO(adminId,"TEST_VALUE");
 		adminService.removeAdmin(admin);
 		String successMessage = environment.getProperty("API.DELETE_SUCCESS");
 		return new ResponseEntity<>(successMessage, HttpStatus.OK);
 	}
 	
+	/**
+	 * Validate admin.
+	 *
+	 * @param admin - the admin
+	 * @return the response entity
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@PostMapping(value = "/adminvalidate")
 	public ResponseEntity<String> validateAdmin(@Valid @RequestBody AdminDTO admin) throws InvalidDataException{
 		String successMessage = "";

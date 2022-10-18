@@ -15,12 +15,22 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.cg.oam.exception.InvalidDataException;
 
+/**
+ * The Class ExceptionControllerAdvice.
+ */
 @RestControllerAdvice
 public class ExceptionControllerAdvice {
 	
+	/** The environment. */
 	@Autowired
 	Environment environment;
 	
+	/**
+	 * Exception handler.
+	 *
+	 * @param e the exception
+	 * @return the response entity
+	 */
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorInfo> exceptionHandler(Exception e){
 		ErrorInfo error = new ErrorInfo();
@@ -30,6 +40,12 @@ public class ExceptionControllerAdvice {
 		return new ResponseEntity<ErrorInfo>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	/**
+	 * Invalid data exception handler.
+	 *
+	 * @param exception the exception
+	 * @return the response entity
+	 */
 	@ExceptionHandler(InvalidDataException.class)
 	public ResponseEntity<ErrorInfo> invalidDataExceptionHandler(InvalidDataException exception) {
 		ErrorInfo error = new ErrorInfo();
@@ -39,6 +55,12 @@ public class ExceptionControllerAdvice {
 		return new ResponseEntity<ErrorInfo>(error, HttpStatus.NOT_FOUND);
 	}
 	
+	/**
+	 * Exception handler.
+	 *
+	 * @param exception the exception
+	 * @return the response entity
+	 */
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<ErrorInfo> exceptionHandler(MethodArgumentNotValidException exception) {
 
@@ -54,6 +76,12 @@ public class ExceptionControllerAdvice {
 		return new ResponseEntity<>(errorInfo, HttpStatus.BAD_REQUEST);
 	}
 	
+	/**
+	 * Path exception handler.
+	 *
+	 * @param exception the exception
+	 * @return the response entity
+	 */
 	@ExceptionHandler(ConstraintViolationException.class)
 	public ResponseEntity<ErrorInfo> pathExceptionHandler(ConstraintViolationException exception) {
 		ErrorInfo errorInfo = new ErrorInfo();
