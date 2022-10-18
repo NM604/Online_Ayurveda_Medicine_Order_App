@@ -11,6 +11,15 @@ import com.cg.oam.exception.InvalidDataException;
 public interface IUserService {
 	
 	/**
+	 * Gets the user.
+	 *
+	 * @param id the user Id
+	 * @return the user DTO
+	 * @throws InvalidDataException the invalid data exception
+	 */
+	public UserDTO showAdmin(Integer id ) throws InvalidDataException;
+	
+	/**
 	 * Adds the user.
 	 *
 	 * @param user the user

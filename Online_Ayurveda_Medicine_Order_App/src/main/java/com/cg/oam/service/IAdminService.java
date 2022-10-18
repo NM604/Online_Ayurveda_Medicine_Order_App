@@ -12,6 +12,15 @@ import com.cg.oam.exception.InvalidDataException;
 public interface IAdminService {
 	
 	/**
+	 * Gets the admin.
+	 *
+	 * @param id the admin Id
+	 * @return the admin DTO
+	 * @throws InvalidDataException the invalid data exception
+	 */
+	public AdminDTO showAdmin(Integer id ) throws InvalidDataException;
+	
+	/**
 	 * Adds the admin.
 	 *
 	 * @param admin the admin

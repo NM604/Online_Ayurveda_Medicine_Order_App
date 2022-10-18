@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cg.oam.dto.AdminDTO;
 import com.cg.oam.dto.UserDTO;
 import com.cg.oam.exception.InvalidDataException;
 import com.cg.oam.service.IUserService;
@@ -49,6 +50,20 @@ public class UserAPI {
 	public ResponseEntity<List<UserDTO>> getAllUsers() throws InvalidDataException {
 		List<UserDTO> users = userService.showAllUsers();
 		return new ResponseEntity<>(users, HttpStatus.OK);
+	}
+	
+	/**
+	 * Gets an user with Id.
+	 *
+	 * @return the user with requested Id
+	 * @throws InvalidDataException the invalid data exception
+	 */
+	@GetMapping(value = "/user/{Id}")
+	public ResponseEntity<UserDTO> getAdmin(@PathVariable 
+													@Min(value = 1, message = "User ID should be greater than 0") Integer Id) 
+															throws InvalidDataException {
+		UserDTO user = userService.showAdmin(Id);
+		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 	
 	/**

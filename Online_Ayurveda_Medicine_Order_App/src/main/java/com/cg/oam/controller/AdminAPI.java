@@ -53,6 +53,20 @@ public class AdminAPI {
 	}
 	
 	/**
+	 * Gets an admin with Id.
+	 *
+	 * @return the admin with requested Id
+	 * @throws InvalidDataException the invalid data exception
+	 */
+	@GetMapping(value = "/admin/{Id}")
+	public ResponseEntity<AdminDTO> getAdmin(@PathVariable 
+													@Min(value = 1, message = "Admin ID should be greater than 0") Integer Id) 
+															throws InvalidDataException {
+		AdminDTO admin = adminService.showAdmin(Id);
+		return new ResponseEntity<>(admin, HttpStatus.OK);
+	}
+	
+	/**
 	 * Adds the admin.
 	 *
 	 * @param admin the admin

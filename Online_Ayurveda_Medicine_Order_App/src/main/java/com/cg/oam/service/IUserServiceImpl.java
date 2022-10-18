@@ -110,4 +110,19 @@ public class IUserServiceImpl implements IUserService{
 		return true;
 	}
 
+	/**
+	 * Gets the user.
+	 *
+	 * @param id the user Id
+	 * @return the user DTO
+	 * @throws InvalidDataException the invalid data exception
+	 */
+	@Override
+	public UserDTO showAdmin(Integer id) throws InvalidDataException {
+		Optional<User> optionalUser = userRepository.findById(id);
+		User newUser = optionalUser.orElseThrow(() -> new InvalidDataException("Service.USER_NOT_FOUND"));
+		UserDTO user = new UserDTO(newUser.getUserId(), newUser.getUserName(), newUser.getUserType());
+		return user;
+	}
+
 }

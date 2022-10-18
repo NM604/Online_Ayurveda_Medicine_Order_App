@@ -147,6 +147,21 @@ public class IAdminServiceImpl implements IAdminService{
 		return admin;
 	}
 
+	/**
+	 * Gets the admin.
+	 *
+	 * @param id the admin Id
+	 * @return the admin DTO
+	 * @throws InvalidDataException the invalid data exception
+	 */
+	@Override
+	public AdminDTO showAdmin(Integer id) throws InvalidDataException {
+		Optional<Admin> optionalAdmin = adminRepository.findById(id);
+		Admin newAdmin = optionalAdmin.orElseThrow(() -> new InvalidDataException("Service.ADMIN_NOT_FOUND"));
+		AdminDTO admin = new AdminDTO(newAdmin.getId(), newAdmin.getPassword());
+		return admin;
+	}
+
 	/*
 	@Override
 	public AdminDTO updateAdmin(UserDTO admin) throws InvalidDataException{
