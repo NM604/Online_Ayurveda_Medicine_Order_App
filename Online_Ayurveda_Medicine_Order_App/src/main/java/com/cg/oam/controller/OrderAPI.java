@@ -33,7 +33,7 @@ import com.cg.oam.service.IOrderService;
  * The Class OrderAPI for handling all requests to oam/ordersection.
  */
 @RestController
-@RequestMapping(value = "/oam/ordersection")
+@RequestMapping(value = "/oam")
 @Validated
 public class OrderAPI {
 	
@@ -53,7 +53,7 @@ public class OrderAPI {
 	 * @return the response entity
 	 * @throws InvalidDataException the invalid data exception
 	 */
-	@PostMapping(value = "/orders")
+	@PostMapping(value = "/order")
 	public ResponseEntity<String> addOrder(@Valid @RequestBody OrderDTO order) throws InvalidDataException {
 		OrderDTO orderDto = orderService.addOrder(order);
 		String successMessage = environment.getProperty("API.ORDER_INSERT_SUCCESS") + orderDto.getOrderId();
@@ -134,7 +134,7 @@ public class OrderAPI {
 	 * @return the all orders by id
 	 * @throws InvalidDataException the invalid data exception
 	 */
-	@GetMapping(value = "/orders/{orderId}")
+	@GetMapping(value = "/order/{orderId}")
 	public ResponseEntity<OrderDTO> getAllOrdersById(@Min(value = 1, message = "order id should be grater than or equal to 1") @PathVariable Integer orderId) throws InvalidDataException {
 		OrderDTO orders = orderService.viewOrderById(orderId);
 		return new ResponseEntity<>(orders, HttpStatus.OK);
@@ -161,7 +161,7 @@ public class OrderAPI {
 	 * @return the response entity
 	 * @throws InvalidDataException the invalid data exception
 	 */
-	@PutMapping(value = "/orders")
+	@PutMapping(value = "/order")
 	public ResponseEntity<String> updateOrder(@RequestBody OrderDTO orderDto) throws InvalidDataException {
 		orderService.updateOrder(orderDto);
 		String successMessage = environment.getProperty("API.ORDER_UPDATE_SUCCESS")+orderDto.getOrderId();
@@ -176,7 +176,7 @@ public class OrderAPI {
 	 * @return the response entity
 	 * @throws InvalidDataException the invalid data exception
 	 */
-	@PutMapping(value = "/orders/{orderId}/{orderStatus}")
+	@PutMapping(value = "/order/{orderId}/{orderStatus}")
 	public ResponseEntity<String> updateOrderStatus(@Min(value = 1, message = "order id should be grater than or equal to 1") @PathVariable("orderId") Integer orderId,
 			@PathVariable("orderStatus") OrderStatus orderStatus) throws InvalidDataException {
 		orderService.updateOrderStatus(orderId, orderStatus);
@@ -191,7 +191,7 @@ public class OrderAPI {
 	 * @return the response entity
 	 * @throws InvalidDataException the invalid data exception
 	 */
-	@GetMapping(value = "/orders/calculateCost/{orderId}")
+	@GetMapping(value = "/order/{orderId}/calculateCost")
 	public ResponseEntity<Double> calculateTotalCost(@Min(value = 1, message = "order id should be grater than or equal to 1") @PathVariable Integer orderId) throws InvalidDataException {
 		Double orders = orderService.calculateTotalCost(orderId);
 		return new ResponseEntity<>(orders, HttpStatus.OK);
@@ -204,7 +204,7 @@ public class OrderAPI {
 	 * @return the response entity
 	 * @throws InvalidDataException the invalid data exception
 	 */
-	@PutMapping(value = "/orders/cancel/{orderId}")
+	@PutMapping(value = "/order/cancel/{orderId}")
 	public ResponseEntity<OrderDTO> cancelOrder(@Min(value = 1, message = "order id should be grater than or equal to 1") @PathVariable Integer orderId) throws InvalidDataException {
 		OrderDTO orders = orderService.cancelOrder(orderId);
 		return new ResponseEntity<>(orders, HttpStatus.OK);
@@ -217,7 +217,7 @@ public class OrderAPI {
 	 * @return the response entity
 	 * @throws InvalidDataException the invalid data exception
 	 */
-	@DeleteMapping(value = "/orders/{orderId}")
+	@DeleteMapping(value = "/order/{orderId}")
 	public ResponseEntity<String> deleteOrder(@Min(value = 1, message = "order id should be grater than or equal to 1") @PathVariable Integer orderId) throws InvalidDataException {
 		OrderDTO orders = orderService.deleteOrder(orderId);
 		String successMessage = environment.getProperty("API.DELETE_SUCCESS")+orderId;
