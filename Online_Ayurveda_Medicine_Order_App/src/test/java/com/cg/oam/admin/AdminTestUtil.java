@@ -22,16 +22,26 @@ import com.cg.oam.repository.IAdminRepository;
 import com.cg.oam.service.IAdminService;
 import com.cg.oam.service.IAdminServiceImpl;
 
+/**
+ * The Class AdminTestUtil.
+ */
 @SpringBootTest
 @DisplayName("Validations for Admin Entity")
 public class AdminTestUtil {
 	
+	/** The admin repository. */
 	@Mock
 	IAdminRepository adminRepository;
 	
+	/** The admin service. */
 	@InjectMocks
 	IAdminServiceImpl adminService;
 	
+	/**
+	 * Adds an admin.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check Adding New Admin")
 	public void addAdmin() throws InvalidDataException{		
@@ -46,6 +56,11 @@ public class AdminTestUtil {
 	
 	
 	
+	/**
+	 * Adds a duplicate admin.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check Adding Duplicate Admin")
 	public void addDuplicateAdmin() throws InvalidDataException{
@@ -68,6 +83,11 @@ public class AdminTestUtil {
 		Assertions.assertEquals("Service.ADMIN_FOUND", e.getMessage());
 	}
 	
+	/**
+	 * Update admin.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check Updating Existing Admin")
 	public void updateAdmin() throws InvalidDataException{
@@ -87,6 +107,11 @@ public class AdminTestUtil {
 		Assertions.assertEquals(admin1, adminService.updateAdmin(admin1));
 		}
 	
+	/**
+	 * Update admin that is not present.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check Updating Non-Existant Admin")
 	public void updateAdminNotPresent() throws InvalidDataException{
@@ -94,26 +119,33 @@ public class AdminTestUtil {
 		InvalidDataException e = Assertions.assertThrows(InvalidDataException.class, () -> adminService.updateAdmin(admin));
 		Assertions.assertEquals("Service.ADMIN_NOT_FOUND", e.getMessage());	}
 	
-	/*
+	
+	/**
+	 * Removes the admin.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check Removing Existing Admin")
 	public void removeAdmin() throws InvalidDataException{
 		AdminDTO admin = new AdminDTO(1,"harry123");
 		List<Admin> admins = new ArrayList<>();
-		Admin newAdmin = new Admin();
-		newAdmin.setId(1);
-		newAdmin.setPassword("xyz");
+		Admin newAdmin = new Admin(1,"harry123");
 		
-		//Mockito.when(adminRepository.findByPassword(admin.getPassword())).thenReturn(admins);
-		//Mockito.when(adminRepository.save(Mockito.any())).thenReturn(newAdmin);
-		//adminService.addAdmin(admin);
 		
-		Mockito.when(adminRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(newAdmin));
-		//Mockito.verify(adminRepository, times(3)).deleteById(1);
-		Mockito.when(adminRepository.deleteById(Mockito.anyInt()));
+		Mockito.when(adminRepository.findByPassword(admin.getPassword())).thenReturn(admins);
+		Mockito.when(adminRepository.save(Mockito.any())).thenReturn(newAdmin);
+		adminService.addAdmin(admin);
+		
+		Mockito.when(adminRepository.findById(admin.getId())).thenReturn(Optional.of(newAdmin));
+		Assertions.assertEquals(admin, adminService.removeAdmin(1));
+		Mockito.verify(adminRepository).deleteById(1);
 	}
-	*/
 	
+	
+	/**
+	 * Removes an admin that is not present.
+	 */
 	@Test
 	@DisplayName("Check Removing Non-Existant Admin")
 	public void removeAdminNotPresent(){
@@ -121,6 +153,11 @@ public class AdminTestUtil {
 		Assertions.assertEquals("Service.ADMIN_NOT_FOUND", e.getMessage());
 	}
 	
+	/**
+	 * Validate credentials.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check Validating Existing Admin Credentials")
 	public void validateCredentials() throws InvalidDataException{
@@ -139,6 +176,11 @@ public class AdminTestUtil {
 		Assertions.assertTrue(adminService.validateAdmin(admin.getId(),admin.getPassword()));
 	}
 	
+	/**
+	 * Invalidate credentials.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check Validating Existing Admin Wrong Credentials")
 	public void invalidateCredentials() throws InvalidDataException{

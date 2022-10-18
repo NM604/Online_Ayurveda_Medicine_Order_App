@@ -1,5 +1,7 @@
 package com.cg.oam.dto;
 
+import java.util.Objects;
+
 import javax.validation.constraints.NotNull;
 
 /**
@@ -99,6 +101,24 @@ public class UserDTO {
 	@Override
 	public String toString() {
 		return "UserDTO [userId=" + userId + ", userName=" + userName + ", userType=" + userType + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(userId, userName, userType);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserDTO other = (UserDTO) obj;
+		return userId == other.userId && Objects.equals(userName, other.userName)
+				&& Objects.equals(userType, other.userType);
 	}
 	
 	

@@ -1,5 +1,7 @@
 package com.cg.oam.dto;
 
+import java.util.Objects;
+
 import javax.validation.constraints.NotNull;
 
 /**
@@ -76,5 +78,24 @@ public class AdminDTO {
 	public String toString() {
 		return "AdminDTO [id=" + id + ", password=" + password + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, password);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AdminDTO other = (AdminDTO) obj;
+		return id == other.id && Objects.equals(password, other.password);
+	}
+	
+	
 	
 }

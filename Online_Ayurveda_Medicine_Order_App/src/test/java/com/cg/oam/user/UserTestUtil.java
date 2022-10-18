@@ -18,19 +18,29 @@ import com.cg.oam.exception.InvalidDataException;
 import com.cg.oam.repository.IUserRepository;
 import com.cg.oam.service.IUserServiceImpl;
 
+/**
+ * The Class UserTestUtil.
+ */
 @SpringBootTest
 @DisplayName("Validations for User Entity")
 public class UserTestUtil {
 	
+	/** The user repository. */
 	@Mock
 	IUserRepository userRepository;
 	
+	/** The user service. */
 	@InjectMocks
 	IUserServiceImpl userService;
 	
+	/**
+	 * Adds a new User.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check Adding New User")
-	public void addAdmin() throws InvalidDataException{		
+	public void addUser() throws InvalidDataException{		
 		UserDTO user = new UserDTO(1,"harry123","administrator");
 		List<User> users = new ArrayList<>();
 		User newUser = new User();
@@ -42,9 +52,14 @@ public class UserTestUtil {
 	
 	
 	
+	/**
+	 * Adds a duplicate User.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check Adding Duplicate User")
-	public void addDuplicateAdmin() throws InvalidDataException{
+	public void addDuplicateUser() throws InvalidDataException{
 		UserDTO user = new UserDTO(1,"harry123","administrator");
 		User dupUser = new User(1,"harry123","administrator");
 		
@@ -64,9 +79,14 @@ public class UserTestUtil {
 		Assertions.assertEquals("Service.USER_FOUND", e.getMessage());
 	}
 	
+	/**
+	 * Update User.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check Updating Existing User")
-	public void updateAdmin() throws InvalidDataException{
+	public void updateUser() throws InvalidDataException{
 		UserDTO user = new UserDTO(1,"harry123","administrator");
 		UserDTO user1 = new UserDTO(1,"harry1234","administrator");
 		Optional<User> dupUser = Optional.of(new User(1,"harry123","administrator"));
@@ -83,36 +103,54 @@ public class UserTestUtil {
 		Assertions.assertEquals(user1, userService.updateUser(user1));
 		}
 	
+	/**
+	 * Update User that is not present.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check Updating Non-Existant User")
-	public void updateAdminNotPresent() throws InvalidDataException{
+	public void updateUserNotPresent() throws InvalidDataException{
 		UserDTO user = new UserDTO(1,"harry123","administrator");
 		InvalidDataException e = Assertions.assertThrows(InvalidDataException.class, () -> userService.updateUser(user));
 		Assertions.assertEquals("Service.USER_NOT_FOUND", e.getMessage());	}
 	
-	/*
+	/**
+	 * Removes the user.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check Removing Existing User")
-	public void removeAdmin() throws InvalidDataException{
-		UserDTO user = new UserDTO(1,"harry123");
-		List<User> user = new ArrayList<>();
-		User newUser = new User();
+	public void removeUser() throws InvalidDataException{
+		UserDTO user = new UserDTO(1,"harry123","administrator");
+		List<User> userList = new ArrayList<>();
+		User newUser = new User(1,"harry123","administrator");
 		
-		Mockito.when(userRepository.findByPassword(user.getPassword())).thenReturn(users);
+		Mockito.when(userRepository.findByuserName(user.getUserName())).thenReturn(userList);
 		Mockito.when(userRepository.save(Mockito.any())).thenReturn(newUser);
 		userService.addUser(user);
 		
-		Mockito.verify(userRepository, times(3)).deleteById(1);
+		Mockito.when(userRepository.findById(user.getUserId())).thenReturn(Optional.of(newUser));
+		Assertions.assertEquals(user, userService.removeUser(1));
+		Mockito.verify(userRepository).deleteById(1);
 	}
-	*/
 	
+	/**
+	 * Removes a User that is not present.
+	 */
 	@Test
 	@DisplayName("Check Removing Non-Existant User")
-	public void removeAdminNotPresent(){
+	public void removeUserNotPresent(){
 		InvalidDataException e = Assertions.assertThrows(InvalidDataException.class, () -> userService.removeUser(2));
 		Assertions.assertEquals("Service.USER_NOT_FOUND", e.getMessage());
 	}
 	
+	/**
+	 * Validate credentials.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check Validating Existing User Credentials")
 	public void validateCredentials() throws InvalidDataException{
@@ -131,6 +169,11 @@ public class UserTestUtil {
 		Assertions.assertTrue(userService.validateUser(user.getUserId(),user.getUserName()));
 	}
 	
+	/**
+	 * Invalidate credentials.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Test
 	@DisplayName("Check Validating Existing User Wrong Credentials")
 	public void invalidateCredentials() throws InvalidDataException{
