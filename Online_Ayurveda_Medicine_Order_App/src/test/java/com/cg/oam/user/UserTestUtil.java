@@ -61,7 +61,7 @@ public class UserTestUtil {
 		
 		Mockito.when(userRepository.findByuserName(user.getUserName())).thenReturn(dupUsers);
 		InvalidDataException e = Assertions.assertThrows(InvalidDataException.class, () -> userService.addUser(user));
-		Assertions.assertEquals("Service.USER FOUND", e.getMessage());
+		Assertions.assertEquals("Service.USER_FOUND", e.getMessage());
 	}
 	
 	@Test
