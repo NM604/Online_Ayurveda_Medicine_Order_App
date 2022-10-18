@@ -14,13 +14,31 @@ import com.cg.oam.repository.ICustomerRepository;
 import com.cg.oam.entity.Customer;
 import com.cg.oam.exception.InvalidDataException;
 
+
+/**
+ * The Class ICustomerServiceImpl.
+ */
 @Service(value = "customerService")
 @Transactional
 public class ICustomerServiceImpl implements ICustomerService{
+	
+	/** The i customer repository. */
 	@Autowired
 	private ICustomerRepository iCustomerRepository;
+	
+	/**
+	 * Adds the customer.
+	 *
+	 * @param customer the customer
+	 * @return the integer
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public Integer addCustomer(CustomerDTO customer) throws InvalidDataException  {
+		List<Customer> optionalCustomer = iCustomerRepository.findByCustomerPassword(customer.getCustomerPassword());
+		if(!optionalCustomer.isEmpty()) {
+			throw new InvalidDataException("Service.CUSTOMER_FOUND");
+		}
 		Customer customerEntity = new Customer();
 		customerEntity.setCustomerName(customer.getCustomerName());
 		customerEntity.setCustomerPassword(customer.getCustomerPassword());
@@ -31,6 +49,14 @@ public class ICustomerServiceImpl implements ICustomerService{
 		return customerEntity2.getCustomerId();
 	}
 
+	/**
+	 * Update customer.
+	 *
+	 * @param customerID the customer ID
+	 * @param customerName the customer name
+	 * @param customerPassword the customer password
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public void updateCustomer(Integer customerID,String customerName,String customerPassword) throws InvalidDataException {
 		Optional<Customer> customer1 = iCustomerRepository.findById(customerID);
@@ -40,6 +66,12 @@ public class ICustomerServiceImpl implements ICustomerService{
 		
 	}
 
+	/**
+	 * Show all customers.
+	 *
+	 * @return the list
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public List<CustomerDTO> showAllCustomers() throws InvalidDataException {
 		Iterable<Customer> customers = iCustomerRepository.findAll();
@@ -58,6 +90,12 @@ public class ICustomerServiceImpl implements ICustomerService{
 		return customers2;
 	}
 
+	/**
+	 * Delete customer.
+	 *
+	 * @param customerId the customer id
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public void deleteCustomer(Integer customerId) throws InvalidDataException {
 		Optional<Customer> customer1 = iCustomerRepository.findById(customerId);
@@ -65,6 +103,13 @@ public class ICustomerServiceImpl implements ICustomerService{
 		iCustomerRepository.deleteById(customerId);
 	}
 
+	/**
+	 * View customer.
+	 *
+	 * @param customerId the customer id
+	 * @return the customer DTO
+	 * @throws InvalidDataException the invalid data exception
+	 */
 	@Override
 	public CustomerDTO viewCustomer(Integer customerId) throws InvalidDataException {
 		Optional<Customer> optional = iCustomerRepository.findById(customerId);
