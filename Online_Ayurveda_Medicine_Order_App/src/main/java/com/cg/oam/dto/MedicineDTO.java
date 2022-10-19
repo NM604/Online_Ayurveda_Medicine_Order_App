@@ -6,6 +6,11 @@ import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+
 public class MedicineDTO {
 
 	private Integer srno;
@@ -16,8 +21,11 @@ public class MedicineDTO {
 	private String medicineName;
 	private Float medicineCost;
 	@PastOrPresent(message = "provide correct manufacturing date")
+	// @DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd",shape =Shape.STRING)
 	private LocalDate mfd;
-	@FutureOrPresent(message = "provide correct expiry date")
+	// @FutureOrPresent(message = "provide correct expiry date")
+	@JsonFormat(pattern="yyyy-MM-dd",shape =Shape.STRING)
 	private LocalDate expiryDate;
 	private String companyName;
 	// private Category category;

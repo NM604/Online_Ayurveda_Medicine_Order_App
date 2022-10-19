@@ -69,7 +69,18 @@ public class IMedicineServiceImpl implements IMedicineService {
         medicineEntity.setMfd(medicineDTO.getMfd());
         medicineEntity.setExpiryDate(medicineDTO.getExpiryDate());
         medicineEntity.setCompanyName(medicineDTO.getCompanyName());
-        medicineEntity.setCategory(new Category(medicineDTO.getCategoryDTO().getCategoryId(),medicineDTO.getCategoryDTO().getCategoryName()));
+        List<Category> categoryEntity = iCategoryRepository.findByCategoryId(medicineDTO.getCategoryDTO().getCategoryId());
+        if (categoryEntity.isEmpty()){
+            Category newcat =new Category(medicineDTO.getCategoryDTO().getCategoryId(),medicineDTO.getCategoryDTO().getCategoryName());
+            iCategoryRepository.save(newcat);
+            medicineEntity.setCategory(newcat);
+        }
+        else{
+            Category cat = categoryEntity.get(0);
+            medicineEntity.setCategory(cat);
+        }
+        
+        // medicineEntity.setCategory(new Category(medicineDTO.getCategoryDTO().getCategoryId(),medicineDTO.getCategoryDTO().getCategoryName()));
         
         Medicine createdMedicine  = iMedicineRepository.save(medicineEntity);
 

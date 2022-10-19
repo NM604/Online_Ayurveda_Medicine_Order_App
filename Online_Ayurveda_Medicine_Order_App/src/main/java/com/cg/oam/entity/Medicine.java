@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -23,8 +24,8 @@ public class Medicine {
 	private LocalDate expiryDate;
 	private String companyName;
 	//need to add one to one relation here
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "categoryId", unique = true)
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "categoryId")
 	private Category category;
 
 	public Medicine(){
