@@ -193,5 +193,26 @@ public class IUserServiceTest {
 								() -> userService.validateUser(user.getUserId(),"harry1234"));
 		Assertions.assertEquals("Service.INVALID_CREDENTIALS", e.getMessage());
 	}
+	
+	/**
+	 * Gets a user with Id.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
+	@Test
+	@DisplayName("Check Getting User")
+	public void showUser() throws InvalidDataException{		
+		UserDTO user = new UserDTO(1,"harry123","administrator");
+		List<User> users = new ArrayList<>();
+		User newUser = new User(1,"harry123","administrator");
+		Integer id = user.getUserId();
+		
+		Mockito.when(userRepository.findByuserName(user.getUserName())).thenReturn(users);
+		Mockito.when(userRepository.save(Mockito.any())).thenReturn(newUser);
+		userService.addUser(user);
+		
+		Mockito.when(userRepository.findById(id)).thenReturn(Optional.of(newUser));
+		Assertions.assertEquals(user, userService.showUser(id));
+	}
 
 }

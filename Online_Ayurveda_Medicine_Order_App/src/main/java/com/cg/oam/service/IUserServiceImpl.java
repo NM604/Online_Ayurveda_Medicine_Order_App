@@ -118,7 +118,7 @@ public class IUserServiceImpl implements IUserService{
 	 * @throws InvalidDataException the invalid data exception
 	 */
 	@Override
-	public UserDTO showAdmin(Integer id) throws InvalidDataException {
+	public UserDTO showUser(Integer id) throws InvalidDataException {
 		Optional<User> optionalUser = userRepository.findById(id);
 		User newUser = optionalUser.orElseThrow(() -> new InvalidDataException("Service.USER_NOT_FOUND"));
 		UserDTO user = new UserDTO(newUser.getUserId(), newUser.getUserName(), newUser.getUserType());

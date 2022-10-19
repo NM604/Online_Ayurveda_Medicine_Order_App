@@ -1,6 +1,5 @@
 package com.cg.oam.admin;
 
-import static org.mockito.Mockito.times;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,6 @@ import com.cg.oam.dto.AdminDTO;
 import com.cg.oam.entity.Admin;
 import com.cg.oam.exception.InvalidDataException;
 import com.cg.oam.repository.IAdminRepository;
-import com.cg.oam.service.IAdminService;
 import com.cg.oam.service.IAdminServiceImpl;
 
 /**
@@ -199,6 +197,27 @@ public class IAdminServiceTest {
 		InvalidDataException e = Assertions.assertThrows(InvalidDataException.class, 
 								() -> adminService.validateAdmin(admin.getId(),"harry1234"));
 		Assertions.assertEquals("Service.INVALID_CREDENTIALS", e.getMessage());
+	}
+	
+	/**
+	 * Gets a admin with Id.
+	 *
+	 * @throws InvalidDataException the invalid data exception
+	 */
+	@Test
+	@DisplayName("Check Getting Admin")
+	public void showAdmin() throws InvalidDataException{		
+		AdminDTO admin = new AdminDTO(1,"harry123");
+		List<Admin> admins = new ArrayList<>();
+		Admin newAdmin = new Admin(1,"harry123");
+		Integer id = admin.getId();
+		
+		Mockito.when(adminRepository.findByPassword(admin.getPassword())).thenReturn(admins);
+		Mockito.when(adminRepository.save(Mockito.any())).thenReturn(newAdmin);
+		adminService.addAdmin(admin);
+		
+		Mockito.when(adminRepository.findById(id)).thenReturn(Optional.of(newAdmin));
+		Assertions.assertEquals(admin, adminService.showAdmin(id));
 	}
 
 }

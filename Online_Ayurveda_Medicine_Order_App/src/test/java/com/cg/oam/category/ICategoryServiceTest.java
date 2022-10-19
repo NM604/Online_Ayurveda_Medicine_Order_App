@@ -21,7 +21,7 @@ import com.cg.oam.service.ICategoryServiceImpl;
 
 @SpringBootTest
 @DisplayName(value = "validation for Category Entity")
-public class CategoryTestUtil {
+public class ICategoryServiceTest {
     @Mock 
     ICategoryRepository categoryRepository;
 

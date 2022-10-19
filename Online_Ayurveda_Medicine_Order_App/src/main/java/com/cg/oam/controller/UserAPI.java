@@ -62,7 +62,7 @@ public class UserAPI {
 	public ResponseEntity<UserDTO> getAdmin(@PathVariable 
 													@Min(value = 1, message = "User ID should be greater than 0") Integer Id) 
 															throws InvalidDataException {
-		UserDTO user = userService.showAdmin(Id);
+		UserDTO user = userService.showUser(Id);
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 	

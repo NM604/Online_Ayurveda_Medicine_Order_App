@@ -17,7 +17,7 @@ public interface IUserService {
 	 * @return the user DTO
 	 * @throws InvalidDataException the invalid data exception
 	 */
-	public UserDTO showAdmin(Integer id ) throws InvalidDataException;
+	public UserDTO showUser(Integer id ) throws InvalidDataException;
 	
 	/**
 	 * Adds the user.
