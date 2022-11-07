@@ -18,7 +18,9 @@ import com.cg.oam.dto.MedicineDTO;
 import com.cg.oam.entity.Category;
 import com.cg.oam.entity.Medicine;
 import com.cg.oam.exception.InvalidDataException;
+import com.cg.oam.repository.ICategoryRepository;
 import com.cg.oam.repository.IMedicineRepository;
+import com.cg.oam.service.ICategoryServiceImpl;
 import com.cg.oam.service.IMedicineServiceImpl;
 
 @SpringBootTest
@@ -28,9 +30,15 @@ public class IMedicineServiceTest {
 
     @Mock
     IMedicineRepository medicineRepository;
+    
+    @Mock
+    ICategoryRepository categoryRepository;
 
     @InjectMocks
     IMedicineServiceImpl medicineService;
+    
+    @InjectMocks
+    ICategoryServiceImpl categoryService;
 
     
     /** 
@@ -43,6 +51,9 @@ public class IMedicineServiceTest {
         MedicineDTO medicineDTO = new MedicineDTO(1, "101", "paracitamol", 500f, LocalDate.now(), LocalDate.now(), "AB", categoryDTO);
 
         Category category = new Category("a", "heart");
+        List<Category> catList = new ArrayList<>();
+        Mockito.when(categoryRepository.findByCategoryId(categoryDTO.getCategoryId())).thenReturn(catList);
+        Mockito.when(categoryRepository.save((Mockito.any()))).thenReturn(category);
         List<Medicine> medicines = new ArrayList<>();
         Medicine newMedicine = new Medicine(1, "101", "paracitamol", 500f, LocalDate.now(), LocalDate.now(), "AB", category);
 

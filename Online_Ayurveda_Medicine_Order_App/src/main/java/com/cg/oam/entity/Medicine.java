@@ -24,7 +24,7 @@ public class Medicine {
 	private LocalDate expiryDate;
 	private String companyName;
 	//need to add one to one relation here
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "categoryId")
 	private Category category;
 
