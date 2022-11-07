@@ -13,10 +13,10 @@ import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 public class MedicineDTO {
 
-	private Integer srno;
+	// private Integer srno;
 
 	@NotNull(message = "Please provide medicineId")
-	private String medicineId;
+	private Integer medicineId;
 
 	private String medicineName;
 	private Float medicineCost;
@@ -40,10 +40,10 @@ public class MedicineDTO {
 	 * @param companyName
 	 * @param categoryDTO
 	 */
-	public MedicineDTO(Integer srno, @NotNull(message = "Please provide medicineId") String medicineId,
+	public MedicineDTO(@NotNull(message = "Please provide medicineId") Integer medicineId,
 			String medicineName, Float medicineCost, LocalDate mfd, LocalDate expiryDate, String companyName,
 			CategoryDTO categoryDTO) {
-		this.srno = srno;
+		
 		this.medicineId = medicineId;
 		this.medicineName = medicineName;
 		this.medicineCost = medicineCost;
@@ -53,31 +53,19 @@ public class MedicineDTO {
 		this.categoryDTO = categoryDTO;
 	}
 	
-	/** 
-	 * @return Integer
-	 */
-	public Integer getSrno() {
-		return srno;
-	}
 	
-	/** 
-	 * @param srno
-	 */
-	public void setSrno(Integer srno) {
-		this.srno = srno;
-	}
 	
 	/** 
 	 * @return String
 	 */
-	public String getMedicineId() {
+	public Integer getMedicineId() {
 		return medicineId;
 	}
 	
 	/** 
 	 * @param medicineId
 	 */
-	public void setMedicineId(String medicineId) {
+	public void setMedicineId(Integer medicineId) {
 		this.medicineId = medicineId;
 	}
 	
@@ -173,26 +161,23 @@ public class MedicineDTO {
 	 */
 	@Override
     public String toString() {
-        return "MedicineDTO [srno=" + srno + ", medicineId=" + medicineId + ", medicineName=" + medicineName
+        return "MedicineDTO [medicineId=" + medicineId + ", medicineName=" + medicineName
                 + ", medicineCost=" + medicineCost + ", mfd=" + mfd + ", expiryDate=" + expiryDate + ", companyName="
                 + companyName + ", category=" + categoryDTO + "]";
     }
-	
-	/** 
-	 * @return int
-	 */
+
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((srno == null) ? 0 : srno.hashCode());
+		result = prime * result + ((medicineId == null) ? 0 : medicineId.hashCode());
 		return result;
 	}
-	
-	/** 
-	 * @param obj
-	 * @return boolean
-	 */
+
+
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -202,15 +187,16 @@ public class MedicineDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		MedicineDTO other = (MedicineDTO) obj;
-		if (srno == null) {
-			if (other.srno != null)
+		if (medicineId == null) {
+			if (other.medicineId != null)
 				return false;
-		} else if (!srno.equals(other.srno))
+		} else if (!medicineId.equals(other.medicineId))
 			return false;
 		return true;
 	}
-
 	
+
+
 	
 
 }

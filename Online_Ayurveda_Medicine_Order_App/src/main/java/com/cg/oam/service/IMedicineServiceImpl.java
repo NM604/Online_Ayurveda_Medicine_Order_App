@@ -35,7 +35,7 @@ public class IMedicineServiceImpl implements IMedicineService {
      */
     public MedicineDTO convertEntityToDto(Medicine medicine) {
 		MedicineDTO resultOMedicineDto = new MedicineDTO();
-        resultOMedicineDto.setSrno(medicine.getSrno());
+        // resultOMedicineDto.setSrno(medicine.getSrno());
 		resultOMedicineDto.setMedicineId(medicine.getMedicineId()); 
 		resultOMedicineDto.setMedicineName(medicine.getMedicineName());
 		resultOMedicineDto.setMedicineCost(medicine.getMedicineCost());
@@ -63,7 +63,7 @@ public class IMedicineServiceImpl implements IMedicineService {
         }
 
         Medicine medicineEntity = new Medicine();
-        medicineEntity.setMedicineId(medicineDTO.getMedicineId());
+        // medicineEntity.setMedicineId(medicineDTO.getMedicineId());
         medicineEntity.setMedicineName(medicineDTO.getMedicineName());
         medicineEntity.setMedicineCost(medicineDTO.getMedicineCost());
         medicineEntity.setMfd(medicineDTO.getMfd());
@@ -110,10 +110,10 @@ public class IMedicineServiceImpl implements IMedicineService {
         return createdMedicineDTO;
     }
     @Override
-    public MedicineDTO viewMedicine(String medicineDTO) throws InvalidDataException {
+    public MedicineDTO viewMedicine(Integer medicineId) throws InvalidDataException {
         // TODO Auto-generated method stub
         
-        List<Medicine> optional = iMedicineRepository.findByMedicineId(medicineDTO);
+        List<Medicine> optional = iMedicineRepository.findByMedicineId(medicineId);
         if(optional.isEmpty()){
             throw new InvalidDataException("Service.MEDICINE_NOT_FOUND");
         }
@@ -211,7 +211,7 @@ public class IMedicineServiceImpl implements IMedicineService {
         return createdMedicineDTO;
     }
     @Override
-    public MedicineDTO deleteMedicine(String medicineId) throws InvalidDataException  {
+    public MedicineDTO deleteMedicine(Integer medicineId) throws InvalidDataException  {
         // TODO Auto-generated method stub
         List<Medicine> optional = iMedicineRepository.findByMedicineId(medicineId);
         if(optional.isEmpty()){
@@ -238,7 +238,7 @@ public class IMedicineServiceImpl implements IMedicineService {
         List<MedicineDTO> medicineDTOs = new ArrayList<>();
 
         medicines.forEach(medicine->{
-            MedicineDTO newmeMedicineDTO = new MedicineDTO(medicine.getSrno(),medicine.getMedicineId(), medicine.getMedicineName(), medicine.getMedicineCost(), medicine.getMfd(), medicine.getExpiryDate(), medicine.getCompanyName(),  new CategoryDTO(medicine.getCategory().getCategoryId(),medicine.getCategory().getCategoryName()));
+            MedicineDTO newmeMedicineDTO = new MedicineDTO(medicine.getMedicineId(), medicine.getMedicineName(), medicine.getMedicineCost(), medicine.getMfd(), medicine.getExpiryDate(), medicine.getCompanyName(),  new CategoryDTO(medicine.getCategory().getCategoryId(),medicine.getCategory().getCategoryName()));
             medicineDTOs.add(newmeMedicineDTO);
         });
 

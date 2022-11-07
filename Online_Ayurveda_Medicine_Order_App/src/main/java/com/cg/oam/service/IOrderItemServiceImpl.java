@@ -63,7 +63,7 @@ public class IOrderItemServiceImpl implements IOrderItemService {
 		Medicine medicine = order.getMedicine();
 
 		MedicineDTO resultOMedicineDto = new MedicineDTO();
-		resultOMedicineDto.setSrno(medicine.getSrno());
+		// resultOMedicineDto.setSrno(medicine.getSrno());
 		resultOMedicineDto.setMedicineId(medicine.getMedicineId());
 		resultOMedicineDto.setMedicineName(medicine.getMedicineName());
 		resultOMedicineDto.setMedicineCost(medicine.getMedicineCost());
@@ -147,7 +147,7 @@ public class IOrderItemServiceImpl implements IOrderItemService {
 
 	@Override
 	public List<OrderItemDTO> showAllOrderItemsByMedicineId(Integer medicineId) throws InvalidDataException {
-		Optional<Medicine> optionalmed = medicineRepository.findById(medicineId.toString());
+		Optional<Medicine> optionalmed = medicineRepository.findById(medicineId);
 		Medicine med = optionalmed.orElseThrow(() -> new InvalidDataException("Service.MEDICINE_NOT_FOUND"));
 		
 		List<OrderItem> orders = orderItemRepository.findByMedicine(med);
