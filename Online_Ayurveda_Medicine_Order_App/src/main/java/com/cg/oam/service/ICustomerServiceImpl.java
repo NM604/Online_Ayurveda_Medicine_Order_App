@@ -42,9 +42,7 @@ public class ICustomerServiceImpl implements ICustomerService{
 		Customer customerEntity = new Customer();
 		customerEntity.setCustomerName(customer.getCustomerName());
 		customerEntity.setCustomerPassword(customer.getCustomerPassword());
-		customerEntity.setMedicineList(customer.getMedicineList());
 		customerEntity.setCustomerId(customer.getCustomerId());
-		customerEntity.setOrder(customer.getOrder());
 		Customer customerEntity2 = iCustomerRepository.save(customerEntity);
 		return customerEntity2.getCustomerId();
 	}
@@ -80,9 +78,7 @@ public class ICustomerServiceImpl implements ICustomerService{
 			CustomerDTO cust = new CustomerDTO();
 			cust.setCustomerName(customer.getCustomerName());
 			cust.setCustomerPassword(customer.getCustomerPassword());
-			cust.setMedicineList(customer.getMedicineList());
 			cust.setCustomerId(customer.getCustomerId());
-			cust.setOrder(customer.getOrder());
 			customers2.add(cust);
 		});
 		if (customers2.isEmpty())
@@ -100,7 +96,7 @@ public class ICustomerServiceImpl implements ICustomerService{
 	public CustomerDTO deleteCustomer(Integer customerId) throws InvalidDataException {
 		Optional<Customer> customer1 = iCustomerRepository.findById(customerId);
 		Customer cus=customer1.orElseThrow(() -> new InvalidDataException("Service.CUSTOMER_NOT_FOUND"));
-		CustomerDTO customer=new CustomerDTO(cus.getCustomerId(),cus.getCustomerName(),cus.getCustomerPassword(),cus.getMedicineList(),cus.getOrder());
+		CustomerDTO customer=new CustomerDTO(cus.getCustomerId(),cus.getCustomerName(),cus.getCustomerPassword());
 		iCustomerRepository.deleteById(customerId);
 		return customer;
 	}
@@ -119,9 +115,7 @@ public class ICustomerServiceImpl implements ICustomerService{
 		CustomerDTO customer2 = new CustomerDTO();
 		customer2.setCustomerName(customer.getCustomerName());
 		customer2.setCustomerPassword(customer.getCustomerPassword());
-		customer2.setMedicineList(customer.getMedicineList());
 		customer2.setCustomerId(customer.getCustomerId());
-		customer2.setOrder(customer.getOrder());
 		return customer2;
 	}
 	

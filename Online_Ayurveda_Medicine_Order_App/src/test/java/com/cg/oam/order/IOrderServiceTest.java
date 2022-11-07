@@ -178,7 +178,7 @@ public class IOrderServiceTest {
 		Mockito.when(customerRepository.findById(anyInt())).thenReturn(option);
 		InvalidDataException exception = assertThrows(InvalidDataException.class,
 				() -> orderService.showAllOrdersByCustomerId(1));
-		assertEquals("Customer not found", exception.getMessage());
+		assertEquals("Service.CUSTOMER_NOT_FOUND", exception.getMessage());
 	}
 
 	/**
