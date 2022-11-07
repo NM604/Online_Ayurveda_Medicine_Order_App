@@ -49,7 +49,7 @@ public class MedicineAPI {
      * @throws InvalidDataException
      */
     @GetMapping(value = "/medicine/{medicineId}")
-    public ResponseEntity<MedicineDTO> getMedicine(@PathVariable @Min(value = 1, message = "please give valid id") String medicineId) throws InvalidDataException{
+    public ResponseEntity<MedicineDTO> getMedicine(@PathVariable @Min(value = 1, message = "please give valid id") Integer medicineId) throws InvalidDataException{
         MedicineDTO medicineDTO = iMedicineService.viewMedicine(medicineId);
         return new ResponseEntity<MedicineDTO>(medicineDTO,HttpStatus.OK);
     }
@@ -86,7 +86,7 @@ public class MedicineAPI {
      * @throws InvalidDataException
      */
     @DeleteMapping(value = "/medicine/{medicineId}")
-    public ResponseEntity<String> deleleMedicine(@PathVariable @Min(value = 1, message = "please give valid id") String medicineId ) throws InvalidDataException{
+    public ResponseEntity<String> deleleMedicine(@PathVariable @Min(value = 1, message = "please give valid id") Integer medicineId ) throws InvalidDataException{
         iMedicineService.deleteMedicine(medicineId);
         String successMessage = environment.getProperty("API.DELETE_SUCCESS");
         return new ResponseEntity<String>(successMessage,HttpStatus.OK);

@@ -23,7 +23,7 @@ public class OrderItem {
 	private OrderDetail orderDetail;
 	
 	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="med_id")
+	@JoinColumn(name="medicine_id")
 	private Medicine medicine;
 
 	public OrderItem() {

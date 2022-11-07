@@ -43,37 +43,51 @@ public class IOrderItemServiceImpl implements IOrderItemService {
 		resultOrderItemDto.setQuantity(order.getQuantity());
 		resultOrderItemDto.setPrice(order.getPrice());
 
+		
 		OrderDetail orderDetail = order.getOrderDetail();
-
-		OrderDetailDTO resultOrderDto = new OrderDetailDTO();
-		resultOrderDto.setOrderDetailId(orderDetail.getOrderDetailId());
-		resultOrderDto.setDispatchDate(orderDetail.getDispatchDate());
-		resultOrderDto.setOrderDate(orderDetail.getOrderDate());
-		resultOrderDto.setTotalCost(orderDetail.getTotalCost());
-		resultOrderDto.setOrderStatus(orderDetail.getOrderStatus());
-		Customer c = orderDetail.getCustomer();
-		CustomerDTO cd = new CustomerDTO();
-		cd.setCustomerId(c.getCustomerId());
-		cd.setCustomerName(c.getCustomerName());
-		cd.setCustomerPassword(c.getCustomerPassword());
-		resultOrderDto.setCustomer(cd);
-
-		resultOrderItemDto.setOrderDetail(resultOrderDto);
+		if(orderDetail!=null) {
+			OrderDetailDTO resultOrderDto = new OrderDetailDTO();
+			resultOrderDto.setOrderDetailId(orderDetail.getOrderDetailId());
+			resultOrderDto.setDispatchDate(orderDetail.getDispatchDate());
+			resultOrderDto.setOrderDate(orderDetail.getOrderDate());
+			resultOrderDto.setTotalCost(orderDetail.getTotalCost());
+			resultOrderDto.setOrderStatus(orderDetail.getOrderStatus());
+			Customer c = orderDetail.getCustomer();
+			CustomerDTO cd = new CustomerDTO();
+			cd.setCustomerId(c.getCustomerId());
+			cd.setCustomerName(c.getCustomerName());
+			cd.setCustomerPassword(c.getCustomerPassword());
+			resultOrderDto.setCustomer(cd);
+			resultOrderItemDto.setOrderDetail(resultOrderDto);
+		}else {
+			resultOrderItemDto.setOrderDetail(null);
+		}
+		
 
 		Medicine medicine = order.getMedicine();
+		if(medicine!=null) {
+			MedicineDTO resultOMedicineDto = new MedicineDTO();
+			// resultOMedicineDto.setSrno(medicine.getSrno());
+			resultOMedicineDto.setMedicineId(medicine.getMedicineId());
+			resultOMedicineDto.setMedicineName(medicine.getMedicineName());
+			resultOMedicineDto.setMedicineCost(medicine.getMedicineCost());
+			resultOMedicineDto.setMfd(medicine.getMfd());
+			resultOMedicineDto.setExpiryDate(medicine.getExpiryDate());
+			resultOMedicineDto.setCompanyName(medicine.getCompanyName());
+			if(resultOMedicineDto.getCategoryDTO()!=null) {
+				resultOMedicineDto.setCategoryDTO(
+						new CategoryDTO(medicine.getCategory().getCategoryId(), medicine.getCategory().getCategoryName()));
+			}else {
+				resultOMedicineDto.setCategoryDTO(null);
+			}
+			
 
-		MedicineDTO resultOMedicineDto = new MedicineDTO();
-		// resultOMedicineDto.setSrno(medicine.getSrno());
-		resultOMedicineDto.setMedicineId(medicine.getMedicineId());
-		resultOMedicineDto.setMedicineName(medicine.getMedicineName());
-		resultOMedicineDto.setMedicineCost(medicine.getMedicineCost());
-		resultOMedicineDto.setMfd(medicine.getMfd());
-		resultOMedicineDto.setExpiryDate(medicine.getExpiryDate());
-		resultOMedicineDto.setCompanyName(medicine.getCompanyName());
-		resultOMedicineDto.setCategoryDTO(
-				new CategoryDTO(medicine.getCategory().getCategoryId(), medicine.getCategory().getCategoryName()));
+			resultOrderItemDto.setMedicine(resultOMedicineDto);
+		}else {
+			resultOrderItemDto.setOrderDetail(null);
+		}
 
-		resultOrderItemDto.setMedicine(resultOMedicineDto);
+		
 
 		return resultOrderItemDto;
 	}
@@ -92,6 +106,10 @@ public class IOrderItemServiceImpl implements IOrderItemService {
 		Optional<OrderDetail> optionalOrdDet = orderDetailRepository.findById(orderItem.getOrderDetail().getOrderDetailId());
 		OrderDetail ord = optionalOrdDet.get();
 		orderEntity.setOrderDetail(ord);
+		
+		Optional<Medicine> optionalMed = medicineRepository.findById(orderItem.getMedicine().getMedicineId());
+		Medicine med = optionalMed.get();
+		orderEntity.setMedicine(med);
 		
 		OrderItem createdOrder = orderItemRepository.save(orderEntity);
 

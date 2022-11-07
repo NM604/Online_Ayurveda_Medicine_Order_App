@@ -37,11 +37,17 @@ public class IOrderDetailServiceImpl implements IOrderDetailService{
 		resultOrderDto.setTotalCost(order.getTotalCost());
 		resultOrderDto.setOrderStatus(order.getOrderStatus());
 		Customer c= order.getCustomer();
-		CustomerDTO cd =new CustomerDTO();
-		cd.setCustomerId(c.getCustomerId());
-		cd.setCustomerName(c.getCustomerName());
-		cd.setCustomerPassword(c.getCustomerPassword());
-		resultOrderDto.setCustomer(cd);
+		if(c!=null) {
+			CustomerDTO cd =new CustomerDTO();
+			cd.setCustomerId(c.getCustomerId());
+			cd.setCustomerName(c.getCustomerName());
+			cd.setCustomerPassword(c.getCustomerPassword());
+			resultOrderDto.setCustomer(cd);
+		}else {
+			resultOrderDto.setCustomer(null);
+		}
+		
+		
 		return resultOrderDto;
 	}
 	
