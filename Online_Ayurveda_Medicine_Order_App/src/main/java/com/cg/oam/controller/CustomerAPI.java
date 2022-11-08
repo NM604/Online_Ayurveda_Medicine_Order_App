@@ -10,6 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.oam.exception.InvalidDataException;
 import com.cg.oam.service.ICustomerService;
+import com.cg.oam.dto.AdminDTO;
 import com.cg.oam.dto.CustomerDTO;
 
 
@@ -30,6 +32,7 @@ import com.cg.oam.dto.CustomerDTO;
 /**
  * The Class CustomerAPI.
  */
+@CrossOrigin(maxAge = 3600)
 @RestController
 @RequestMapping(value = "/oam/userinterface")
 @Validated
@@ -116,6 +119,15 @@ public class CustomerAPI {
 	public ResponseEntity<String> deleteCustomer(@Min(value=1,message="Id should be greater than or equal to 1")@PathVariable Integer customerId) throws InvalidDataException {
 		customerService.deleteCustomer(customerId);
 		String successMessage = environment.getProperty("API.CUSTOMER_DELETE_SUCCESS");
+		return new ResponseEntity<>(successMessage, HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/customers/validate")
+	public ResponseEntity<String> validateAdmin(@Valid @RequestBody CustomerDTO customer) throws InvalidDataException{
+		String successMessage = "";
+		if (customerService.validateCustomer(customer.getCustomerName(),customer.getCustomerPassword())) {
+			successMessage += "Valid Credentials";
+		}
 		return new ResponseEntity<>(successMessage, HttpStatus.OK);
 	}
 

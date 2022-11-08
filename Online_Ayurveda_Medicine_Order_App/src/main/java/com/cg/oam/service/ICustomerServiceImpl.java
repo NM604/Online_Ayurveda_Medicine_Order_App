@@ -35,7 +35,7 @@ public class ICustomerServiceImpl implements ICustomerService{
 	 */
 	@Override
 	public Integer addCustomer(CustomerDTO customer) throws InvalidDataException  {
-		List<Customer> optionalCustomer = iCustomerRepository.findByCustomerPassword(customer.getCustomerPassword());
+		List<Customer> optionalCustomer = iCustomerRepository.findByCustomerName(customer.getCustomerName());
 		if(!optionalCustomer.isEmpty()) {
 			throw new InvalidDataException("Service.CUSTOMER_FOUND");
 		}
@@ -96,7 +96,7 @@ public class ICustomerServiceImpl implements ICustomerService{
 	public CustomerDTO deleteCustomer(Integer customerId) throws InvalidDataException {
 		Optional<Customer> customer1 = iCustomerRepository.findById(customerId);
 		Customer cus=customer1.orElseThrow(() -> new InvalidDataException("Service.CUSTOMER_NOT_FOUND"));
-		CustomerDTO customer=new CustomerDTO(cus.getCustomerId(),cus.getCustomerName(),cus.getCustomerPassword());
+		CustomerDTO customer=new CustomerDTO(cus.getCustomerId(),cus.getCustomerName(),cus.getCustomerName());
 		iCustomerRepository.deleteById(customerId);
 		return customer;
 	}
@@ -119,5 +119,16 @@ public class ICustomerServiceImpl implements ICustomerService{
 		return customer2;
 	}
 	
+	public boolean validateCustomer(String userName, String password) throws InvalidDataException{
+		List<Customer> customers = iCustomerRepository.findByCustomerName(userName);
+		if(customers.isEmpty()) {
+			throw new InvalidDataException("Service.CUSTOMER_NOT_FOUND");
+		}
+		Customer customer = customers.get(0);
+		if(!password.equals(customer.getCustomerPassword())) {
+			throw new InvalidDataException("Service.INVALID_CREDENTIALS");
+		}
+		return true;
+	}
 
 }

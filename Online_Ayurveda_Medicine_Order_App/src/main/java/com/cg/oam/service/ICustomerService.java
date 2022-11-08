@@ -53,5 +53,7 @@ public interface ICustomerService{
 	 * @throws InvalidDataException the invalid data exception
 	 */
 	public CustomerDTO viewCustomer(Integer customerId) throws InvalidDataException;
+	
+	public boolean validateCustomer(String userName, String password) throws InvalidDataException;
 
 }

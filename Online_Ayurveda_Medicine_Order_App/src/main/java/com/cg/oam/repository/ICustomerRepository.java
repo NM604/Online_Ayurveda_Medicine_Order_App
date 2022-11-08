@@ -24,5 +24,5 @@ public interface ICustomerRepository extends CrudRepository<Customer, Integer>{
 	 * @param password the password
 	 * @return the list
 	 */
-	List<Customer> findByCustomerPassword(String password);
+	List<Customer> findByCustomerName(String password);
 }
