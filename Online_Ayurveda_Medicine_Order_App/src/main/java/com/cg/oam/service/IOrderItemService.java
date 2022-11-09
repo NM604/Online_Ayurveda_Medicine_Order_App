@@ -11,10 +11,13 @@ public interface IOrderItemService {
 	public List<OrderItemDTO> viewAllOrderItems() throws InvalidDataException;
 
 	public OrderItemDTO viewOrderItemById(Integer orderItemId) throws InvalidDataException;
+	
 
 	public OrderItemDTO updateOrderItem(OrderItemDTO orderItem) throws InvalidDataException;
 
 	public List<OrderItemDTO> showAllOrderItemsByMedicineId(Integer medicineId) throws InvalidDataException;
+	
+	public List<OrderItemDTO> showAllOrderItemsByOrderDetailId(Integer orderDetailId) throws InvalidDataException;
 
 	public OrderItemDTO deleteOrderItem(Integer orderItemId) throws InvalidDataException;
 

@@ -14,4 +14,5 @@ public interface IOrderDetailRepository extends CrudRepository<OrderDetail, Inte
 	List<OrderDetail> findByOrderDate(LocalDate orderDate);
 	List<OrderDetail> findByDispatchDate(LocalDate dispatchDate);
 	List<OrderDetail> findByCustomer(Customer customer);
+	List<OrderDetail> findByCustomerOrderByOrderDetailIdDesc(Customer customer);
 }

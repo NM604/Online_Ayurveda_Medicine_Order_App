@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ import javax.validation.constraints.PastOrPresent;
 import com.cg.oam.dto.OrderDetailDTO;
 import com.cg.oam.dto.OrderStatus;
 
+@CrossOrigin(maxAge = 3600)
 @RestController
 @RequestMapping(value = "/oam")
 @Validated
@@ -60,8 +62,10 @@ public class OrderDetailAPI {
 	@PostMapping(value = "/order-details")
 	public ResponseEntity<String> addOrderDetail(@Valid @RequestBody OrderDetailDTO order) throws InvalidDataException {
 		OrderDetailDTO orderDto = orderService.addOrderDetail(order);
-		String successMessage = environment.getProperty("API.ORDER_DETAIL_INSERT_SUCCESS") + orderDto.getOrderDetailId();
-		return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
+		//String successMessage = environment.getProperty("API.ORDER_DETAIL_INSERT_SUCCESS") + orderDto.getOrderDetailId();
+		Integer id=orderDto.getOrderDetailId();
+		return new ResponseEntity<>(id.toString(),HttpStatus.CREATED);
+		//return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
 	}
 	
 	@PutMapping(value = "/order-details")

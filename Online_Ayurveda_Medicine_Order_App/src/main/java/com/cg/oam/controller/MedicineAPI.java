@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import com.cg.oam.exception.InvalidDataException;
 import com.cg.oam.service.IMedicineService;
 import com.cg.oam.dto.MedicineDTO;
 
+@CrossOrigin(maxAge = 3600)
 @RestController
 @RequestMapping(value = "/oam/userinterface")
 public class MedicineAPI {

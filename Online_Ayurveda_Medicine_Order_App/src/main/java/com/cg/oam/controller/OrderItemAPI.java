@@ -12,6 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ import com.cg.oam.repository.IOrderItemRepository;
 import com.cg.oam.service.IOrderDetailService;
 import com.cg.oam.service.IOrderItemService;
 
+@CrossOrigin(maxAge = 3600)
 @RestController
 @RequestMapping(value = "/oam")
 @Validated
@@ -55,6 +57,12 @@ public class OrderItemAPI {
 	@GetMapping(value = "/order-items/{orderId}")
 	public ResponseEntity<OrderItemDTO> viewOrderItemsById(@Min(value = 1, message = "order id should be grater than or equal to 1") @PathVariable Integer orderId) throws InvalidDataException {
 		OrderItemDTO orders = orderService.viewOrderItemById(orderId);
+		return new ResponseEntity<>(orders, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/order-items/order-details/{orderId}")
+	public ResponseEntity<List<OrderItemDTO>> viewAllOrderItemsByOrderDetailId(@Min(value = 1, message = "order id should be grater than or equal to 1") @PathVariable Integer orderId) throws InvalidDataException {
+		List<OrderItemDTO> orders = orderService.showAllOrderItemsByOrderDetailId(orderId);
 		return new ResponseEntity<>(orders, HttpStatus.OK);
 	}
 	@PutMapping(value = "/order-items")

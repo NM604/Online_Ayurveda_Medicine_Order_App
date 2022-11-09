@@ -194,4 +194,22 @@ public class IOrderItemServiceImpl implements IOrderItemService {
 		return orderDto;
 	}
 
+	@Override
+	public List<OrderItemDTO> showAllOrderItemsByOrderDetailId(Integer orderDetailId) throws InvalidDataException {
+		Optional<OrderDetail> optionalord = orderDetailRepository.findById(orderDetailId);
+		OrderDetail ord = optionalord.orElseThrow(() -> new InvalidDataException("Service.ORDER_DETAIL_NOT_FOUND"));
+		
+		List<OrderItem> orders = orderItemRepository.findByOrderDetail(ord);
+		List<OrderItemDTO> orderDtos = new ArrayList<>();
+		orders.forEach((order) -> {
+			OrderItemDTO orderDto = convertEntityToDto(order);
+			orderDtos.add(orderDto);
+		});
+
+		if (orderDtos.isEmpty()) {
+			throw new InvalidDataException("Service.ORDER_ITEMS_NOT_FOUND");
+		}
+		return orderDtos;
+	}
+
 }

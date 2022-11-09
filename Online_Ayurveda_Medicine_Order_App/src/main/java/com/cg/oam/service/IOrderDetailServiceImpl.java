@@ -175,7 +175,8 @@ public class IOrderDetailServiceImpl implements IOrderDetailService{
 		Optional<Customer> optionalCust = customerRepository.findById(customerId);
 		Customer cust = optionalCust.orElseThrow(() -> new InvalidDataException("Service.CUSTOMERS_NOT_FOUND"));
 		
-		List<OrderDetail> orders = orderDetailRepository.findByCustomer(cust);
+		//List<OrderDetail> orders = orderDetailRepository.findByCustomer(cust);
+		List<OrderDetail> orders = orderDetailRepository.findByCustomerOrderByOrderDetailIdDesc(cust);
 		List<OrderDetailDTO> orderDtos = new ArrayList<>();
 		orders.forEach((order) -> {
 			OrderDetailDTO orderDto = convertEntityToDto(order);
