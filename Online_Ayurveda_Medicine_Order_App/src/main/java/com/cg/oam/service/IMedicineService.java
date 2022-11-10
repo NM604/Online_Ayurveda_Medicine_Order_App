@@ -12,12 +12,12 @@ public interface IMedicineService {
      * @throws InvalidDataException
      */
     public MedicineDTO addMedicine(MedicineDTO medicineDTO) throws InvalidDataException;
-    /**
-     * @param medicineDTO
-     * @return
-     * @throws InvalidDataException
-     */
-    public MedicineDTO viewMedicine(MedicineDTO medicineDTO) throws InvalidDataException;
+    // /**
+    //  * @param medicineDTO
+    //  * @return
+    //  * @throws InvalidDataException
+    //  */
+    // public MedicineDTO viewMedicine(MedicineDTO medicineDTO) throws InvalidDataException;
     /**
      * @param medicineDTO
      * @return

@@ -27,7 +27,7 @@ public class ICategoryServiceImpl implements ICategoryService{
      */
     @Override
     public CategoryDTO addCategoryDTO(CategoryDTO categoryDTO) throws InvalidDataException {
-        List<Category> optionalCategories = categoryRepository.findByCategoryId(categoryDTO.getCategoryId());
+        List<Category> optionalCategories = categoryRepository.findByCategoryName(categoryDTO.getCategoryName());
         if(!optionalCategories.isEmpty()){
             throw new InvalidDataException("Service.CATEGORY_FOUND");
         }
@@ -46,7 +46,7 @@ public class ICategoryServiceImpl implements ICategoryService{
      * @throws InvalidDataException
      */
     @Override
-    public CategoryDTO removeCategoryDTO(String categoryId) throws InvalidDataException {
+    public CategoryDTO removeCategoryDTO(Integer categoryId) throws InvalidDataException {
         // TODO Auto-generated method stub
         List<Category> optionalCategories = categoryRepository.findByCategoryId(categoryId);
         if(optionalCategories.isEmpty()){
@@ -67,7 +67,7 @@ public class ICategoryServiceImpl implements ICategoryService{
      * @throws InvalidDataException
      */
     @Override
-    public CategoryDTO viewCategory(String categoryId) throws InvalidDataException {
+    public CategoryDTO viewCategory(Integer categoryId) throws InvalidDataException {
         // TODO Auto-generated method stub
         List<Category> optionalCategories = categoryRepository.findByCategoryId(categoryId);
         if(optionalCategories.isEmpty()){
@@ -105,7 +105,7 @@ public class ICategoryServiceImpl implements ICategoryService{
      * @throws InvalidDataException
      */
     @Override
-    public CategoryDTO updateCategoryDTO(String categoryId, String name) throws InvalidDataException {
+    public CategoryDTO updateCategoryDTO(Integer categoryId, String name) throws InvalidDataException {
         // TODO Auto-generated method stub
         List<Category> optionalCategories = categoryRepository.findByCategoryId(categoryId);
         // Category category = optionalCategories.orElseThrow(()-> new InvalidDataException("Service.CATEGORY_NOT_FOUND"));

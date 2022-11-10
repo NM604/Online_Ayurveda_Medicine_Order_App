@@ -1,6 +1,12 @@
 package com.cg.oam.dto;
+
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+
 public class CategoryDTO {
-    private String categoryId;
+
+    private Integer categoryId;
+    @NotNull
     private String categoryName;
 
 
@@ -10,7 +16,7 @@ public class CategoryDTO {
      * @param categoryId
      * @param categoryName
      */
-    public CategoryDTO(String categoryId, String categoryName) {
+    public CategoryDTO(Integer categoryId, String categoryName) {
 		super();
 		this.categoryId = categoryId;
 		this.categoryName = categoryName;
@@ -19,14 +25,14 @@ public class CategoryDTO {
     /** 
      * @return String
      */
-    public String getCategoryId() {
+    public Integer getCategoryId() {
         return categoryId;
     }
     
     /** 
      * @param categoryId
      */
-    public void setCategoryId(String categoryId) {
+    public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
     }
     
