@@ -15,7 +15,7 @@ public class MedicineDTO {
 
 	// private Integer srno;
 
-	@NotNull(message = "Please provide medicineId")
+	// @NotNull(message = "Please provide medicineId")
 	private Integer medicineId;
 
 	private String medicineName;

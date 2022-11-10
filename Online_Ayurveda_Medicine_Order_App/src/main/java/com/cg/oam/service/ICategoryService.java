@@ -17,20 +17,20 @@ public interface ICategoryService {
      * @return
      * @throws InvalidDataException
      */
-    public CategoryDTO removeCategoryDTO(String categoryId) throws InvalidDataException;
+    public CategoryDTO removeCategoryDTO(Integer categoryId) throws InvalidDataException;
     /**
      * @param categoryId
      * @param nameToBeUpdated
      * @return
      * @throws InvalidDataException
      */
-    public CategoryDTO updateCategoryDTO(String categoryId, String nameToBeUpdated) throws InvalidDataException;
+    public CategoryDTO updateCategoryDTO(Integer categoryId, String nameToBeUpdated) throws InvalidDataException;
     /**
      * @param categoryId
      * @return
      * @throws InvalidDataException
      */
-    public CategoryDTO viewCategory(String categoryId) throws InvalidDataException;
+    public CategoryDTO viewCategory(Integer categoryId) throws InvalidDataException;
     /**
      * @return
      * @throws InvalidDataException

@@ -75,8 +75,9 @@ public class MedicineAPI {
      * @return ResponseEntity<String>
      * @throws InvalidDataException
      */
-    @PutMapping(value = "/medicine/{medicineId}")
-    public ResponseEntity<String> updateMedicine(@PathVariable @Min(value = 1, message = "please give valid id") String medicineId,@RequestBody MedicineDTO medicineDTO) throws InvalidDataException{
+    // @PathVariable @Min(value = 1, message = "please give valid id") String medicineId,@
+    @PutMapping(value = "/medicine")
+    public ResponseEntity<String> updateMedicine(@RequestBody MedicineDTO medicineDTO) throws InvalidDataException{
         iMedicineService.updateMedicine(medicineDTO);
         String successMessage = environment.getProperty("API.UPDATE_SUCCESS");
         return new ResponseEntity<String>(successMessage,HttpStatus.OK);

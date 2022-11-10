@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cg.oam.dto.CategoryDTO;
 import com.cg.oam.dto.MedicineDTO;
@@ -18,6 +19,7 @@ import com.cg.oam.repository.ICategoryRepository;
 
 
 @Service(value = "iMedicineService")
+@Transactional
 public class IMedicineServiceImpl implements IMedicineService {
 
     @Autowired
@@ -69,7 +71,7 @@ public class IMedicineServiceImpl implements IMedicineService {
         medicineEntity.setMfd(medicineDTO.getMfd());
         medicineEntity.setExpiryDate(medicineDTO.getExpiryDate());
         medicineEntity.setCompanyName(medicineDTO.getCompanyName());
-        List<Category> categoryEntity = iCategoryRepository.findByCategoryId(medicineDTO.getCategoryDTO().getCategoryId());
+        List<Category> categoryEntity = iCategoryRepository.findByCategoryName(medicineDTO.getCategoryDTO().getCategoryName());
         if (categoryEntity.isEmpty()){
             Category newcat =new Category(medicineDTO.getCategoryDTO().getCategoryId(),medicineDTO.getCategoryDTO().getCategoryName());
             iCategoryRepository.save(newcat);
@@ -95,20 +97,20 @@ public class IMedicineServiceImpl implements IMedicineService {
      * @return MedicineDTO
      * @throws InvalidDataException
      */
-    @Override
-    public MedicineDTO viewMedicine(MedicineDTO medicineDTO) throws InvalidDataException {
-        // TODO Auto-generated method stub
+    // @Override
+    // public MedicineDTO viewMedicine(MedicineDTO medicineDTO) throws InvalidDataException {
+    //     // TODO Auto-generated method stub
         
-        List<Medicine> optional = iMedicineRepository.findByMedicineId(medicineDTO.getMedicineId());
-        if(optional.isEmpty()){
-            throw new InvalidDataException("Service.MEDICINE_NOT_FOUND");
-        }
-		Medicine medicineEntity = optional.get(0);
+    //     List<Medicine> optional = iMedicineRepository.findByMedicineId(medicineDTO.getMedicineId());
+    //     if(optional.isEmpty()){
+    //         throw new InvalidDataException("Service.MEDICINE_NOT_FOUND");
+    //     }
+	// 	Medicine medicineEntity = optional.get(0);
 
-		MedicineDTO createdMedicineDTO = convertEntityToDto(medicineEntity);
+	// 	MedicineDTO createdMedicineDTO = convertEntityToDto(medicineEntity);
 
-        return createdMedicineDTO;
-    }
+    //     return createdMedicineDTO;
+    // }
     @Override
     public MedicineDTO viewMedicine(Integer medicineId) throws InvalidDataException {
         // TODO Auto-generated method stub
@@ -133,26 +135,26 @@ public class IMedicineServiceImpl implements IMedicineService {
     @Override
     public MedicineDTO updateMedicine(MedicineDTO medicineDTO) throws InvalidDataException {
         // TODO Auto-generated method stub
-        List<Medicine> optional = iMedicineRepository.findByMedicineId(medicineDTO.getMedicineId());
+        // List<Medicine> optional = iMedicineRepository.findByMedicineId(medicineDTO.getMedicineId());
+        Optional<Medicine> optional = iMedicineRepository.findById(medicineDTO.getMedicineId());
         if(optional.isEmpty()){
             throw new InvalidDataException("Service.MEDICINE_NOT_FOUND");
         }
-		Medicine medicineEntity = optional.get(0);
-
-        if (medicineEntity.getMedicineId()!=null)
-            medicineEntity.setMedicineId(medicineEntity.getMedicineId());
-        if(medicineEntity.getMedicineName()!=null)
-			medicineEntity.setMedicineName(medicineEntity.getMedicineName());
-        if(medicineEntity.getMedicineCost()!=null)
-			medicineEntity.setMedicineCost(medicineEntity.getMedicineCost());
-        if(medicineEntity.getMfd()!=null)
-			medicineEntity.setMfd(medicineEntity.getMfd());
-        if(medicineEntity.getExpiryDate()!=null)
-			medicineEntity.setExpiryDate(medicineEntity.getExpiryDate());
-        if(medicineEntity.getCompanyName()!=null)
-			medicineEntity.setCompanyName(medicineEntity.getCompanyName());
-        if(medicineEntity.getCategory()!=null)
-			medicineEntity.setCategory(medicineEntity.getCategory());
+		Medicine medicineEntity = optional.orElseThrow(() -> new InvalidDataException("Service.ORDER_ITEM_NOT_FOUND"));
+        // if (medicineEntity.getMedicineId()!=null)
+        //     medicineEntity.setMedicineId(medicineDTO.getMedicineId());
+        // if(medicineEntity.getMedicineName()!=null)
+			medicineEntity.setMedicineName(medicineDTO.getMedicineName());
+        // if(medicineEntity.getMedicineCost()!=null)
+			medicineEntity.setMedicineCost(medicineDTO.getMedicineCost());
+        // if(medicineEntity.getMfd()!=null)
+			medicineEntity.setMfd(medicineDTO.getMfd());
+        // if(medicineEntity.getExpiryDate()!=null)
+			medicineEntity.setExpiryDate(medicineDTO.getExpiryDate());
+        // if(medicineEntity.getCompanyName()!=null)
+			medicineEntity.setCompanyName(medicineDTO.getCompanyName());
+        // if(medicineEntity.getCategory()!=null)
+		// 	medicineEntity.setCategory(medicineEntity.getCategory());
 
             MedicineDTO createdMedicineDTO = convertEntityToDto(medicineEntity);
 

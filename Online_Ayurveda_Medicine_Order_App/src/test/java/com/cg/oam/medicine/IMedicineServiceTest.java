@@ -47,10 +47,10 @@ public class IMedicineServiceTest {
     @Test
     @DisplayName(value = "Check adding new medicine")
     public void addMedicine() throws InvalidDataException{
-        CategoryDTO categoryDTO = new CategoryDTO("a", "heart");
+        CategoryDTO categoryDTO = new CategoryDTO(1, "heart");
         MedicineDTO medicineDTO = new MedicineDTO(1, "paracitamol", 500f, LocalDate.now(), LocalDate.now(), "AB", categoryDTO);
 
-        Category category = new Category("a", "heart");
+        Category category = new Category(1, "heart");
         List<Category> catList = new ArrayList<>();
         Mockito.when(categoryRepository.findByCategoryId(categoryDTO.getCategoryId())).thenReturn(catList);
         Mockito.when(categoryRepository.save((Mockito.any()))).thenReturn(category);
@@ -71,10 +71,10 @@ public class IMedicineServiceTest {
     @Test
     @DisplayName(value = "check addding for adding a duplicate medicine")
     public void addDuplicateMedicine() throws InvalidDataException{
-        CategoryDTO categoryDTO = new CategoryDTO("a", "heart");
+        CategoryDTO categoryDTO = new CategoryDTO(1, "heart");
         MedicineDTO medicineDTO = new MedicineDTO(1, "paracitamol", 500f, LocalDate.now(), LocalDate.now(), "AB", categoryDTO);
 
-        Category dupCategory = new Category("a", "heart");
+        Category dupCategory = new Category(1, "heart");
         Medicine dupMedicine = new Medicine(1, "paracitamol", 500f, LocalDate.now(), LocalDate.now(), "AB", dupCategory);
 
         List<Medicine> medicines = new ArrayList<>();
@@ -100,17 +100,17 @@ public class IMedicineServiceTest {
     @Test
     @DisplayName(value = "Check Updating Exisisting medicine")
     public void updateExistingMedicine() throws InvalidDataException{
-        CategoryDTO categoryDTO = new CategoryDTO("a", "heart");
+        CategoryDTO categoryDTO = new CategoryDTO(1, "heart");
         MedicineDTO medicineDTO = new MedicineDTO(1,"paracitamol", 500f, LocalDate.now(), LocalDate.now(), "AB", categoryDTO);
 
-        CategoryDTO dupCategory = new CategoryDTO("a", "heart");
+        CategoryDTO dupCategory = new CategoryDTO(1, "heart");
         MedicineDTO dupMedicineDTO = new MedicineDTO(1,"paracitamol", 570f, LocalDate.now(), LocalDate.now(), "AB", dupCategory);
 
         List<Medicine> medicines = new ArrayList<>();
 		List<Medicine> updateMedicines = new ArrayList<>();
 
 
-        Category category = new Category("a", "heart");
+        Category category = new Category(1, "heart");
         Medicine newMed = new Medicine(1, "paracitamol", 500f, LocalDate.now(), LocalDate.now(), "AB", category);
         updateMedicines.add(newMed);
 
@@ -130,7 +130,7 @@ public class IMedicineServiceTest {
     @DisplayName(value = "Check Updating non-Exisisting medicine")
         public void updatingNonExistingMedicine() throws InvalidDataException{
 
-        CategoryDTO categoryDTO = new CategoryDTO("a", "heart");
+        CategoryDTO categoryDTO = new CategoryDTO(1, "heart");
         MedicineDTO medicineDTO = new MedicineDTO(1, "paracitamol", 500f, LocalDate.now(), LocalDate.now(), "AB", categoryDTO);
         
         InvalidDataException e = Assertions.assertThrows(InvalidDataException.class, ()->medicineService.updateMedicine(medicineDTO));
@@ -144,11 +144,11 @@ public class IMedicineServiceTest {
     @Test
     @DisplayName(value = "Check viewing medicine for existing medicine")
     public void viewForExistingMedicine() throws InvalidDataException{
-        CategoryDTO categoryDTO = new CategoryDTO("a", "heart");
+        CategoryDTO categoryDTO = new CategoryDTO(1, "heart");
         MedicineDTO medicineDTO = new MedicineDTO(1, "paracitamol", 500f, LocalDate.now(), LocalDate.now(), "AB", categoryDTO);
         List<Medicine> medicines = new ArrayList<>();
         
-        Category category1 = new Category("a", "heart");
+        Category category1 = new Category(1, "heart");
         Medicine medicine = new Medicine(1, "paracitamol", 500f, LocalDate.now(), LocalDate.now(), "AB", category1);
         List<Medicine> medicineDemo = new ArrayList<>();
         medicineDemo.add(medicine);
@@ -157,7 +157,7 @@ public class IMedicineServiceTest {
         Mockito.when(medicineRepository.save(Mockito.any())).thenReturn(medicine);
         medicineService.addMedicine(medicineDTO);
         Mockito.when(medicineRepository.findByMedicineId(medicineDTO.getMedicineId())).thenReturn(medicineDemo);
-        Assertions.assertEquals(medicineDTO, medicineService.viewMedicine(medicineDTO));
+        Assertions.assertEquals(medicineDTO, medicineService.viewMedicine(medicineDTO.getMedicineId()));
     }
 
     
@@ -167,9 +167,9 @@ public class IMedicineServiceTest {
     @Test
     @DisplayName(value = "Check viewing medicine for non-existing medicine")
     public void viewForNonExistingMedicine() throws InvalidDataException{
-        CategoryDTO categoryDTO = new CategoryDTO("a", "heart");
+        CategoryDTO categoryDTO = new CategoryDTO(1, "heart");
         MedicineDTO medicineDTO = new MedicineDTO(1, "paracitamol", 500f, LocalDate.now(), LocalDate.now(), "AB", categoryDTO);
-        InvalidDataException e = Assertions.assertThrows(InvalidDataException.class, ()->medicineService.viewMedicine(medicineDTO));
+        InvalidDataException e = Assertions.assertThrows(InvalidDataException.class, ()->medicineService.viewMedicine(medicineDTO.getMedicineId()));
         Assertions.assertEquals("Service.MEDICINE_NOT_FOUND", e.getMessage());
     }
 
@@ -180,7 +180,7 @@ public class IMedicineServiceTest {
     @Test
     @DisplayName(value = "check deleting non-existing Medicine")
     public void deleteNonExistingMedicine() throws InvalidDataException{
-        CategoryDTO categoryDTO = new CategoryDTO("a", "heart");
+        CategoryDTO categoryDTO = new CategoryDTO(1, "heart");
         MedicineDTO medicineDTO = new MedicineDTO(1, "paracitamol", 500f, LocalDate.now(), LocalDate.now(), "AB", categoryDTO);
         InvalidDataException e = Assertions.assertThrows(InvalidDataException.class, ()->medicineService.deleteMedicine(medicineDTO));
         Assertions.assertEquals("Service.MEDICINE_NOT_FOUND", e.getMessage());
@@ -193,12 +193,12 @@ public class IMedicineServiceTest {
     @Test
     @DisplayName(value = "Delete existing medicine")
     public void deleteExistingMedicine() throws InvalidDataException{
-        CategoryDTO categoryDTO = new CategoryDTO("a", "heart");
+        CategoryDTO categoryDTO = new CategoryDTO(1, "heart");
         MedicineDTO medicineDTO = new MedicineDTO(1, "paracitamol", 500f, LocalDate.now(), LocalDate.now(), "AB", categoryDTO);
 
         List<Medicine> medicine = new ArrayList<>();
 
-        Category category1 = new Category("a", "heart");
+        Category category1 = new Category(1, "heart");
         Medicine medicineEntity = new Medicine(1,"paracitamol", 500f, LocalDate.now(), LocalDate.now(), "AB", category1);
 
         List<Medicine> medicineList  = new ArrayList<>();

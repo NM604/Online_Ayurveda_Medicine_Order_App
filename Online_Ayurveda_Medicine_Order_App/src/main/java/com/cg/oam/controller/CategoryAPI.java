@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import com.cg.oam.exception.InvalidDataException;
 import com.cg.oam.repository.ICategoryRepository;
 import com.cg.oam.service.ICategoryService;
 
+@CrossOrigin(maxAge = 3600)
 @RestController
 @RequestMapping(value = "/oam/userinterface")
 public class CategoryAPI{
@@ -48,7 +50,7 @@ public class CategoryAPI{
      * @throws InvalidDataException
      */
     @GetMapping(value = "/category/{categoryId}")
-    public ResponseEntity<CategoryDTO> viewCaregory(@PathVariable String categoryId) throws InvalidDataException{
+    public ResponseEntity<CategoryDTO> viewCaregory(@PathVariable Integer categoryId) throws InvalidDataException{
         CategoryDTO categoryDTO = categoryService.viewCategory(categoryId);
         return new ResponseEntity<CategoryDTO>(categoryDTO, HttpStatus.OK);
     }
@@ -83,7 +85,7 @@ public class CategoryAPI{
      * @throws InvalidDataException
      */
     @DeleteMapping(value = "/category/{categoryId}")
-    public ResponseEntity<String> deleleCategory(@PathVariable String categoryId ) throws InvalidDataException{
+    public ResponseEntity<String> deleleCategory(@PathVariable Integer categoryId ) throws InvalidDataException{
         categoryService.removeCategoryDTO(categoryId);
         String successMessage = environment.getProperty("API.DELETE_SUCCESS")+ categoryId;
         return new ResponseEntity<String>(successMessage,HttpStatus.OK);
