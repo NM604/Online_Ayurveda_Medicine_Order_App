@@ -26,7 +26,7 @@ public class OrderDetail {
 	private LocalDate dispatchDate;
 	@Enumerated(value = EnumType.STRING)
 	private OrderStatus orderStatus;
-	private Float totalCost;
+	private Integer totalCost;
 	
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="customer_id")
@@ -38,7 +38,7 @@ public class OrderDetail {
 	}
 
 	public OrderDetail(Integer orderDetailId, LocalDate orderDate, LocalDate dispatchDate, OrderStatus orderStatus,
-			Float totalCost, Customer customer) {
+			Integer totalCost, Customer customer) {
 		super();
 		this.orderDetailId = orderDetailId;
 		this.orderDate = orderDate;
@@ -80,11 +80,11 @@ public class OrderDetail {
 		this.orderStatus = orderStatus;
 	}
 
-	public Float getTotalCost() {
+	public Integer getTotalCost() {
 		return totalCost;
 	}
 
-	public void setTotalCost(Float totalCost) {
+	public void setTotalCost(Integer totalCost) {
 		this.totalCost = totalCost;
 	}
 

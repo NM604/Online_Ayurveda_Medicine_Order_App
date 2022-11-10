@@ -16,7 +16,7 @@ public class OrderDetailDTO {
 	private LocalDate dispatchDate;
 	private OrderStatus orderStatus;
 	@Min(value = 0, message = "Total cost should not be less than zero")
-	private Float totalCost;
+	private Integer totalCost;
 	private CustomerDTO customer;
 
 	public OrderDetailDTO() {
@@ -25,7 +25,7 @@ public class OrderDetailDTO {
 	}
 
 	public OrderDetailDTO(Integer orderDetailId, LocalDate orderDate, LocalDate dispatchDate, OrderStatus orderStatus,
-			Float totalCost, CustomerDTO customer) {
+			Integer totalCost, CustomerDTO customer) {
 		super();
 		this.orderDetailId = orderDetailId;
 		this.orderDate = orderDate;
@@ -67,11 +67,11 @@ public class OrderDetailDTO {
 		this.orderStatus = orderStatus;
 	}
 
-	public Float getTotalCost() {
+	public Integer getTotalCost() {
 		return totalCost;
 	}
 
-	public void setTotalCost(Float totalCost) {
+	public void setTotalCost(Integer totalCost) {
 		this.totalCost = totalCost;
 	}
 
