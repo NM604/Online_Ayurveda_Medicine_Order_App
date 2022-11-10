@@ -75,6 +75,7 @@ public class IAdminServiceImpl implements IAdminService{
 		Admin newAdmin = new Admin();
 		newAdmin.setPassword(admin.getPassword());
 		Admin a = adminRepository.save(newAdmin);
+		admin.setId(a.getId());
 		return admin;
 	}
 

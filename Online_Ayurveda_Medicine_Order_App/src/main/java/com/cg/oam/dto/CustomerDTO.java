@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 public class CustomerDTO {
 	
 	/** The customer id. */
-	@Min(value =1,message = "Order Id should not be less than one")
+	@Min(value =1,message = "Id should not be less than one")
 	private int customerId;
 	
 	/** The customer name. */
