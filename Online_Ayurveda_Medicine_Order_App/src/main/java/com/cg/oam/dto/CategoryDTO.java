@@ -2,11 +2,13 @@ package com.cg.oam.dto;
 
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class CategoryDTO {
 
     private Integer categoryId;
     @NotNull
+    @Size(min = 1)
     private String categoryName;
 
 

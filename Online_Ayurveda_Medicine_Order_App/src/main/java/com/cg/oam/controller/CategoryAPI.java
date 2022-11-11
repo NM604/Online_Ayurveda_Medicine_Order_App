@@ -1,10 +1,14 @@
 package com.cg.oam.controller;
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +26,7 @@ import com.cg.oam.service.ICategoryService;
 
 @CrossOrigin(maxAge = 3600)
 @RestController
+@Validated
 @RequestMapping(value = "/oam/userinterface")
 public class CategoryAPI{
 
@@ -50,7 +55,7 @@ public class CategoryAPI{
      * @throws InvalidDataException
      */
     @GetMapping(value = "/category/{categoryId}")
-    public ResponseEntity<CategoryDTO> viewCaregory(@PathVariable Integer categoryId) throws InvalidDataException{
+    public ResponseEntity<CategoryDTO> viewCaregory(@Min(value = 0)@PathVariable Integer categoryId) throws InvalidDataException{
         CategoryDTO categoryDTO = categoryService.viewCategory(categoryId);
         return new ResponseEntity<CategoryDTO>(categoryDTO, HttpStatus.OK);
     }
@@ -61,7 +66,7 @@ public class CategoryAPI{
      * @throws InvalidDataException
      */
     @PostMapping(value = "/category")
-    public ResponseEntity<String> addCategory(@RequestBody CategoryDTO categoryDto) throws InvalidDataException{
+    public ResponseEntity<String> addCategory(@Valid @RequestBody CategoryDTO categoryDto) throws InvalidDataException{
         categoryService.addCategoryDTO(categoryDto);
         String successMessage = environment.getProperty("API.INSERT_SUCCESS") + categoryDto.getCategoryId();
         return new ResponseEntity<String>(successMessage, HttpStatus.OK);
@@ -73,7 +78,7 @@ public class CategoryAPI{
      * @throws InvalidDataException
      */
     @PutMapping(value = "/category/{categoryId}")
-    public ResponseEntity<String> updateCategory(@RequestBody CategoryDTO categoryDTO) throws InvalidDataException{
+    public ResponseEntity<String> updateCategory(@Valid @RequestBody CategoryDTO categoryDTO) throws InvalidDataException{
         categoryService.updateCategoryDTO(categoryDTO.getCategoryId(), categoryDTO.getCategoryName());
         String successMessage = environment.getProperty("API.UPDATE_SUCCESS") + categoryDTO.getCategoryId();
         return new ResponseEntity<String>(successMessage, HttpStatus.OK);
@@ -85,7 +90,7 @@ public class CategoryAPI{
      * @throws InvalidDataException
      */
     @DeleteMapping(value = "/category/{categoryId}")
-    public ResponseEntity<String> deleleCategory(@PathVariable Integer categoryId ) throws InvalidDataException{
+    public ResponseEntity<String> deleleCategory(@Min(value = 0) @PathVariable Integer categoryId ) throws InvalidDataException{
         categoryService.removeCategoryDTO(categoryId);
         String successMessage = environment.getProperty("API.DELETE_SUCCESS")+ categoryId;
         return new ResponseEntity<String>(successMessage,HttpStatus.OK);

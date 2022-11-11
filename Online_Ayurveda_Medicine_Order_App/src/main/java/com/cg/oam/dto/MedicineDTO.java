@@ -3,8 +3,10 @@ package com.cg.oam.dto;
 import java.time.LocalDate;
 
 import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -17,18 +19,24 @@ public class MedicineDTO {
 
 	// @NotNull(message = "Please provide medicineId")
 	private Integer medicineId;
-
+	@NotNull
+	@Size(min = 1)
 	private String medicineName;
+	@NotNull
+	@Min(value = 1)
 	private Float medicineCost;
+
 	@PastOrPresent(message = "provide correct manufacturing date")
-	// @DateTimeFormat(pattern = "yyyy-MM-dd")
+	@NotNull
 	@JsonFormat(pattern="yyyy-MM-dd",shape =Shape.STRING)
 	private LocalDate mfd;
-	// @FutureOrPresent(message = "provide correct expiry date")
+	@NotNull
 	@JsonFormat(pattern="yyyy-MM-dd",shape =Shape.STRING)
 	private LocalDate expiryDate;
+	@NotNull
+	@Size(min = 1)
 	private String companyName;
-	// private Category category;
+	@NotNull
 	private CategoryDTO categoryDTO;
 	/**
 	 * @param srno
